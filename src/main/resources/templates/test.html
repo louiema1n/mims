@@ -55,7 +55,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;"><i class="layui-icon">&#xe65e;</i> 财务管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;"><i class="layui-icon">&#xe64e;</i> 收入/支出</a></dd>
+                        <dd><a href="javascript:;" class="site-demo-active" data-type="tabAdd"><i class="layui-icon">&#xe64e;</i> 收入/支出</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -82,8 +82,8 @@
         </div>
 
         <div class="site-demo-button" style="margin-bottom: 0;">
-            <button class="layui-btn site-demo-active" data-type="tabAdd">新增Tab项</button>
-            <button class="layui-btn site-demo-active" data-type="tabDeleteAll">删除所有</button>
+            <!--<button class="layui-btn site-demo-active" data-type="tabAdd">新增Tab项</button>-->
+            <!--<button class="layui-btn site-demo-active" data-type="tabDeleteAll">删除所有</button>-->
         </div>
 
     </div>
@@ -145,17 +145,18 @@
         element.on('tab(test)', function(elem){
             location.hash = 'test='+ $(this).attr('lay-id');
         });
+
+        // 计算iframe高度
+        function FrameWH() {
+            var h = $(window).height() - 41 - 10 - 60 - 10 - 44 - 3;
+            $("iframe").css("height",h+"px");
+        }
+
+        $(window).resize(function () {
+            FrameWH();
+        })
+
     });
-
-    // 计算iframe高度
-    function FrameWH() {
-        var h = $(window).height() -41- 10 - 60 -10-44 -10;
-        $("iframe").css("height",h+"px");
-    }
-
-    $(window).resize(function () {
-        FrameWH();
-    })
 
 </script>
 </body>

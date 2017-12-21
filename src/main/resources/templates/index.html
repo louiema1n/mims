@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layout 后台大布局 - Layui</title>
+    <title>欢迎使用MIMS-多功能综合管理系统</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 
     <style>
@@ -51,17 +51,29 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item"><a href="/index"><i class="layui-icon">&#xe68e;</i> 主页</a></li>
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item layui-this"><a href="/index"><i class="layui-icon">&#xe68e;</i> 主页</a></li>
+                <li class="layui-nav-item">
                     <a class="" href="javascript:;"><i class="layui-icon">&#xe65e;</i> 财务管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="site-demo-active" data-type="tabAdd"><i class="layui-icon">&#xe64e;</i> 收入/支出</a></dd>
+                        <dd><a href="javascript:;" class="site-demo-active"
+                               data-type="tabAdd"
+                               data-src="indexTab"
+                               data-title="收入/支出"
+                               data-url="/index"
+                               data-id="inAndOut"><i class="layui-icon">&#xe64e;</i> 收入/支出</a>
+                        </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon">&#xe63c;</i> 工作管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;" class="site-demo-active"
+                               data-type="tabAdd"
+                               data-src="indexTab"
+                               data-title="临时项目列表"
+                               data-url="/tmpList"
+                               data-id="tmpList"><i class="layui-icon">&#xe64e;</i> 临时项目列表</a>
+                        </dd>
                     </dl>
                 </li>
             </ul>
@@ -71,7 +83,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
 
-        <div class="layui-tab layui-tab-brief" lay-filter="demo"  lay-allowClose="true" style="margin: 0px">
+        <div class="layui-tab layui-tab-brief" lay-filter="indexTab"  lay-allowClose="true" style="margin: 0px">
             <ul class="layui-tab-title">
                 <li class="layui-this" lay-id="0">首页</li>
             </ul>
@@ -88,9 +100,9 @@
 
     </div>
 
-    <div class="layui-footer">
+    <div class="layui-footer" style="text-align: center">
         <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
+        版权归©louiemain所有 - 当前版本v0.1
     </div>
 </div>
 <script th:src="@{/layui/layui.js}"></script>
@@ -102,40 +114,58 @@
 
         //触发事件
         var active = {
-            tabAdd: function(title, url, id){
+            tabAdd: function(othis){
                 //新增一个Tab项
-                element.tabAdd('demo', {
-                    title: title
-                    ,content: '<iframe data-frameid="'+id+'" frameborder="0" name="content" scrolling="no" width="100%" src="' + url + '"></iframe>'
-                    ,id: id//实际使用一般是规定好的id，这里以时间戳模拟下
+                element.tabAdd(othis.data('src'), {
+                    title: othis.data('title')
+                    ,content: '<iframe data-frameid="'+othis.data('id')+'" frameborder="0" name="content" scrolling="no" width="100%" src="' + othis.data('url') + '"></iframe>'
+                    ,id: othis.data('id')
                 });
-                element.tabChange('demo', id); //切换到新增的tab
+                element.tabChange(othis.data('src'), othis.data('id')); //切换到新增的tab
                 FrameWH();
             }
             ,tabDelete: function(othis){
                 //删除指定Tab项
-                element.tabDelete('demo', '44'); //删除：“商品管理”
+                element.tabDelete('demo', '44');
 
-
-                othis.addClass('layui-btn-disabled');
+                // 将btn设为灰色
+//                othis.addClass('layui-btn-disabled');
             }
             ,tabDeleteAll: function () {
                 // 删除所有选项卡
                 var tabtitle = $(".layui-tab-title li");
                 $.each(tabtitle, function () {
-                    element.tabDelete('demo', $(this).attr("lay-id")); //删除：“商品管理”
+                    element.tabDelete('demo', $(this).attr("lay-id"));
                 })
             }
-            ,tabChange: function(){
+            ,tabChange: function(othis){
                 //切换到指定Tab项
-                element.tabChange('demo', '22'); //切换到：用户管理
+                element.tabChange(othis.data('src'), othis.data('id'));
             }
         };
 
         $('.site-demo-active').on('click', function(){
-//            var othis = $(this), type = othis.data('type');
+            var othis = $(this),
+                type = othis.data('type');
+
+            // 同样的tab只允许打开一个
+            if ($(".layui-tab-title li[lay-id]").length <= 0) {
+                active.tabAdd(othis);
+            } else {
+                var isData = false;
+                $.each($(".layui-tab-title li[lay-id]"), function () {
+                    if ($(this).attr("lay-id") == othis.attr("data-id")) {
+                        isData = true;
+                    }
+                })
+                if (isData == false) {
+                    active.tabAdd(othis);
+                }
+            }
+            active.tabChange(othis);
+
 //            active[type] ? active[type].call(this, othis) : '';
-            active.tabAdd('测试', '/test', '100');
+//            active.tabAdd('测试', '/test', '100');
         });
 
         //Hash地址的定位
@@ -151,7 +181,6 @@
             var h = $(window).height() - 41 - 10 - 60 - 10 - 44 - 3;
             $("iframe").css("height",h+"px");
         }
-
         $(window).resize(function () {
             FrameWH();
         })

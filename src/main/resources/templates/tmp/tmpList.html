@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>临时项目列表</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+</head>
+<body>
+
+<table id="demo" lay-filter="test"></table>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table;
+        var arr = [ //表头
+            {type:'checkbox'}
+            ,{field: 'tid', title: '编号', sort: true, align: 'center'}
+            ,{field: 'tname', title: '事项'}
+            ,{field: 'leader', title: '负责人', sort: true, align: 'center'}
+            ,{field: 'assistant', title: '协助人', align: 'center'}
+            ,{field: 'str', title: '开始时间', width: 177, align: 'center', templet: '#strTpl'}
+            ,{field: 'ed', title: '结束时间', sort: true, align: 'center', templet: '#edTpl'}
+            ,{field: 'remark', title: '说明', sort: true}
+            ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
+        ];
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+//            ,height: 315
+            ,url: '/tmp/all' //数据接口
+            ,page: true //开启分页
+            ,cols: [arr]
+            ,even: true //开启隔行背景
+        });
+
+    });
+</script>
+
+<!-- templet -->
+<script type="text/html" id="strTpl">
+    {{# return timeStamp2String(d.str)}}
+</script>
+<script type="text/html" id="edTpl">
+    {{# return timeStamp2String(d.ed)}}
+</script>
+
+<!-- toolbar -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+</body>
+</html>

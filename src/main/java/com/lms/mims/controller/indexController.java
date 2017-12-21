@@ -15,4 +15,9 @@ public class indexController {
     public String tmpList() {
         return "tmp/tmpList";
     }
+
+    @RequestMapping("/addTmp")
+    public String addTmp() {
+        return "tmp/addTmp";
+    }
 }

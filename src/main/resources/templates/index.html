@@ -11,10 +11,18 @@
         .layui-tab ul.layui-tab-title li:nth-child(1) i {
             display: none;
         }
+
+        .layui-tab-content {
+            padding: 0px 0px;
+        }
+
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
     </style>
 
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body ">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header header">
         <div class="layui-logo" style="color: white">MIMS-多功能综合管理系统</div>
@@ -88,7 +96,7 @@
                 <li class="layui-this" lay-id="0">首页</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">这是首页，欢迎使用！
+                <div class="layui-tab-item layui-show childrenBody">这是首页，欢迎使用！
                 </div>
             </div>
         </div>
@@ -118,7 +126,8 @@
                 //新增一个Tab项
                 element.tabAdd(othis.data('src'), {
                     title: othis.data('title')
-                    ,content: '<iframe data-frameid="'+othis.data('id')+'" frameborder="0" name="content" scrolling="no" width="100%" src="' + othis.data('url') + '"></iframe>'
+                    ,content: '<iframe style="width: 100%; height:100%; border:none; min-width: 320px;" data-frameid="'+othis.data('id')+'" src="' + othis.data('url') + '"></iframe>'
+                    // ,content: '<iframe data-frameid="'+othis.data('id')+'" frameborder="0" name="content" scrolling="no" width="100%" src="' + othis.data('url') + '"></iframe>'
                     ,id: othis.data('id')
                 });
                 element.tabChange(othis.data('src'), othis.data('id')); //切换到新增的tab

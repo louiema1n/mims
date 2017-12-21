@@ -6,23 +6,35 @@
     <title>临时项目列表</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 
-</head>
-<body>
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
 
+</head>
+<body class="childrenBody">
+
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn addTmp"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger" data-type="delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
+</div>
 <table id="demo" lay-filter="test"></table>
 
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/custom/js/myjs.js}"></script>
 <script type="text/javascript">
     layui.use('table', function(){
-        var table = layui.table;
+        var table = layui.table,
+            $ = layui.jquery;
         var arr = [ //表头
             {type:'checkbox'}
             ,{field: 'tid', title: '编号', sort: true, align: 'center'}
             ,{field: 'tname', title: '事项'}
             ,{field: 'leader', title: '负责人', sort: true, align: 'center'}
             ,{field: 'assistant', title: '协助人', align: 'center'}
-            ,{field: 'str', title: '开始时间', width: 177, align: 'center', templet: '#strTpl'}
+            ,{field: 'str', title: '开始时间', sort: true, align: 'center', templet: '#strTpl'}
             ,{field: 'ed', title: '结束时间', sort: true, align: 'center', templet: '#edTpl'}
             ,{field: 'remark', title: '说明', sort: true}
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
@@ -37,6 +49,22 @@
             ,cols: [arr]
             ,even: true //开启隔行背景
         });
+
+        $(".addTmp").click(function(){
+            var index = layui.layer.open({
+                title : "新增临时项目",
+                type : 2,
+                content : "/addTmp",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            })
+            layui.layer.full(index);
+        })
 
     });
 </script>

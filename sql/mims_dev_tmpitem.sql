@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: mims_dev
 -- ------------------------------------------------------
--- Server version	5.7.19-log
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +31,7 @@ CREATE TABLE `tmpitem` (
   `ed` date DEFAULT NULL COMMENT '完成时间',
   `remark` varchar(20000) DEFAULT NULL COMMENT '完成情况说明',
   PRIMARY KEY (`tid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='临时事项';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='临时事项';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `tmpitem` (
 
 LOCK TABLES `tmpitem` WRITE;
 /*!40000 ALTER TABLE `tmpitem` DISABLE KEYS */;
-INSERT INTO `tmpitem` VALUES (1,'测试项目','张三','李四','2017-12-21','2017-12-21','基本完成。');
+INSERT INTO `tmpitem` VALUES (1,'测试项目','张三','李四','2017-12-21','2017-12-21','基本完成。'),(2,'测试2','里斯','王五','2017-12-20','2017-12-22','完成');
 /*!40000 ALTER TABLE `tmpitem` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21 17:35:39
+-- Dump completed on 2017-12-21 22:07:09

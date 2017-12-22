@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>自查列表</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn addTmp"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger" data-type="delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
+</div>
+<table id="demo" lay-filter="test"></table>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table,
+            $ = layui.jquery;
+        var arr = [ //表头
+            {type:'checkbox'}
+            ,{field: 'sid', title: '编号', sort: true, align: 'center', width: '7%'}
+            ,{field: 'sname', title: '自查名称'}
+            ,{field: 'sdate', title: '自查时间', align: 'center', templet: '#sdateTpl'}
+            ,{field: 'project', title: '项目名', templet: '#pnameTpl'}
+            ,{field: 'standard', title: '评审标准'}
+            ,{field: 'lv', title: '符合等级'}
+            ,{field: 'remark', title: '说明'}
+            ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
+        ];
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+//            ,height: 315
+            ,url: '/sfe/all' //数据接口
+            ,page: true //开启分页
+            ,cols: [arr]
+            ,even: true //开启隔行背景
+        });
+
+        $(".addTmp").click(function(){
+            var index = layui.layer.open({
+                title : "新增事项",
+                type : 2,
+                content : "/addItem",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            })
+            layui.layer.full(index);
+        })
+
+    });
+</script>
+
+<!-- templet -->
+<script type="text/html" id="sdateTpl">
+    {{# return timeStamp2String(d.sdate)}}
+</script>
+<script type="text/html" id="pnameTpl">
+    {{# return d.project.prjname}}
+</script>
+
+<!-- toolbar -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+</body>
+</html>

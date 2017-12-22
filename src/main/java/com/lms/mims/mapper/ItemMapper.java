@@ -1,6 +1,6 @@
 package com.lms.mims.mapper;
 
-import com.lms.mims.domain.Tmp;
+import com.lms.mims.domain.Item;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 临时项目mapper
  */
-public interface TmpMapper {
+public interface ItemMapper {
 
-    @Select("select * from tmpitem")
-    List<Tmp> selectAll();
+    @Select("select * from item")
+    List<Item> selectAll();
 }

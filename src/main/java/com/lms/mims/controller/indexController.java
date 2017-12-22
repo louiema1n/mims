@@ -11,13 +11,28 @@ public class indexController {
         return "index";
     }
 
-    @RequestMapping("/tmpList")
-    public String tmpList() {
-        return "tmp/tmpList";
+    @RequestMapping("/itemList")
+    public String itemList() {
+        return "item/itemList";
     }
 
-    @RequestMapping("/addTmp")
-    public String addTmp() {
-        return "tmp/addTmp";
+    @RequestMapping("/addItem")
+    public String addItem() {
+        return "item/addItem";
+    }
+
+    @RequestMapping("/prjList")
+    public String prjList() {
+        return "project/prjList";
+    }
+
+    @RequestMapping("/sarList")
+    public String sarList() {
+        return "secareview/sarList";
+    }
+
+    @RequestMapping("/sfeList")
+    public String sfeList() {
+        return "selfexam/sfeList";
     }
 }

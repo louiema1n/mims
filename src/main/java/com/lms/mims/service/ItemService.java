@@ -1,23 +1,23 @@
 package com.lms.mims.service;
 
-import com.lms.mims.domain.Tmp;
-import com.lms.mims.mapper.TmpMapper;
+import com.lms.mims.domain.Item;
+import com.lms.mims.mapper.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TmpService {
+public class ItemService {
 
     @Autowired
-    private TmpMapper tmpMapper;
+    private ItemMapper tmpMapper;
 
     /**
      * 查询所有tmpitem
      * @return
      */
-    public List<Tmp> queryAll() {
+    public List<Item> queryAll() {
         return this.tmpMapper.selectAll();
     }
 }

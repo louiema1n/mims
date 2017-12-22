@@ -5,30 +5,32 @@ import java.sql.Timestamp;
 /**
  * 临时项目实体
  */
-public class Tmp {
+public class Item {
 
-    private int tid;
-    private String tname;
+    private int itemid;
+    private String itemname;
     private String leader;
     private String assistant;
     private Timestamp str;
     private Timestamp ed;
+    private Timestamp pre;
+    private int state;
     private String remark;
 
-    public int getTid() {
-        return tid;
+    public int getItemid() {
+        return itemid;
     }
 
-    public void setTid(int tid) {
-        this.tid = tid;
+    public void setItemid(int itemid) {
+        this.itemid = itemid;
     }
 
-    public String getTname() {
-        return tname;
+    public String getItemname() {
+        return itemname;
     }
 
-    public void setTname(String tname) {
-        this.tname = tname;
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
     }
 
     public String getLeader() {
@@ -61,6 +63,22 @@ public class Tmp {
 
     public void setEd(Timestamp ed) {
         this.ed = ed;
+    }
+
+    public Timestamp getPre() {
+        return pre;
+    }
+
+    public void setPre(Timestamp pre) {
+        this.pre = pre;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public String getRemark() {

@@ -12,6 +12,7 @@ public class Secareview {
     private String requiredB;
     private String requiredC;
     private int state;
+    private String eg;
 
     public int getRid() {
         return rid;
@@ -67,5 +68,13 @@ public class Secareview {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public String getEg() {
+        return eg;
+    }
+
+    public void setEg(String eg) {
+        this.eg = eg;
     }
 }

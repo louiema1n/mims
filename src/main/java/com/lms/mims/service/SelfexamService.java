@@ -20,4 +20,13 @@ public class SelfexamService {
     public List<Selfexam> queryAll() {
         return this.selfexamMapper.selectAll();
     }
+
+    /**
+     * 根据id查询
+     * @param sid
+     * @return
+     */
+    public Selfexam queryById(int sid) {
+        return this.selfexamMapper.selectById(sid);
+    }
 }

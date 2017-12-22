@@ -14,9 +14,18 @@ public interface SelfexamMapper {
     @Results(value = {
             @Result(column = "pid", property = "pid"),
             @Result(column = "sarid", property = "sarid"),
-            @Result(column = "pid", property = "project", one = @One(select = "com.lms.mims.mapper.ProjectMapper.selectById"))
-            @Result(column = "sarid", property = "secareview", one = @One(select = "com.lms.mims.mapper.ProjectMapper.selectById"))
+            @Result(column = "pid", property = "project", one = @One(select = "com.lms.mims.mapper.ProjectMapper.selectById")),
+            @Result(column = "sarid", property = "secareview", one = @One(select = "com.lms.mims.mapper.SecareviewMapper.selectById"))
     })
     List<Selfexam> selectAll();
+
+    @Select("select * from selfexam where sid = #{sid}")
+    @Results(value = {
+            @Result(column = "pid", property = "pid"),
+            @Result(column = "sarid", property = "sarid"),
+            @Result(column = "pid", property = "project", one = @One(select = "com.lms.mims.mapper.ProjectMapper.selectById")),
+            @Result(column = "sarid", property = "secareview", one = @One(select = "com.lms.mims.mapper.SecareviewMapper.selectById"))
+    })
+    Selfexam selectById(@Param("sid") int sid);
 
 }

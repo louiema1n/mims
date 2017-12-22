@@ -35,4 +35,14 @@ public class indexController {
     public String sfeList() {
         return "selfexam/sfeList";
     }
+
+    @RequestMapping("/addSfe")
+    public String addSfe() {
+        return "selfexam/addSfe";
+    }
+
+    @RequestMapping("/exam")
+    public String exam() {
+        return "selfexam/exam";
+    }
 }

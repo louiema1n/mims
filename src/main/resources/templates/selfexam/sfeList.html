@@ -16,7 +16,7 @@
 <body class="childrenBody">
 
 <div class="layui-btn-group demoTable">
-    <button class="layui-btn addTmp"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
     <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
     <button class="layui-btn layui-btn-danger" data-type="delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
 </div>
@@ -30,11 +30,12 @@
             $ = layui.jquery;
         var arr = [ //表头
             {type:'checkbox'}
-            ,{field: 'sid', title: '编号', sort: true, align: 'center', width: '7%'}
+            ,{type:'numbers'}
+            // ,{field: 'sid', title: '编号', sort: true, align: 'center', width: '7%'}
             ,{field: 'sname', title: '自查名称'}
             ,{field: 'sdate', title: '自查时间', align: 'center', templet: '#sdateTpl'}
             ,{field: 'project', title: '项目名', templet: '#pnameTpl'}
-            ,{field: 'standard', title: '评审标准'}
+            ,{field: 'secareview', title: '评审标准', templet: '#standardTpl'}
             ,{field: 'lv', title: '符合等级'}
             ,{field: 'remark', title: '说明'}
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
@@ -50,11 +51,11 @@
             ,even: true //开启隔行背景
         });
 
-        $(".addTmp").click(function(){
+        $(".add").click(function(){
             var index = layui.layer.open({
-                title : "新增事项",
+                title : "新增自查",
                 type : 2,
-                content : "/addItem",
+                content : "/addSfe",
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
@@ -75,6 +76,9 @@
 </script>
 <script type="text/html" id="pnameTpl">
     {{# return d.project.prjname}}
+</script>
+<script type="text/html" id="standardTpl">
+    {{# return d.secareview.standard}}
 </script>
 
 <!-- toolbar -->

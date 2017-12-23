@@ -28,24 +28,41 @@
                         <td id="prjname">2</td>
                     </tr>
                     <tr>
-                        <td class="layui-bg-gray">评审名称：</td>
-                        <td id="rname">2</td>
+                        <td class="layui-bg-gray">总评审数：</td>
+                        <td id="total">20</td>
                     </tr>
-                    <tr>
-                        <td class="layui-bg-gray">评审标准：</td>
-                        <td id="standard">2</td>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<td class="layui-bg-gray">评审名称：</td>-->
+                        <!--<td id="rname">2</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="layui-bg-gray">评审标准：</td>-->
+                        <!--<td id="standard">2</td>-->
+                    <!--</tr>-->
 
                 </tbody>
             </table>
 
             <table class="layui-table">
                 <thead>
+                <!--<tr>-->
+                    <!--<th colspan="5" id="current">当前第1/20个</th>-->
+                <!--</tr>-->
+                <tr>
+                    <th>评审名称</th>
+                    <th colspan="4" id="rname">2</th>
+                </tr>
+                <tr>
+                    <th>评审标准</th>
+                    <th colspan="4" id="standard" style="background-color: #fbfbfb; color: #009688; font-weight: bold;">
+                        <span class="layui-badge layui-bg-orange">6/20</span>&nbsp;&nbsp;
+                    </th>
+                </tr>
                 <tr>
                     <th width="5%" style="text-align: center">等级</th>
                     <th width="50%">要求</th>
-                    <td>参考资料</td>
-                    <td>自查说明</td>
+                    <th>参考资料</th>
+                    <th>自查说明</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -85,8 +102,6 @@
                 </button>
             </div>
         </div>
-
-
     </div>
 </form>
 
@@ -105,7 +120,7 @@
                 $("#sname").html(data.sname);
                 $("#prjname").html(data.project.prjname);
                 $("#rname").html(data.secareview.rname);
-                $("#standard").html(data.secareview.standard);
+                $("#standard").append(data.secareview.standard);
                 $("#reqA").html(data.secareview.requiredA);
                 $("#reqB").html(data.secareview.requiredB);
                 $("#reqC").html(data.secareview.requiredC);

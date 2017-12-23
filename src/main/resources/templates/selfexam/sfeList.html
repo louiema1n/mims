@@ -17,8 +17,7 @@
 
 <div class="layui-btn-group demoTable">
     <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
-    <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
-    <button class="layui-btn layui-btn-danger" data-type="delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
+    <button class="layui-btn layui-btn-normal exam"><i class="layui-icon">&#xe6b2;</i>自查</button>
 </div>
 <table id="demo" lay-filter="test"></table>
 
@@ -35,8 +34,8 @@
             ,{field: 'sname', title: '自查名称'}
             ,{field: 'sdate', title: '自查时间', align: 'center', templet: '#sdateTpl'}
             ,{field: 'project', title: '项目名', templet: '#pnameTpl'}
-            ,{field: 'secareview', title: '评审标准', templet: '#standardTpl'}
-            ,{field: 'lv', title: '符合等级'}
+            ,{field: 'standard', title: '自查标准', templet: '#standardTpl'}
+            ,{field: 'result', title: '自查结果'}
             ,{field: 'remark', title: '说明'}
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
         ];
@@ -63,7 +62,23 @@
                         });
                     },500)
                 }
-            })
+            });
+            layui.layer.full(index);
+        });
+
+        $(".exam").click(function(){
+            var index = layui.layer.open({
+                title : "自查",
+                type : 2,
+                content : "/exam",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            });
             layui.layer.full(index);
         })
 
@@ -78,7 +93,7 @@
     {{# return d.project.prjname}}
 </script>
 <script type="text/html" id="standardTpl">
-    {{# return d.secareview.standard}}
+    {{# return d.standard.stdname}}
 </script>
 
 <!-- toolbar -->

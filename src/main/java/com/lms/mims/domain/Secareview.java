@@ -7,12 +7,13 @@ public class Secareview {
 
     private int rid;
     private String rname;
-    private String standard;
+    private String reviewstd;
     private String requiredA;
     private String requiredB;
     private String requiredC;
     private int state;
     private String eg;
+    private Standard standard;
 
     public int getRid() {
         return rid;
@@ -28,14 +29,6 @@ public class Secareview {
 
     public void setRname(String rname) {
         this.rname = rname;
-    }
-
-    public String getStandard() {
-        return standard;
-    }
-
-    public void setStandard(String standard) {
-        this.standard = standard;
     }
 
     public String getRequiredA() {
@@ -76,5 +69,21 @@ public class Secareview {
 
     public void setEg(String eg) {
         this.eg = eg;
+    }
+
+    public String getReviewstd() {
+        return reviewstd;
+    }
+
+    public void setReviewstd(String reviewstd) {
+        this.reviewstd = reviewstd;
+    }
+
+    public Standard getStandard() {
+        return standard;
+    }
+
+    public void setStandard(Standard standard) {
+        this.standard = standard;
     }
 }

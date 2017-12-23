@@ -12,12 +12,12 @@ public class Selfexam {
     private String sname;
     private Timestamp sdate;
     private int pid;
-    private int sarid;
-    private String lv;
+    private int stdid;
+    private String result;
     private String remark;
 
     private Project project;
-    private Secareview secareview;
+    private Standard standard;
 
     public int getSid() {
         return sid;
@@ -51,22 +51,6 @@ public class Selfexam {
         this.pid = pid;
     }
 
-    public int getSarid() {
-        return sarid;
-    }
-
-    public void setSarid(int sarid) {
-        this.sarid = sarid;
-    }
-
-    public String getLv() {
-        return lv;
-    }
-
-    public void setLv(String lv) {
-        this.lv = lv;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -83,12 +67,27 @@ public class Selfexam {
         this.project = project;
     }
 
-    public Secareview getSecareview() {
-        return secareview;
+    public int getStdid() {
+        return stdid;
     }
 
-    public void setSecareview(Secareview secareview) {
-        this.secareview = secareview;
+    public void setStdid(int stdid) {
+        this.stdid = stdid;
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public Standard getStandard() {
+        return standard;
+    }
+
+    public void setStandard(Standard standard) {
+        this.standard = standard;
+    }
 }

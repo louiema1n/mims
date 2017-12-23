@@ -55,7 +55,7 @@
                 <tr>
                     <th>评审标准</th>
                     <th colspan="4" id="standard" style="background-color: #fbfbfb; color: #009688; font-weight: bold;">
-                        <span class="layui-badge layui-bg-orange">6/20</span>&nbsp;&nbsp;
+
                     </th>
                 </tr>
                 <tr>
@@ -94,10 +94,13 @@
     <div class="layui-form-item">
         <div class="layui-input-block">
             <div class="layui-btn-group">
-                <button class="layui-btn" type="reset">
+                <button class="layui-btn layui-btn-primary" type="reset">
                     <i class="layui-icon">&#xe60e;重置</i>
                 </button>
                 <button class="layui-btn" lay-submit lay-filter="subBtn">
+                    <i class="layui-icon">&#xe65b;提交</i>
+                </button>
+                <button class="layui-btn" id="next" type="button">
                     <i class="layui-icon">&#xe65b;下一个</i>
                 </button>
             </div>
@@ -112,27 +115,42 @@
         var form = layui.form,
             $ = layui.jquery,
             table = layui.table;
-        $.ajax({
-            url:'/sfe/get/1',
-            type: 'get',
-            success:function (data) {
-                $("#sid").val(data.sid);
-                $("#sname").html(data.sname);
-                $("#prjname").html(data.project.prjname);
-                $("#rname").html(data.secareview.rname);
-                $("#standard").append(data.secareview.standard);
-                $("#reqA").html(data.secareview.requiredA);
-                $("#reqB").html(data.secareview.requiredB);
-                $("#reqC").html(data.secareview.requiredC);
-                $("#eg").html(data.secareview.eg);
-            }
-        });
+        // 初始化数据
+        getData(1);
 
         //监听提交
-        form.on('submit(subBtn)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
+        // form.on('submit(subBtn)', function(data){
+        //     // layer.msg(JSON.stringify(data.field));
+        //     // return false;
+        //     var sid = $("#sid").val();
+        //     getData(sid + 1);
+        // });
+
+        $("#next").click(function () {
+            var sid = $("#sid").val();
+            getData(parseInt(sid) + 1);
         });
+
+        // 获取数据
+        function getData(id) {
+            $.ajax({
+                url:'/sfe/get/' + id,
+                type: 'get',
+                success:function (data) {
+
+                    $("#sid").val(data.sid);
+                    $("#sname").html(data.sname);
+                    $("#prjname").html(data.project.prjname);
+                    $("#rname").html(data.secareview.rname);
+                    $("#standard").html('<span class="layui-badge layui-bg-orange">6/20</span>&nbsp;&nbsp;');
+                    $("#standard").append(data.secareview.standard);
+                    $("#reqA").html(data.secareview.requiredA);
+                    $("#reqB").html(data.secareview.requiredB);
+                    $("#reqC").html(data.secareview.requiredC);
+                    $("#eg").html(data.secareview.eg);
+                }
+            });
+        }
 
     });
 

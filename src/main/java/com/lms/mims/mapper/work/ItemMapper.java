@@ -1,6 +1,6 @@
-package com.lms.mims.mapper;
+package com.lms.mims.mapper.work;
 
-import com.lms.mims.domain.Item;
+import com.lms.mims.domain.work.Item;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

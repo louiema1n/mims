@@ -1,4 +1,4 @@
-package com.lms.mims.domain;
+package com.lms.mims.domain.work;
 
 /**
  * 标准实体

@@ -1,7 +1,7 @@
-package com.lms.mims.service;
+package com.lms.mims.service.work;
 
-import com.lms.mims.domain.Project;
-import com.lms.mims.mapper.ProjectMapper;
+import com.lms.mims.domain.work.Project;
+import com.lms.mims.mapper.work.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package com.lms.mims.service;
+package com.lms.mims.service.work;
 
-import com.lms.mims.domain.Selfexam;
-import com.lms.mims.mapper.SelfexamMapper;
+import com.lms.mims.domain.work.Selfexam;
+import com.lms.mims.mapper.work.SelfexamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
-package com.lms.mims.domain;
+package com.lms.mims.domain.work;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * 自查实体

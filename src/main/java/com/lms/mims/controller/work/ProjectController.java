@@ -1,8 +1,8 @@
-package com.lms.mims.controller;
+package com.lms.mims.controller.work;
 
-import com.lms.mims.domain.Project;
+import com.lms.mims.domain.work.Project;
 import com.lms.mims.domain.ResultSet;
-import com.lms.mims.service.ProjectService;
+import com.lms.mims.service.work.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -16,37 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `item`
+-- Table structure for table `standard`
 --
 
-DROP TABLE IF EXISTS `item`;
+DROP TABLE IF EXISTS `standard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `item` (
-  `itemid` int(11) NOT NULL AUTO_INCREMENT,
-  `itemname` varchar(255) NOT NULL COMMENT '事项名称',
-  `leader` varchar(255) DEFAULT NULL COMMENT '负责人',
-  `assistant` varchar(255) DEFAULT NULL COMMENT '协助人',
-  `str` date DEFAULT NULL COMMENT '开始时间',
-  `ed` date DEFAULT NULL COMMENT '完成时间',
-  `pre` date DEFAULT NULL COMMENT '预计结束时间',
+CREATE TABLE `standard` (
+  `stdid` int(11) NOT NULL AUTO_INCREMENT,
+  `stdname` varchar(255) DEFAULT NULL COMMENT '标准名称',
   `state` int(11) DEFAULT NULL COMMENT '状态',
-  `remark` varchar(20000) DEFAULT NULL COMMENT '完成情况说明',
-  `prjid` int(11) DEFAULT NULL COMMENT '项目id',
-  PRIMARY KEY (`itemid`),
-  KEY `item_project_prjid_fk` (`prjid`),
-  CONSTRAINT `item_project_prjid_fk` FOREIGN KEY (`prjid`) REFERENCES `project` (`prjid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='事项';
+  `remark` varchar(20000) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`stdid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='自查标准';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `item`
+-- Dumping data for table `standard`
 --
 
-LOCK TABLES `item` WRITE;
-/*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'测试项目','张三','李四','2017-12-21','2017-12-21','2017-12-21',1,'基本完成。',NULL),(2,'测试2','里斯','王五','2017-12-20','2017-12-22','2017-12-22',0,'完成',NULL);
-/*!40000 ALTER TABLE `item` ENABLE KEYS */;
+LOCK TABLES `standard` WRITE;
+/*!40000 ALTER TABLE `standard` DISABLE KEYS */;
+INSERT INTO `standard` VALUES (1,'二甲标准',1,'二甲'),(2,'省级质量督导',1,'质量督导');
+/*!40000 ALTER TABLE `standard` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-24 13:58:10
+-- Dump completed on 2017-12-24 13:58:11

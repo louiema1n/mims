@@ -1,6 +1,6 @@
-package com.lms.mims.mapper;
+package com.lms.mims.mapper.work;
 
-import com.lms.mims.domain.Standard;
+import com.lms.mims.domain.work.Standard;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

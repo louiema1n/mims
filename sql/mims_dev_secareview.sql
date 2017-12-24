@@ -19,7 +19,7 @@
 -- Table structure for table `secareview`
 --
 
-DROP TABLE IF EXISTS `secareview`;
+DROP TABLE IF EXISTS review;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `secareview` (
@@ -38,10 +38,10 @@ CREATE TABLE `secareview` (
 -- Dumping data for table `secareview`
 --
 
-LOCK TABLES `secareview` WRITE;
-/*!40000 ALTER TABLE `secareview` DISABLE KEYS */;
-INSERT INTO `secareview` VALUES (1,'病理科设置、布局、设备设施符合《病理科建设与管理指南（试行）》的要求，服务项目满足临床诊疗需要。开展肿瘤手术的医院应具备恶性肿瘤快速病理诊断保障能力。','病理科/室应具有与其功能和任务相适应的服务项目。凡开展肿瘤手术的医院应具备恶性肿瘤快速病理诊断保障能力。（“特殊染色、免疫组化”可选）','符合“B”，并 \r\n病理科/室集中设置，统一管理。','符合“C”，并\r\n对医院尚不能提供的部分病理学诊断服务项目可与有资质的三甲医院签订委托服务协议，有明确的委托服务形式与质量保障条款。','1.病理科/室设置满足医院功能任务需要。 \r\n2.服务项目满足临床工作需求，至少开展石蜡切片、术中快速冰冻切片、细胞学诊断、特殊染色（可选）、免疫组织化学染色（可选）。 \r\n3.所有病理收费服务项目符合现行的国家法律法规及卫生行政部门规章、标准的要求。',0);
-/*!40000 ALTER TABLE `secareview` ENABLE KEYS */;
+LOCK TABLES review WRITE;
+/*!40000 ALTER TABLE review DISABLE KEYS */;
+INSERT INTO review VALUES (1,'病理科设置、布局、设备设施符合《病理科建设与管理指南（试行）》的要求，服务项目满足临床诊疗需要。开展肿瘤手术的医院应具备恶性肿瘤快速病理诊断保障能力。','病理科/室应具有与其功能和任务相适应的服务项目。凡开展肿瘤手术的医院应具备恶性肿瘤快速病理诊断保障能力。（“特殊染色、免疫组化”可选）','符合“B”，并 \r\n病理科/室集中设置，统一管理。','符合“C”，并\r\n对医院尚不能提供的部分病理学诊断服务项目可与有资质的三甲医院签订委托服务协议，有明确的委托服务形式与质量保障条款。','1.病理科/室设置满足医院功能任务需要。 \r\n2.服务项目满足临床工作需求，至少开展石蜡切片、术中快速冰冻切片、细胞学诊断、特殊染色（可选）、免疫组织化学染色（可选）。 \r\n3.所有病理收费服务项目符合现行的国家法律法规及卫生行政部门规章、标准的要求。',0);
+/*!40000 ALTER TABLE review ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

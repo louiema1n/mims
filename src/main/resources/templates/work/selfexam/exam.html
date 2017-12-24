@@ -14,8 +14,9 @@
 
 </head>
 <body class="childrenBody">
-<form class="layui-form" action="" lay-filter="addItem">
+<form class="layui-form" action="" lay-filter="exam">
     <input type="hidden" name="sid" id="sid">
+    <input type="hidden" name="eid" id="eid">
     <div class="layui-form-item">
             <table class="layui-table">
                 <tbody>
@@ -26,6 +27,10 @@
                     <tr>
                         <td class="layui-bg-gray">项目：</td>
                         <td id="prjname">2</td>
+                    </tr>
+                    <tr>
+                        <td class="layui-bg-gray">自查标准：</td>
+                        <td id="standard">2</td>
                     </tr>
                     <tr>
                         <td class="layui-bg-gray">总评审数：</td>
@@ -54,12 +59,12 @@
                 </tr>
                 <tr>
                     <th>评审标准</th>
-                    <th colspan="4" id="standard" style="background-color: #fbfbfb; color: #009688; font-weight: bold;">
+                    <th colspan="4" id="reviewstd" style="background-color: #fbfbfb; color: #009688; font-weight: bold;">
 
                     </th>
                 </tr>
                 <tr>
-                    <th width="5%" style="text-align: center">等级</th>
+                    <th width="7%" style="text-align: center">等级</th>
                     <th width="50%">要求</th>
                     <th>参考资料</th>
                     <th>自查说明</th>
@@ -68,12 +73,12 @@
                 <tbody>
                     <tr>
                         <td style="text-align: center">
-                            <input type="radio" name="lv" value="A" title="A" CHECKED>
+                            <input type="radio" name="lv" value="A" title="A">
                         </td>
                         <td id="reqA">A</td>
                         <td rowspan="3" id="eg">A</td>
                         <td rowspan="3">
-                            <textarea name="remark" placeholder="如有问题，在这里填入问题描述。" class="layui-textarea"></textarea>
+                            <textarea name="remark" id="remark" placeholder="如有问题，在这里填入问题描述。" class="layui-textarea"></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -94,14 +99,17 @@
     <div class="layui-form-item">
         <div class="layui-input-block">
             <div class="layui-btn-group">
-                <button class="layui-btn layui-btn-primary" type="reset">
+                <button class="layui-btn" id="up" type="button">
+                    <i class="layui-icon">&#xe603;</i>
+                </button>
+                <button class="layui-btn" type="reset" id="rest">
                     <i class="layui-icon">&#xe60e;重置</i>
                 </button>
-                <button class="layui-btn" lay-submit lay-filter="subBtn">
-                    <i class="layui-icon">&#xe65b;提交</i>
-                </button>
+                <!--<button class="layui-btn" lay-submit lay-filter="subBtn">-->
+                    <!--<i class="layui-icon">&#xe65b;提交</i>-->
+                <!--</button>-->
                 <button class="layui-btn" id="next" type="button">
-                    <i class="layui-icon">&#xe65b;下一个</i>
+                    <i class="layui-icon">&#xe602;</i>
                 </button>
             </div>
         </div>
@@ -115,8 +123,9 @@
         var form = layui.form,
             $ = layui.jquery,
             table = layui.table;
+
         // 初始化数据
-        getData(1);
+        getExamData();
 
         //监听提交
         // form.on('submit(subBtn)', function(data){
@@ -126,30 +135,90 @@
         //     getData(sid + 1);
         // });
 
+        var i = 0, result;
+        // 下一个
         $("#next").click(function () {
-            var sid = $("#sid").val();
-            getData(parseInt(sid) + 1);
+            i++;
+            if (i >= $("#total").html()) {
+                i = $("#total").html() - 1;
+            }
+            submitExam();
+            initData();
         });
 
-        // 获取数据
-        function getData(id) {
+        // 提交数据
+        function submitExam() {
             $.ajax({
-                url:'/sfe/get/' + id,
-                type: 'get',
+                url:'/exam/upd/',
+                type: 'post',
+                data:{
+                    'eid': $("[name='eid']").val(),
+                    'lv': $("input[name='lv']:checked").val(),
+                    'remark': $("[name='remark']").val()
+                },
                 success:function (data) {
-
-                    $("#sid").val(data.sid);
-                    $("#sname").html(data.sname);
-                    $("#prjname").html(data.project.prjname);
-                    $("#rname").html(data.secareview.rname);
-                    $("#standard").html('<span class="layui-badge layui-bg-orange">6/20</span>&nbsp;&nbsp;');
-                    $("#standard").append(data.secareview.standard);
-                    $("#reqA").html(data.secareview.requiredA);
-                    $("#reqB").html(data.secareview.requiredB);
-                    $("#reqC").html(data.secareview.requiredC);
-                    $("#eg").html(data.secareview.eg);
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //do something
+                    });
                 }
             });
+        }
+
+        // 上一个
+        $("#up").click(function () {
+            i--;
+            if (i < 0) {
+                i = 0;
+            }
+            // 先更新数据
+            getExamData();
+            initData();
+        });
+
+        // 获取查验数据
+        function getExamData() {
+            $.ajax({
+                url:'/exam/all/' + $("#sid").val(),
+                type: 'get',
+                success:function (data) {
+                    result = data;
+                    var length = data.length;
+                    $("#total").html(length);
+                    initData();
+                }
+            });
+        }
+
+        // 初始化data
+        function initData() {
+            $("#eid").val(result[i].eid);
+            $("#rname").html(result[i].review.rname);
+            $("#reviewstd").html('<span class="layui-badge layui-bg-orange">' + (i + 1) + '/' + result.length + '</span>&nbsp;&nbsp;');
+            $("#reviewstd").append(result[i].review.reviewstd);
+            $("#reqA").html(result[i].review.requiredA);
+            $("#reqB").html(result[i].review.requiredB);
+            $("#reqC").html(result[i].review.requiredC);
+            $("#eg").html(result[i].review.eg);
+            $("#remark").html(result[i].remark);
+            initLv(result[i].lv);
+
+            // 重置表格状态
+            $("#rest").click();
+        }
+
+        // 初始化要求
+        var names = $("input[name='lv']");
+        function initLv(lv) {
+            for(var i = 0; i < names.length; i++) {
+                $(names[i]).removeAttr('checked');
+            }
+            $("input[value='"+lv+"']").attr('checked', true);
         }
 
     });

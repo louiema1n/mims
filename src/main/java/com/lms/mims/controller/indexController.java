@@ -13,36 +13,36 @@ public class indexController {
 
     @RequestMapping("/itemList")
     public String itemList() {
-        return "item/itemList";
+        return "work/item/itemList";
     }
 
     @RequestMapping("/addItem")
     public String addItem() {
-        return "item/addItem";
+        return "work/item/addItem";
     }
 
     @RequestMapping("/prjList")
     public String prjList() {
-        return "project/prjList";
+        return "work/project/prjList";
     }
 
-    @RequestMapping("/sarList")
-    public String sarList() {
-        return "secareview/sarList";
+    @RequestMapping("/rewList")
+    public String rewList() {
+        return "work/review/rewList";
     }
 
     @RequestMapping("/sfeList")
     public String sfeList() {
-        return "selfexam/sfeList";
+        return "work/selfexam/sfeList";
     }
 
     @RequestMapping("/addSfe")
     public String addSfe() {
-        return "selfexam/addSfe";
+        return "work/selfexam/addSfe";
     }
 
     @RequestMapping("/exam")
     public String exam() {
-        return "selfexam/exam";
+        return "work/selfexam/exam";
     }
 }

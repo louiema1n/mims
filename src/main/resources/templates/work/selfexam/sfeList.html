@@ -19,7 +19,7 @@
     <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
     <button class="layui-btn layui-btn-normal exam"><i class="layui-icon">&#xe6b2;</i>自查</button>
 </div>
-<table id="demo" lay-filter="test"></table>
+<table id="table"></table>
 
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/custom/js/myjs.js}"></script>
@@ -42,7 +42,7 @@
 
         //第一个实例
         table.render({
-            elem: '#demo'
+            elem: '#table'
 //            ,height: 315
             ,url: '/sfe/all' //数据接口
             ,page: true //开启分页
@@ -67,8 +67,12 @@
         });
 
         $(".exam").click(function(){
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('table');
+            var data = checkStatus.data;
+            // 弹出层
             var index = layui.layer.open({
-                title : "自查",
+                title : "查验",
                 type : 2,
                 content : "/exam",
                 success : function(layero, index){
@@ -76,7 +80,13 @@
                         layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
-                    },500)
+                    },500);
+                    // 渲染数据-获取子frame对象
+                    var body = layer.getChildFrame('body', index);
+                    body.find("#sid").val(data[0].sid);
+                    body.find("#sname").html(data[0].sname);
+                    body.find("#prjname").html(data[0].project.prjname);
+                    body.find("#standard").html(data[0].standard.stdname);
                 }
             });
             layui.layer.full(index);

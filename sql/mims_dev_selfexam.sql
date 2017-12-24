@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: mims_dev
 -- ------------------------------------------------------
--- Server version	5.7.19-log
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,15 +27,15 @@ CREATE TABLE `selfexam` (
   `sname` varchar(255) NOT NULL COMMENT '自查名称',
   `sdate` date DEFAULT NULL COMMENT '自查日期',
   `pid` int(11) DEFAULT NULL COMMENT '项目id',
-  `sarid` int(11) DEFAULT NULL COMMENT '二甲评审id',
-  `lv` varchar(1) DEFAULT NULL COMMENT '评审等级',
-  `remark` varchar(20000) DEFAULT NULL COMMENT '自查说明',
+  `stdid` int(11) DEFAULT NULL COMMENT '评审标准',
+  `result` varchar(5000) DEFAULT NULL COMMENT '评审结果',
+  `remark` varchar(8000) DEFAULT NULL COMMENT '自查说明',
   PRIMARY KEY (`sid`),
   KEY `selfexam_project_prjid_fk` (`pid`),
-  KEY `selfexam_secareview_rid_fk` (`sarid`),
+  KEY `selfexam_standard_stdid_fk` (`stdid`),
   CONSTRAINT `selfexam_project_prjid_fk` FOREIGN KEY (`pid`) REFERENCES `project` (`prjid`),
-  CONSTRAINT `selfexam_secareview_rid_fk` FOREIGN KEY (`sarid`) REFERENCES `secareview` (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='自查';
+  CONSTRAINT `selfexam_standard_stdid_fk` FOREIGN KEY (`stdid`) REFERENCES `standard` (`stdid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='自查';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `selfexam` (
 
 LOCK TABLES `selfexam` WRITE;
 /*!40000 ALTER TABLE `selfexam` DISABLE KEYS */;
-INSERT INTO `selfexam` VALUES (1,'省级质量督导','2017-12-15',1,1,'A','C');
+INSERT INTO `selfexam` VALUES (1,'省级质量督导','2017-12-15',1,1,'A','C'),(2,'省级质量督导','2017-12-15',1,2,'A','C');
 /*!40000 ALTER TABLE `selfexam` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-22 17:24:41
+-- Dump completed on 2017-12-24 13:58:11

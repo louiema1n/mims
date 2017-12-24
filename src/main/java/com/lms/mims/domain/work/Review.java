@@ -1,9 +1,9 @@
-package com.lms.mims.domain;
+package com.lms.mims.domain.work;
 
 /**
  * 二甲评审实体
  */
-public class Secareview {
+public class Review {
 
     private int rid;
     private String rname;
@@ -13,6 +13,8 @@ public class Secareview {
     private String requiredC;
     private int state;
     private String eg;
+
+    private int stdid;
     private Standard standard;
 
     public int getRid() {
@@ -85,5 +87,13 @@ public class Secareview {
 
     public void setStandard(Standard standard) {
         this.standard = standard;
+    }
+
+    public int getStdid() {
+        return stdid;
+    }
+
+    public void setStdid(int stdid) {
+        this.stdid = stdid;
     }
 }

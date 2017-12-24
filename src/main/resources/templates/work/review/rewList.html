@@ -30,12 +30,14 @@
             $ = layui.jquery;
         var arr = [ //表头
             {type:'checkbox'}
-            ,{field: 'rid', title: '编号', sort: true, align: 'center', width: '7%'}
+            ,{type:'numbers'}   // 序号
+            ,{field: 'standard', title: '自查标准', sort: true, templet: '#stdTpl'}
             ,{field: 'rname', title: '评审名称'}
-            ,{field: 'standard', title: '评审标准'}
-            ,{field: 'requiredA', title: '评审要求A'}
-            ,{field: 'requiredB', title: '评审要求B'}
-            ,{field: 'requiredC', title: '评审要求C'}
+            ,{field: 'reviewstd', title: '评审标准'}
+            ,{field: 'requiredA', title: '要求A'}
+            ,{field: 'requiredB', title: '要求B'}
+            ,{field: 'requiredC', title: '要求C'}
+            ,{field: 'eg', title: '参考资料'}
             ,{field: 'state', title: '状态', sort: true, align: 'center', templet: '#stateTpl'}
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
         ];
@@ -44,7 +46,7 @@
         table.render({
             elem: '#demo'
 //            ,height: 315
-            ,url: '/sar/all' //数据接口
+            ,url: '/rew/all' //数据接口
             ,page: true //开启分页
             ,cols: [arr]
             ,even: true //开启隔行背景
@@ -72,6 +74,9 @@
 <!-- templet -->
 <script type="text/html" id="stateTpl">
     {{d.state == 0 ? '<span class="layui-badge" style="border-radius: 15px">未完成</span>' : '<span class="layui-badge layui-bg-gray" style="border-radius: 15px">已完成</span>'}}
+</script>
+<script type="text/html" id="stdTpl">
+    {{d.standard.stdname}}
 </script>
 
 <!-- toolbar -->

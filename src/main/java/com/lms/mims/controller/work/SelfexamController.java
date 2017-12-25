@@ -38,8 +38,30 @@ public class SelfexamController {
         return selfexamResultSet;
     }
 
+    /**
+     * 根据id查询
+     * @param sid
+     * @return
+     */
     @RequestMapping(value = "/get/{sid}", method = RequestMethod.GET)
     public Selfexam getById(@PathVariable int sid) {
         return this.selfexamService.queryById(sid);
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String upd(Selfexam selfexam) {
+        this.selfexamService.add(selfexam);
+        return "保存成功。";
+    }
+
+    /**
+     * 根据id删除
+     * @param sid
+     * @return
+     */
+    @RequestMapping(value = "/del/{sid}", method = RequestMethod.DELETE)
+    public String delById(@PathVariable int sid) {
+        this.selfexamService.delById(sid);
+        return "删除成功！";
     }
 }

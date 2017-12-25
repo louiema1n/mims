@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: mims_dev
 -- ------------------------------------------------------
--- Server version	5.7.20-log
+-- Server version	5.7.19-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,7 +33,7 @@ CREATE TABLE `exam` (
   KEY `exam_review_rid_fk` (`rewid`),
   CONSTRAINT `exam_review_rid_fk` FOREIGN KEY (`rewid`) REFERENCES `review` (`rid`),
   CONSTRAINT `exam_selfexam_sid_fk` FOREIGN KEY (`sfeid`) REFERENCES `selfexam` (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='查验';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='查验';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `exam` (
 
 LOCK TABLES `exam` WRITE;
 /*!40000 ALTER TABLE `exam` DISABLE KEYS */;
-INSERT INTO `exam` VALUES (1,1,1,'B','走走2'),(2,1,2,'A','2222222'),(3,1,3,'A','');
+INSERT INTO `exam` VALUES (1,1,1,'C','走走23423'),(2,1,2,'B','3433333'),(3,1,3,'B','4444');
 /*!40000 ALTER TABLE `exam` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-24 13:58:10
+-- Dump completed on 2017-12-25 17:32:29

@@ -47,4 +47,22 @@ public class ExamService {
     public Integer updByExam(Exam exam) {
         return this.examMapper.updById(exam);
     }
+
+    /**
+     * 新增
+     * @param exam
+     * @return
+     */
+    public Integer add(Exam exam) {
+        return this.examMapper.add(exam);
+    }
+
+    /**
+     * 根据sfeid删除
+     * @param sfeid
+     * @return
+     */
+    public Integer delBySfeid(int sfeid) {
+        return this.examMapper.delBySfeid(sfeid);
+    }
 }

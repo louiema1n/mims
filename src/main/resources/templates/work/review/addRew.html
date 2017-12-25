@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<form class="layui-form" action="/rew/add" method="post" lay-filter="addSfe">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属标准</label>
+        <div class="layui-input-block" id="std">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">细则名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="rname"  lay-verify="required" placeholder="请输入评审细则名称" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审标准</label>
+        <div class="layui-input-block">
+            <textarea name="reviewstd" placeholder="请输入评审标准" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审要求A</label>
+        <div class="layui-input-block">
+            <textarea name="requiredA" placeholder="请输入评审要求A" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审要求B</label>
+        <div class="layui-input-block">
+            <textarea name="requiredB" placeholder="请输入评审要求B" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审要求C</label>
+        <div class="layui-input-block">
+            <textarea name="requiredC" placeholder="请输入评审要求C" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">参考资料</label>
+        <div class="layui-input-block">
+            <textarea name="eg" placeholder="请输入参考资料" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="state" lay-skin="switch" lay-text="启用|禁用" value="1" checked>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="subBtn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form'], function(){
+        var form = layui.form,
+            $ = layui.jquery;
+
+        //初始化数据
+        initData();
+
+        // 失去焦点处理
+        $("[name='requiredA']").blur(function () {
+            var rqA = $("[name='requiredA']").val();
+            // 处理空格和换行
+            rqA = rqA.replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+            $("[name='requiredA']").val(rqA);
+        });
+        $("[name='requiredB']").blur(function () {
+            var rqB = $("[name='requiredB']").val();
+            // 处理空格和换行
+            rqB = rqB.replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+            $("[name='requiredB']").val(rqB);
+        });
+        $("[name='requiredC']").blur(function () {
+            var rqC = $("[name='requiredC']").val();
+            // 处理空格和换行
+            rqC = rqC.replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+            $("[name='requiredC']").val(rqC);
+        });
+
+        //监听提交
+        form.on('submit(subBtn)', function(data){
+//            layer.msg(JSON.stringify(data.field));
+//            return false;
+
+            // 提交数据
+            $.ajax({
+                url:'/rew/add',
+                type: 'post',
+                data: data.field,
+                success:function (data) {
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+                        parent.location.reload();
+                    });
+                }
+            });
+            return false;
+        });
+
+        // 初始化数据
+        function initData() {
+            // 初始化standard
+            $.ajax({
+                url:'/std/all',
+                type: 'get',
+                success:function (data) {
+                    //do something
+                    var str = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == 0) {
+                            str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '" checked>';
+                        } else {
+                            str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '">';
+                        }
+                    }
+                    $("#std").html(str);
+                    form.render();
+                }
+            });
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

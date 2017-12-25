@@ -21,7 +21,7 @@
             <table class="layui-table">
                 <tbody>
                     <tr>
-                        <td width="7%" class="layui-bg-gray">自查名称：</td>
+                        <td width="9%" class="layui-bg-gray">自查名称：</td>
                         <td id="sname">2</td>
                     </tr>
                     <tr>
@@ -64,7 +64,7 @@
                     </th>
                 </tr>
                 <tr>
-                    <th width="7%" style="text-align: center">等级</th>
+                    <th width="9%" style="text-align: center">等级</th>
                     <th width="50%">要求</th>
                     <th>参考资料</th>
                     <th>自查说明</th>
@@ -142,19 +142,25 @@
             if (i >= $("#total").html()) {
                 i = $("#total").html() - 1;
             }
-            submitExam();
+            // 若没修改则不提交
+            var lv = $("input[name='lv']:checked").val(),
+                remark = $("[name='remark']").val(),
+                eid = $("[name='eid']").val();
+            if ((lv != result[i - 1].lv) || (remark != result[i - 1].remark)) {
+                submitExam(eid, lv, remark);
+            }
             initData();
         });
 
         // 提交数据
-        function submitExam() {
+        function submitExam(eid, lv, remark) {
             $.ajax({
                 url:'/exam/upd/',
                 type: 'post',
                 data:{
-                    'eid': $("[name='eid']").val(),
-                    'lv': $("input[name='lv']:checked").val(),
-                    'remark': $("[name='remark']").val()
+                    'eid': eid,
+                    'lv': lv,
+                    'remark': remark
                 },
                 success:function (data) {
                     // 成功

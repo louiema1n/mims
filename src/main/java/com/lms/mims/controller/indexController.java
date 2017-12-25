@@ -31,6 +31,11 @@ public class indexController {
         return "work/review/rewList";
     }
 
+    @RequestMapping("/addRew")
+    public String addRew() {
+        return "work/review/addRew";
+    }
+
     @RequestMapping("/sfeList")
     public String sfeList() {
         return "work/selfexam/sfeList";

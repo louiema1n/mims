@@ -18,9 +18,9 @@
 <div class="layui-btn-group demoTable">
     <button class="layui-btn addTmp"><i class="layui-icon">&#xe654;</i>新增</button>
     <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
-    <button class="layui-btn layui-btn-danger" data-type="delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
+    <button class="layui-btn layui-btn-danger delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
 </div>
-<table id="demo" lay-filter="test"></table>
+<table id="rewTb" lay-filter="test"></table>
 
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/custom/js/myjs.js}"></script>
@@ -44,7 +44,7 @@
 
         //第一个实例
         table.render({
-            elem: '#demo'
+            elem: '#rewTb'
 //            ,height: 315
             ,url: '/rew/all' //数据接口
             ,page: true //开启分页
@@ -52,11 +52,12 @@
             ,even: true //开启隔行背景
         });
 
+        // 新增
         $(".addTmp").click(function(){
             var index = layui.layer.open({
-                title : "新增事项",
+                title : "新增",
                 type : 2,
-                content : "/addItem",
+                content : "/addRew",
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
@@ -68,12 +69,40 @@
             layui.layer.full(index);
         })
 
+        // 删除
+        $(".delTmp").click(function(){
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('rewTb');
+            var data = checkStatus.data;
+
+            $.ajax({
+                url:'/rew/del/' + data[0].rid,
+                type: 'delete',
+                success:function (data) {
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        // 表格重载
+                        table.reload('rewTb', {
+                            url: '/rew/all'
+                            ,where: {} //设定异步数据接口的额外参数
+                            //,height: 300
+                        });
+                    });
+                }
+            });
+        })
+
     });
 </script>
 
 <!-- templet -->
 <script type="text/html" id="stateTpl">
-    {{d.state == 0 ? '<span class="layui-badge" style="border-radius: 15px">未完成</span>' : '<span class="layui-badge layui-bg-gray" style="border-radius: 15px">已完成</span>'}}
+    {{d.state == 0 ? '<span class="layui-badge" style="border-radius: 15px">未启用</span>' : '<span class="layui-badge layui-bg-green" style="border-radius: 15px">使用中</span>'}}
 </script>
 <script type="text/html" id="stdTpl">
     {{d.standard.stdname}}

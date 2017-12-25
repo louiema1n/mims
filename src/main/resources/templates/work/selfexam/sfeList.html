@@ -18,8 +18,9 @@
 <div class="layui-btn-group demoTable">
     <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
     <button class="layui-btn layui-btn-normal exam"><i class="layui-icon">&#xe6b2;</i>自查</button>
+    <button class="layui-btn layui-btn-danger delSfe"><i class="layui-icon">&#xe640;</i>删除</button>
 </div>
-<table id="table"></table>
+<table id="sfeTb"></table>
 
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/custom/js/myjs.js}"></script>
@@ -42,7 +43,7 @@
 
         //第一个实例
         table.render({
-            elem: '#table'
+            elem: '#sfeTb'
 //            ,height: 315
             ,url: '/sfe/all' //数据接口
             ,page: true //开启分页
@@ -50,6 +51,7 @@
             ,even: true //开启隔行背景
         });
 
+        // 新增
         $(".add").click(function(){
             var index = layui.layer.open({
                 title : "新增自查",
@@ -58,7 +60,7 @@
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
+                            tips: 1
                         });
                     },500)
                 }
@@ -66,9 +68,10 @@
             layui.layer.full(index);
         });
 
+        // 自查
         $(".exam").click(function(){
             // 获取当前选中行数据
-            var checkStatus = table.checkStatus('table');
+            var checkStatus = table.checkStatus('sfeTb');
             var data = checkStatus.data;
             // 弹出层
             var index = layui.layer.open({
@@ -78,7 +81,7 @@
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
+                            tips: 1
                         });
                     },500);
                     // 渲染数据-获取子frame对象
@@ -90,6 +93,34 @@
                 }
             });
             layui.layer.full(index);
+        })
+
+        // 删除
+        $(".delSfe").click(function(){
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('sfeTb');
+            var data = checkStatus.data;
+
+            $.ajax({
+                url:'/sfe/del/' + data[0].sid,
+                type: 'delete',
+                success:function (data) {
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        // 表格重载
+                        table.reload('sfeTb', {
+                            url: '/sfe/all'
+                            ,where: {} //设定异步数据接口的额外参数
+                            //,height: 300
+                        });
+                    });
+                }
+            });
         })
 
     });

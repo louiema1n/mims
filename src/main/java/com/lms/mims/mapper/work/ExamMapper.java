@@ -37,10 +37,21 @@ public interface ExamMapper {
     })
     List<Exam> selectBySfeid(@Param("sfeid") int sfeid);
 
-    @UpdateProvider(type = SqlProviderDao.class, method = "upd")
+    @UpdateProvider(type = ExamProviderDao.class, method = "upd")
     Integer updById(Exam exam);
 
-    class SqlProviderDao {
+    @InsertProvider(type = ExamProviderDao.class, method = "add")
+    Integer add(Exam exam);
+
+    @Delete("delete from exam where sfeid = #{sfeid}")
+    Integer delBySfeid(@Param("sfeid") int sfeid);
+
+    class ExamProviderDao {
+        /**
+         * 更新
+         * @param exam
+         * @return
+         */
         public String upd(Exam exam) {
             String sql = "update exam set ";
             if (exam.getLv() != null) {
@@ -51,6 +62,18 @@ public interface ExamMapper {
             }
             sql = sql.substring(0, sql.lastIndexOf(", "));
             sql += " where eid = " + exam.getEid();
+            return sql;
+        }
+
+        /**
+         * 新增
+         * @param exam
+         * @return
+         */
+        public String add(Exam exam) {
+            String sql = "insert into exam (sfeid, rewid) values ("
+                    + exam.getSfeid() + ", "
+                    + exam.getRewid() + ")";
             return sql;
         }
     }

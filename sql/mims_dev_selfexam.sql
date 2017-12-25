@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: mims_dev
 -- ------------------------------------------------------
--- Server version	5.7.20-log
+-- Server version	5.7.19-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `selfexam` (
   KEY `selfexam_standard_stdid_fk` (`stdid`),
   CONSTRAINT `selfexam_project_prjid_fk` FOREIGN KEY (`pid`) REFERENCES `project` (`prjid`),
   CONSTRAINT `selfexam_standard_stdid_fk` FOREIGN KEY (`stdid`) REFERENCES `standard` (`stdid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='自查';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='自查';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `selfexam` (
 
 LOCK TABLES `selfexam` WRITE;
 /*!40000 ALTER TABLE `selfexam` DISABLE KEYS */;
-INSERT INTO `selfexam` VALUES (1,'省级质量督导','2017-12-15',1,1,'A','C'),(2,'省级质量督导','2017-12-15',1,2,'A','C');
+INSERT INTO `selfexam` VALUES (1,'省级质量督导','2017-12-15',1,1,'A','C');
 /*!40000 ALTER TABLE `selfexam` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-24 13:58:11
+-- Dump completed on 2017-12-25 17:32:29

@@ -16,18 +16,20 @@
 <body class="childrenBody">
 
 <div class="layui-btn-group demoTable">
-    <button class="layui-btn addTmp"><i class="layui-icon">&#xe654;</i>新增</button>
-    <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
-    <button class="layui-btn layui-btn-danger delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
+    <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
+    <button class="layui-btn layui-btn-danger test"><i class="layui-icon">&#xe640;</i>删除</button>
 </div>
 <table id="rewTb" lay-filter="test"></table>
 
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/custom/js/myjs.js}"></script>
 <script type="text/javascript">
-    layui.use('table', function(){
+    layui.use(['table', 'jquery', 'layer'], function(){
         var table = layui.table,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            layer = layui.layer;
         var arr = [ //表头
             {type:'checkbox'}
             ,{type:'numbers'}   // 序号
@@ -42,7 +44,7 @@
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
         ];
 
-        //第一个实例
+        // 渲染表格数据
         table.render({
             elem: '#rewTb'
 //            ,height: 315
@@ -53,7 +55,7 @@
         });
 
         // 新增
-        $(".addTmp").click(function(){
+        $(".add").click(function(){
             var index = layui.layer.open({
                 title : "新增",
                 type : 2,
@@ -61,42 +63,100 @@
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
+                            tips: 2
                         });
                     },500)
                 }
-            })
+            });
+            layui.layer.full(index);
+        })
+
+        // 修改
+        $(".upd").click(function(){
+
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('rewTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                layer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
+
+            var index = layui.layer.open({
+                title : "修改",
+                type : 2,
+                content : "/addRew",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500);
+                    // 渲染数据-获取子frame对象
+                    var body = layer.getChildFrame('body', index);
+                    body.find("[name='rid']").val(data[0].rid);
+                    body.find("[name='stdTmp']").val(data[0].stdid);
+                    body.find("[name='rname']").val(data[0].rname);
+                    body.find("[name='reviewstd']").html(data[0].reviewstd);
+                    body.find("[name='requiredA']").html(data[0].requiredA);
+                    body.find("[name='requiredB']").html(data[0].requiredB);
+                    body.find("[name='requiredC']").html(data[0].requiredC);
+                    body.find("[name='eg']").html(data[0].eg);
+                    data[0].state == 0 ? body.find("[name='state']").removeAttr('checked') :
+                        body.find("[name='state']").attr('checked', true);
+                }
+            });
             layui.layer.full(index);
         })
 
         // 删除
-        $(".delTmp").click(function(){
+        $(".del").click(function() {
             // 获取当前选中行数据
             var checkStatus = table.checkStatus('rewTb');
             var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                layer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
 
-            $.ajax({
-                url:'/rew/del/' + data[0].rid,
-                type: 'delete',
-                success:function (data) {
-                    // 成功
-                    layer.msg(data, {
-                        icon: 1,
-                        offset: 'rb',
-                        anim: 2,
-                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
-                    }, function(){
-                        // 表格重载
-                        table.reload('rewTb', {
-                            url: '/rew/all'
-                            ,where: {} //设定异步数据接口的额外参数
-                            //,height: 300
+            layer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
+
+                $.ajax({
+                    url: '/rew/del/' + data[0].rid,
+                    type: 'delete',
+                    success: function (data) {
+                        // 成功
+                        layer.msg(data, {
+                            icon: 1,
+                            offset: 'rb',
+                            anim: 2,
+                            time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            // 表格重载
+                            table.reload('rewTb', {
+                                url: '/rew/all'
+                                , where: {} //设定异步数据接口的额外参数
+                                //,height: 300
+                            });
                         });
-                    });
-                }
+                    }
+                });
+                // 关闭提示框
+                layer.close(index);
             });
-        })
+        });
 
+        $(".test").click(function() {
+            var index = top.layer.open({
+                content: 'test'
+            });
+        });
     });
 </script>
 

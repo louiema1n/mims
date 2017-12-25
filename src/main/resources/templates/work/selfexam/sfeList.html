@@ -93,33 +93,38 @@
                 }
             });
             layui.layer.full(index);
-        })
+        });
 
         // 删除
         $(".delSfe").click(function(){
-            // 获取当前选中行数据
-            var checkStatus = table.checkStatus('sfeTb');
-            var data = checkStatus.data;
+            layer.confirm('确定要这样做吗?', {icon: 2, title:'警告'}, function(index){
+                //do something
+                // 获取当前选中行数据
+                var checkStatus = table.checkStatus('sfeTb');
+                var data = checkStatus.data;
 
-            $.ajax({
-                url:'/sfe/del/' + data[0].sid,
-                type: 'delete',
-                success:function (data) {
-                    // 成功
-                    layer.msg(data, {
-                        icon: 1,
-                        offset: 'rb',
-                        anim: 2,
-                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
-                    }, function(){
-                        // 表格重载
-                        table.reload('sfeTb', {
-                            url: '/sfe/all'
-                            ,where: {} //设定异步数据接口的额外参数
-                            //,height: 300
+                $.ajax({
+                    url:'/sfe/del/' + data[0].sid,
+                    type: 'delete',
+                    success:function (data) {
+                        // 成功
+                        layer.msg(data, {
+                            icon: 1,
+                            offset: 'rb',
+                            anim: 2,
+                            time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            // 表格重载
+                            table.reload('sfeTb', {
+                                url: '/sfe/all'
+                                ,where: {} //设定异步数据接口的额外参数
+                                //,height: 300
+                            });
                         });
-                    });
-                }
+                    }
+                });
+                // 关闭提示框
+                layer.close(index);
             });
         })
 

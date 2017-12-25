@@ -15,9 +15,12 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form" action="/rew/add" method="post" lay-filter="addSfe">
+    <!-- 默认值为0 解决新增报错 -->
+    <input type="hidden" name="rid" value="0">
 
     <div class="layui-form-item">
         <label class="layui-form-label">所属标准</label>
+        <input type="hidden" name="stdTmp" value="0">
         <div class="layui-input-block" id="std">
         </div>
     </div>
@@ -25,7 +28,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">细则名称</label>
         <div class="layui-input-block">
-            <input type="text" name="rname"  lay-verify="required" placeholder="请输入评审细则名称" autocomplete="on" class="layui-input">
+            <input type="text" name="rname" lay-verify="required" placeholder="请输入评审细则名称" autocomplete="on" class="layui-input">
         </div>
     </div>
 
@@ -109,14 +112,12 @@
             $("[name='requiredC']").val(rqC);
         });
 
-        //监听提交
+        // 监听提交
         form.on('submit(subBtn)', function(data){
-//            layer.msg(JSON.stringify(data.field));
-//            return false;
 
             // 提交数据
             $.ajax({
-                url:'/rew/add',
+                url:'/rew/' + ($("[name='rid']").val() > 0 ? 'upd' : 'add'),
                 type: 'post',
                 data: data.field,
                 success:function (data) {
@@ -131,6 +132,12 @@
                         parent.layer.closeAll();
                         // 刷新父页面
                         parent.location.reload();
+                        // 表格重载
+                        // table.reload('rewTb', {
+                        //     url: '/rew/all'
+                        //     ,where: {} //设定异步数据接口的额外参数
+                        //     //,height: 300
+                        // });
                     });
                 }
             });
@@ -148,12 +155,15 @@
                     var str = '';
                     for (var i = 0; i < data.length; i++) {
                         if (i == 0) {
-                            str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '" checked>';
+                            str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '">';
                         } else {
                             str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '">';
                         }
                     }
                     $("#std").html(str);
+                    // 默认选中radio
+                    $("[name='stdTmp']").val() == 0 ? $("[name='stdid'][value='1']").attr('checked', true) :
+                        $("[name='stdid'][value='"+$("[name='stdTmp']").val()+"']").attr('checked', true);
                     form.render();
                 }
             });

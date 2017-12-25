@@ -54,4 +54,10 @@ public class ReviewController {
         this.reviewService.delById(rid);
         return "删除成功！";
     }
+
+    @RequestMapping(value = "/upd", method = RequestMethod.POST)
+    public String upd(Review review) {
+        this.reviewService.upd(review);
+        return "修改成功！";
+    }
 }

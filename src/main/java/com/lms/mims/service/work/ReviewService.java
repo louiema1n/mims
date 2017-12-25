@@ -47,4 +47,13 @@ public class ReviewService {
     public Integer delById(int rid) {
         return this.reviewMapper.delById(rid);
     }
+
+    /**
+     * 更新
+     * @param review
+     * @return
+     */
+    public Integer upd(Review review) {
+        return this.reviewMapper.upd(review);
+    }
 }

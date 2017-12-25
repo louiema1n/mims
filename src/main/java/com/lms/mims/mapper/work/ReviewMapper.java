@@ -30,6 +30,9 @@ public interface ReviewMapper {
     @Delete("delete from review where rid = #{rid}")
     Integer delById(@Param("rid") int rid);
 
+    @UpdateProvider(type = RewProviderDao.class, method = "upd")
+    Integer upd(Review review);
+
 
     class RewProviderDao {
         /**
@@ -47,6 +50,45 @@ public interface ReviewMapper {
                     + review.getState() + ", '"
                     + review.getEg() + "', "
                     + review.getStdid() + ")";
+            return sql;
+        }
+
+        /**
+         * 更新
+         * @param review
+         * @return
+         */
+        public String upd(Review review) {
+            String sql = "update review set ", str = "";
+            str = review.getRname();
+            if (str != null) {
+                sql += "rname = '" + str + "', ";
+            }
+            str = review.getReviewstd();
+            if (str != null) {
+                sql += "reviewstd = '" + str + "', ";
+            }
+            str = review.getRequiredA();
+            if (str != null) {
+                sql += "requiredA = '" + str + "', ";
+            }
+            str = review.getRequiredB();
+            if (str != null) {
+                sql += "requiredB = '" + str + "', ";
+            }
+            str = review.getRequiredC();
+            if (str != null) {
+                sql += "requiredC = '" + str + "', ";
+            }
+            sql += "state = " + review.getState() + ", ";
+            str = review.getEg();
+            if (str != null) {
+                sql += "eg = '" + str + "', ";
+            }
+            sql += "stdid = '" + review.getStdid() + "', ";
+
+            sql = sql.substring(0, sql.lastIndexOf(", "));
+            sql += " where rid = " + review.getRid();
             return sql;
         }
     }

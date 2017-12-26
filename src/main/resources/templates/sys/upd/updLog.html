@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>更新日志</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>更新记录</legend>
+</fieldset>
+<ul class="layui-timeline" id="updLog">
+    <li class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis"></i>
+        <div class="layui-timeline-content layui-text">
+            <h2 class="layui-timeline-title">
+                还未提交更新记录。
+            </h2>
+        </div>
+    </li>
+</ul>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script type="text/javascript">
+    layui.use(['jquery', 'layer'], function(){
+        var $ = layui.jquery,
+            layer = layui.layer;
+
+        $.ajax({
+            url: '/upd/all',
+            type: 'get',
+            success: function (data) {
+                // 成功
+                var liBig = "";
+                for (var i = 0; i < data.length; i++) {
+                    liBig += '    <li class="layui-timeline-item">\n' +
+                        (i == 0 ? '<i class="layui-icon layui-timeline-axis"></i>' : '<i class="layui-icon layui-timeline-axis"></i>') +
+                        '        <div class="layui-timeline-content layui-text">\n' +
+                        '            <h3 class="layui-timeline-title">\n' +
+                        '                '+timeStamp2String(data[i].upddate, 'cn')+'\n' +
+//                        '                <span class="layui-badge-rim">v '+data[i].ver+'</span>\n' +
+                        '            </h3>\n' +
+                        '            <ul id="logs">\n' + logs(data[i].results) +
+                        '            </ul>\n' +
+                        '        </div>\n' +
+                        '    </li>';
+                }
+                $("#updLog").html(liBig);
+            }
+        });
+
+        /**
+         * 格式化数据
+         * @param results
+         * @returns {string}
+         */
+        function logs(results) {
+            var liSmall = "";
+            for (var j = 0; j < results.length; j++) {
+                liSmall += '<li>' + initType(results[j].type) + '</span> '+
+                    results[j].updname+'--> <a href="javascript:;" onclick="alertSol(\''+results[j].solution+'\')">解决办法</a> <span class="layui-badge-rim">v '+
+                    results[j].ver+'</span></li>';
+            }
+            return liSmall;
+        }
+
+        /**
+         * 初始化type
+         * @param type
+         * @returns {*}
+         */
+        function initType(type) {
+            switch (type) {
+                case '0': return '<span class="layui-badge layui-bg-blue"> 修复';
+                    break;
+                case '1': return '<span class="layui-badge layui-bg-green"> 新增';
+                    break;
+                case '2': return '<span class="layui-badge"> 删除';
+                    break;
+                case '3': return '<span class="layui-badge layui-bg-orange"> 升级';
+                    break;
+            }
+        }
+
+        window.alertSol = function (solution) {
+            //配置一个透明的询问框
+            parent.layer.msg(solution, {
+                time: 5000, //20s后自动关闭
+            });
+        }
+
+
+    });
+</script>
+
+</body>
+</html>

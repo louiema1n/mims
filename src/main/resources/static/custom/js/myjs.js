@@ -1,8 +1,13 @@
 /**
  * Created by Louie on 2017-08-16.
  */
-// timestamp转换成datetime
-function timeStamp2String (time){
+/**
+ * timestamp转换成datetime
+ * @param time
+ * @param mode en:2017-01-01;cn:2017年1月1日
+ * @returns {*}
+ */
+function timeStamp2String (time, mode){
     if (time == null) {
         return null;
     }
@@ -16,6 +21,9 @@ function timeStamp2String (time){
     var second = datetime.getSeconds();
     var mseconds = datetime.getMilliseconds();
     // return year + "-" + addZero(month) + "-" + addZero(date)+" "+ addZero(hour)+":"+addZero(minute)+":"+addZero(second);
+    if (mode == 'cn') {
+        return year + "年" + month + "月" + date + "日";
+    }
     return year + "-" + addZero(month) + "-" + addZero(date);
 };
 

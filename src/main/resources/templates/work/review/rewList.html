@@ -19,7 +19,6 @@
     <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
     <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
     <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
-    <button class="layui-btn layui-btn-danger test"><i class="layui-icon">&#xe640;</i>删除</button>
 </div>
 <table id="rewTb" lay-filter="test"></table>
 
@@ -27,9 +26,10 @@
 <script th:src="@{/custom/js/myjs.js}"></script>
 <script type="text/javascript">
     layui.use(['table', 'jquery', 'layer'], function(){
-        var table = layui.table,
-            $ = layui.jquery,
-            layer = layui.layer;
+        var table = layui.table
+            , $ = layui.jquery
+            , parentlayer = parent.layer === undefined ? layui.layer : parent.layer    // 弹出层modal覆盖父级页面
+            , layer = layui.layer;
         var arr = [ //表头
             {type:'checkbox'}
             ,{type:'numbers'}   // 序号
@@ -56,19 +56,19 @@
 
         // 新增
         $(".add").click(function(){
-            var index = layui.layer.open({
+            var index = layer.open({
                 title : "新增",
                 type : 2,
                 content : "/addRew",
                 success : function(layero, index){
                     setTimeout(function(){
-                        layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
                             tips: 2
                         });
                     },500)
                 }
             });
-            layui.layer.full(index);
+            layer.full(index);
         })
 
         // 修改
@@ -79,19 +79,19 @@
             var data = checkStatus.data;
             // 判断是否选中
             if (data.length == 0) {
-                layer.msg('请选择需要操作的行', function(){
+                parentlayer.msg('请选择需要操作的行', function(){
                     //do something
                 });
                 return false;
             }
 
-            var index = layui.layer.open({
+            var index = layer.open({
                 title : "修改",
                 type : 2,
                 content : "/addRew",
                 success : function(layero, index){
                     setTimeout(function(){
-                        layui.layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
                             tips: 2
                         });
                     },500);
@@ -109,7 +109,7 @@
                         body.find("[name='state']").attr('checked', true);
                 }
             });
-            layui.layer.full(index);
+            layer.full(index);
         })
 
         // 删除
@@ -119,20 +119,20 @@
             var data = checkStatus.data;
             // 判断是否选中
             if (data.length == 0) {
-                layer.msg('请选择需要操作的行', function(){
+                parentlayer.msg('请选择需要操作的行', function(){
                     //do something
                 });
                 return false;
             }
 
-            layer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
+            parentlayer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
 
                 $.ajax({
                     url: '/rew/del/' + data[0].rid,
                     type: 'delete',
                     success: function (data) {
                         // 成功
-                        layer.msg(data, {
+                        parentlayer.msg(data, {
                             icon: 1,
                             offset: 'rb',
                             anim: 2,
@@ -149,12 +149,6 @@
                 });
                 // 关闭提示框
                 layer.close(index);
-            });
-        });
-
-        $(".test").click(function() {
-            var index = top.layer.open({
-                content: 'test'
             });
         });
     });

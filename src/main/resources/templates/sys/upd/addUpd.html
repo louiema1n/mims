@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<form class="layui-form" action="/upd/add" method="post" lay-filter="addUpd">
+    <div class="layui-form-item">
+        <label class="layui-form-label">更新类型</label>
+        <div class="layui-input-block" >
+            <input type="radio" name="type" lay-filter="type" value="0" title="修复" checked>
+            <input type="radio" name="type" lay-filter="type" value="1" title="新增">
+            <input type="radio" name="type" lay-filter="type" value="2" title="删除">
+            <input type="radio" name="type" lay-filter="type" value="3" title="升级">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">更新名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="updname" lay-verify="required" placeholder="请输入更新名称" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">解决办法</label>
+        <div class="layui-input-block">
+            <textarea name="solution" placeholder="请输入解决办法" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">版本号</label>
+        <div class="layui-input-block">
+            <input type="text" name="ver" lay-verify="required" placeholder="请输入新版本号" autocomplete="on" class="layui-input" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="subBtn">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form', 'layer'], function(){
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer;
+
+        // 初始化数据
+        $.ajax({
+            url: '/upd/get/max',
+            type: 'get',
+            success: function (data) {
+                $("[name='ver']").val(data.ver);
+            }
+        });
+
+        // 监听radio
+        form.on('radio(type)', function(data){
+//            console.log(data.elem); //得到radio原始DOM对象
+//            console.log(data.value); //被点击的radio的value值
+            if (data.value == 3) {
+                $("[name='ver']").removeAttr('disabled');
+                $("[name='updname']").val('版本号');
+            } else {
+                $("[name='ver']").attr('disabled', true);
+            }
+        });
+
+        // 监听提交
+        form.on('submit(subBtn)', function(data){
+
+            // 提交数据
+            $.ajax({
+                url:'/upd/add',
+                type: 'post',
+                data: data.field,
+                success:function (data) {
+                    // 成功
+                    parent.layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+                        parent.location.reload();
+                        // 表格重载
+                        // table.reload('rewTb', {
+                        //     url: '/rew/all'
+                        //     ,where: {} //设定异步数据接口的额外参数
+                        //     //,height: 300
+                        // });
+                    });
+                }
+            });
+            return false;
+        });
+
+        // 渲染表单
+        form.render();
+    });
+</script>
+
+</body>
+</html>

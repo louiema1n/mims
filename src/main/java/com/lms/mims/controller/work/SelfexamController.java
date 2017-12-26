@@ -48,8 +48,13 @@ public class SelfexamController {
         return this.selfexamService.queryById(sid);
     }
 
+    /**
+     * 新增
+     * @param selfexam
+     * @return
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String upd(Selfexam selfexam) {
+    public String add(Selfexam selfexam) {
         this.selfexamService.add(selfexam);
         return "保存成功。";
     }

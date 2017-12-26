@@ -50,4 +50,14 @@ public class indexController {
     public String exam() {
         return "work/selfexam/exam";
     }
+
+    @RequestMapping("/updLog")
+    public String updLog() {
+        return "sys/upd/updLog";
+    }
+
+    @RequestMapping("/addUpd")
+    public String addUpd() {
+        return "sys/upd/addUpd";
+    }
 }

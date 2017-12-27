@@ -35,7 +35,7 @@ CREATE TABLE `selfexam` (
   KEY `selfexam_standard_stdid_fk` (`stdid`),
   CONSTRAINT `selfexam_project_prjid_fk` FOREIGN KEY (`pid`) REFERENCES `project` (`prjid`),
   CONSTRAINT `selfexam_standard_stdid_fk` FOREIGN KEY (`stdid`) REFERENCES `standard` (`stdid`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='自查';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='自查';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `selfexam` (
 
 LOCK TABLES `selfexam` WRITE;
 /*!40000 ALTER TABLE `selfexam` DISABLE KEYS */;
-INSERT INTO `selfexam` VALUES (1,'省级质量督导','2017-12-15',1,1,'A','C');
+INSERT INTO `selfexam` VALUES (38,'a','2017-12-27',1,1,NULL,NULL);
 /*!40000 ALTER TABLE `selfexam` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-26 17:34:11
+-- Dump completed on 2017-12-27 19:21:46

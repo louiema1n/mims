@@ -30,7 +30,7 @@ CREATE TABLE `upd` (
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `ver` varchar(255) DEFAULT NULL COMMENT '版本号',
   PRIMARY KEY (`updid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='更新日志';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='更新日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `upd` (
 
 LOCK TABLES `upd` WRITE;
 /*!40000 ALTER TABLE `upd` DISABLE KEYS */;
-INSERT INTO `upd` VALUES (1,'初始化版本号','2017-12-26','',3,'1.0.0'),(2,'更新日志记录','2017-12-26','',1,'1.0.0'),(3,'解决tab中引入iframe双滚动条问题','2017-12-26','引入css:       \nlayui-body{overflow:hidden; }\n.layui-tab-item{ position: absolute; top: 41px; bottom:0; left: 0; right: 0; padding: 0; margin: 0; -webkit-overflow-scrolling:touch; overflow:auto;}\n.clildFrame.layui-tab-content{ padding-right: 0; }\n.clildFrame.layui-tab-content iframe{ width: 100%; height:100%; border:none; min-width: 320px; position:absolute; }',0,'1.0.0'),(4,'tab中ifram不满屏问题','2017-12-26','.clildFrame.layui-tab-content iframe{ width: 100%; height:100%; border:none; min-width: 320px; position:absolute; }',0,'1.0.0');
+INSERT INTO `upd` VALUES (1,'初始化版本号','2017-12-26','',3,'1.0.0'),(2,'更新日志记录','2017-12-26','',1,'1.0.0'),(3,'解决tab中引入iframe双滚动条问题','2017-12-26','引入css:       \nlayui-body{overflow:hidden; }\n.layui-tab-item{ position: absolute; top: 41px; bottom:0; left: 0; right: 0; padding: 0; margin: 0; -webkit-overflow-scrolling:touch; overflow:auto;}\n.clildFrame.layui-tab-content{ padding-right: 0; }\n.clildFrame.layui-tab-content iframe{ width: 100%; height:100%; border:none; min-width: 320px; position:absolute; }',0,'1.0.0'),(4,'tab中ifram不满屏问题','2017-12-26','.clildFrame.layui-tab-content iframe{ width: 100%; height:100%; border:none; min-width: 320px; position:absolute; }',0,'1.0.0'),(5,'版本号','2017-12-27','',3,'1.0.1'),(6,'文件上传功能','2017-12-27','见utils-FileUtil',1,'1.0.1'),(7,'review参考资料上传文件功能','2017-12-27','addRew',1,'1.0.1'),(8,'更新日志中有“解决办法才显示”','2017-12-27','',0,'1.0.1'),(9,'参考资料多文件上传','2017-12-27','',1,'1.0.1'),(10,'open宽高自适应问题','2017-12-27','设置area : [100%, 100%]；<br>取消layui.layer.full(index);',0,'1.0.1'),(11,'版本号','2017-12-27','',3,'1.0.2'),(12,'首页-待办事项部分功能','2017-12-27','',1,'1.0.2');
 /*!40000 ALTER TABLE `upd` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-26 17:34:12
+-- Dump completed on 2017-12-27 19:21:47

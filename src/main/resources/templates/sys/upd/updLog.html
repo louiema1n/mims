@@ -45,10 +45,10 @@
                     liBig += '    <li class="layui-timeline-item">\n' +
                         (i == 0 ? '<i class="layui-icon layui-timeline-axis"></i>' : '<i class="layui-icon layui-timeline-axis"></i>') +
                         '        <div class="layui-timeline-content layui-text">\n' +
-                        '            <h3 class="layui-timeline-title">\n' +
+                        (i == 0 ? '<h2' : '<h3') + ' class="layui-timeline-title">\n' +
                         '                '+timeStamp2String(data[i].upddate, 'cn')+'\n' +
 //                        '                <span class="layui-badge-rim">v '+data[i].ver+'</span>\n' +
-                        '            </h3>\n' +
+                        (i == 0 ? '</h2>' : '</h3>') +
                         '            <ul id="logs">\n' + logs(data[i].results) +
                         '            </ul>' +
                         '        </div>\n' +
@@ -67,8 +67,9 @@
             var liSmall = "";
             for (var j = 0; j < results.length; j++) {
                 liSmall += '<li>' + initType(results[j].type) + '</span> '+
-                    results[j].updname+'--> <a href="javascript:;" class="sol" onclick="alertSol(\''+results[j].solution+'\')">解决办法</a> <span class="layui-badge-rim">v '+
-                    results[j].ver+'</span></li>';
+                    results[j].updname +
+                    (results[j].solution != '' ? '--> <a href="javascript:;" class="sol" onclick="alertSol(\''+results[j].solution+'\')">解决办法</a>' : '') +
+                    ' <span class="layui-badge-rim">v ' + results[j].ver+'</span></li>';
             }
             return liSmall;
         }

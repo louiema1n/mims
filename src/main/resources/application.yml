@@ -1,6 +1,6 @@
 server:
   port: 80
-# 数据源
+
 spring:
 # thymeleaf
   thymeleaf:
@@ -9,6 +9,14 @@ spring:
     prefix: classpath:/templates/
     mode: HTML
     content-type: text/html
+
 #  激活模式
   profiles:
     active: dev
+
+# 表示所有的访问都经过静态资源路径；
+  mvc:
+    static-path-pattern: /**
+# 加入所有静态资源路径（覆盖默认配置）
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.updPath},file:${web.dwdPath}

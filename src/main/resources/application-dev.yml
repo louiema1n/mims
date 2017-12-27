@@ -1,3 +1,8 @@
+# 文件上传地址
+web:
+  updPath: D:/WorkStation/Mims/upd-dev/
+  dwdPath: D:/WorkStation/Mims/dwd-dev/
+
 # 数据源
 spring:
   datasource:

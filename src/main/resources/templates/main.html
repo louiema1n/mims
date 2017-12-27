@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>欢迎使用MIMS-多功能综合管理系统</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+            background-color: #f2f2f2;
+        }
+        .layui-fluid{padding: 0px 0px}
+        .fly-panel{margin-bottom: 0px; border-radius: 2px; background-color: #fff; box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.05);}
+        .fly-panel[pad20]{padding: 20px;}
+        .fly-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px dotted #E9E9E9; color: #333; border-radius: 2px 2px 0 0; font-size: 14px;}
+        .fly-panel-main{padding: 10px 15px;}
+        .fly-panel-border{border: 1px solid #e6e6e6; box-shadow: none;}
+        .fly-panel-border .fly-panel-title{border-bottom: 1px solid #e6e6e6;}
+
+        .fly-list-one .fly-panel-title{margin-bottom: 5px;}
+        .fly-list-one dd{margin: 0 15px; line-height: 26px; white-space: nowrap; overflow: hidden; list-style: decimal-leading-zero inside; *list-style-type: decimal inside; color: #009E94;}
+        .fly-list-one dd a,
+        .fly-list-one dd span{display: inline-block; *display: inline; *zoom: 1; vertical-align: top; font-style: normal}
+        .fly-list-one dd a{max-width: 85%; margin-right: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;}
+        .fly-list-one dd span{font-size: 12px; color: #ccc;}
+        .fly-list-one dd:last-child{padding-bottom: 5px;}
+
+        .detail-about{position: relative; line-height: 20px; padding: 15px 15px 15px 75px; font-size: 13px; background-color: #f2f2f2; color: #999;}
+        .detail-my{position: relative; line-height: 20px; margin: 5px; padding: 15px 15px 15px 20px; font-size: 13px; background-color: #eeeeee; color: #999;}
+        .detail-about .jie-status, .detail-about .jie-status-ok{color:#fff;}
+        .detail-about .fly-jing{padding:0 6px; background-color:#c00; color:#fff;}
+        .detail-about .detail-hits{position: relative; top: 5px; line-height: 20px;}
+
+        i:hover {
+            font-size: 30px;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md8" style="display: block; height: 20%">
+                <dl class="fly-panel fly-list-one">
+                    <dt class="fly-panel-title">
+                        <span class="layui-badge-dot"></span>
+                        <span class="layui-badge-dot layui-bg-orange"></span>
+                        <span class="layui-badge-dot layui-bg-green"></span>
+                        待办事项
+                    </dt>
+                    <dd>2017-12-27</dd>
+                    <div class="detail-my">致开源贡献者以及 layui 的使用者
+                        <span style="float: right">
+                            <i class="layui-icon" style="cursor: pointer; color: #FF5722;" title="延期">&#xe60e;</i>
+                            <i class="layui-icon" style="cursor: pointer; color: #009688" title="完成">&#x1005;</i>
+                        </span>
+                    </div>
+                    <div class="detail-my">Admin有点小贵啊！！！
+                        <span style="float: right">
+                            <i class="layui-icon" style="cursor: pointer; color: #FF5722" title="延期">&#xe60e;</i>
+                            <i class="layui-icon" style="cursor: pointer; color: #009688" title="完成">&#x1005;</i>
+                        </span>
+                    </div>
+                    <dd>2017-12-27</dd>
+                </dl>
+            </div>
+            <div class="layui-col-md4" >
+                <dl class="fly-panel fly-list-one">
+                    <dt class="fly-panel-title">测试</dt>
+                    <dd style="height: 200px">11</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md4" style="display: block">
+                <dl class="fly-panel fly-list-one">
+                    <dt class="fly-panel-title">
+                        <span class="layui-badge-dot"></span>
+                        <span class="layui-badge-dot layui-bg-orange"></span>
+                        <span class="layui-badge-dot layui-bg-green"></span>
+                        待办事项
+                    </dt>
+                    <dd>测试测试</dd>
+                    <dd>测试测试</dd>
+                    <dd>测试测试</dd>
+                    <dd>测试测试</dd>
+                </dl>
+            </div>
+            <div class="layui-col-md4">
+                <dl class="fly-panel">
+                    <dt class="fly-panel-title">测试</dt>
+                </dl>
+            </div>
+            <div class="layui-col-md4">
+                <dl class="fly-panel">
+                    <dt class="fly-panel-title">测试</dt>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(['element', 'layer'], function(){
+        var $ = layui.jquery
+            , element = layui.element
+            , layer = layui.layer; // 解决modal覆盖外层页面
+
+    });
+</script>
+</body>
+</html>

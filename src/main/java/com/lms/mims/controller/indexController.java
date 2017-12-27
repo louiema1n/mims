@@ -11,6 +11,11 @@ public class indexController {
         return "index";
     }
 
+    @RequestMapping("/main")
+    public String main() {
+        return "main";
+    }
+
     @RequestMapping("/itemList")
     public String itemList() {
         return "work/item/itemList";

@@ -12,15 +12,16 @@
             background-color: #f2f2f2;
         }
         .layui-fluid{padding: 0px 0px}
-        .fly-panel{margin-bottom: 0px; border-radius: 2px; background-color: #fff; box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.05);}
+        .fly-panel{margin-bottom: 0px; border-radius: 10px; background-color: #fff; box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.05);}
         .fly-panel[pad20]{padding: 20px;}
-        .fly-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px dotted #E9E9E9; color: #333; border-radius: 2px 2px 0 0; font-size: 14px;}
+        .fly-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px solid #E9E9E9; color: #333; font-size: 14px;}
+        .fly-panel-footer{position: relative; text-align: center; background-color: #ffffff; height: 40px; line-height: 40px; padding: 0 15px; border-top: 1px solid #eeeeee; color: #333; font-size: 14px;}
         .fly-panel-main{padding: 10px 15px;}
         .fly-panel-border{border: 1px solid #e6e6e6; box-shadow: none;}
         .fly-panel-border .fly-panel-title{border-bottom: 1px solid #e6e6e6;}
 
         .fly-list-one .fly-panel-title{margin-bottom: 5px;}
-        .fly-list-one dd{margin: 0 15px; line-height: 26px; white-space: nowrap; overflow: hidden; list-style: decimal-leading-zero inside; *list-style-type: decimal inside; color: #009E94;}
+        .fly-list-one dd{margin: 0 15px; margin-bottom: 5px; line-height: 26px; list-style: decimal-leading-zero inside; *list-style-type: decimal inside; color: #009E94;}
         .fly-list-one dd a,
         .fly-list-one dd span{display: inline-block; *display: inline; *zoom: 1; vertical-align: top; font-style: normal}
         .fly-list-one dd a{max-width: 85%; margin-right: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;}
@@ -36,6 +37,57 @@
         i:hover {
             font-size: 30px;
         }
+
+        .fly-panel-header {
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        .header-red {
+            background-color: #FD482C;
+            color: white;
+        }
+        .header-white {
+            background-color: #ffffff;
+            color: black;
+        }
+        .header-green {
+            background-color: #009688;
+            color: white;
+        }
+        .header-orange {
+            background-color: #FFB800;
+            color: white;
+        }
+        .layui-badge-rim {
+            height: 25px;
+            width: 15%;
+            line-height: 25px;
+            border-radius: 25px;
+            cursor: pointer
+        }
+        .layui-badge-rim:hover {
+            background-color: #f2f2f2;
+        }
+        .rim-red {
+            border: solid 1px red;
+            color: red;
+        }
+        .rim-green {
+            border: solid 1px #009688;
+            color: #009688;
+        }
+        .td-key {
+            background-color: #f2f2f2;
+            text-align: right;
+            white-space: nowrap;
+        }
+        .td-value {
+            color: black;
+        }
+        .layui-table {
+            table-layout: fixed;
+        }
+
     </style>
 
 </head>
@@ -69,7 +121,7 @@
             </div>
             <div class="layui-col-md4" >
                 <dl class="fly-panel fly-list-one">
-                    <dt class="fly-panel-title">测试</dt>
+                    <dt class="fly-panel-title fly-panel-header-white">测试</dt>
                     <dd style="height: 200px">11</dd>
                 </dl>
             </div>
@@ -91,13 +143,56 @@
                 </dl>
             </div>
             <div class="layui-col-md4">
-                <dl class="fly-panel">
-                    <dt class="fly-panel-title">测试</dt>
+                <dl class="fly-panel fly-list-one">
+                    <dt class="fly-panel-title fly-panel-header header-orange">
+                        <span class="layui-badge-dot layui-bg-gray"></span>
+                        临时事项
+                        <div style="float: right">
+                            <i class="layui-icon" style="cursor: pointer; color: #FF5722; line-height: 55px; font-size: 20px" title="关闭">&#x1007;</i>
+                        </div>
+                    </dt>
+                    <dd>
+                    <table class="layui-table"  lay-even>
+                        <colgroup>
+                            <col width="30%">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td class="td-key"><i class="layui-icon">&#xe611; </i>事项名:</td>
+                            <td class="td-value">测试</td>
+                        </tr>
+                            <tr>
+                                <td class="td-key"><i class="layui-icon">&#xe612; </i>负责人:</td>
+                                <td class="td-value">走走</td>
+                            </tr>
+                            <tr>
+                                <td class="td-key"><i class="layui-icon">&#xe613; </i>协助人:</td>
+                                <td class="td-value">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</td>
+                            </tr>
+                            <tr>
+                                <td class="td-key"><i class="layui-icon">&#xe63f; </i>开始点:</td>
+                                <td class="td-value">2017-12-28</td>
+                            </tr>
+                            <tr>
+                                <td class="td-key"><i class="layui-icon">&#xe617; </i>结束点:</td>
+                                <td class="td-value">2017-12-28</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </dd>
+                    <dt class="fly-panel-footer">
+                        <span class="layui-badge-rim rim-red">延期</span>&nbsp;&nbsp;&nbsp;
+                        <span class="layui-badge-rim rim-green">完成</span>
+                    </dt>
                 </dl>
             </div>
             <div class="layui-col-md4">
-                <dl class="fly-panel">
-                    <dt class="fly-panel-title">测试</dt>
+                <dl class="fly-panel fly-list-one ">
+                    <dt class="fly-panel-title fly-panel-header fly-green">测试</dt>
+                    <dd>测试测试</dd>
+                    <dd>测试测试</dd>
+                    <dd>测试测试</dd>
+                    <dd>测试测试</dd>
                 </dl>
             </div>
         </div>

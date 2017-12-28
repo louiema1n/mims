@@ -21,6 +21,11 @@ public class indexController {
         return "work/item/itemList";
     }
 
+    @RequestMapping("/itemHandle")
+    public String itemHandle() {
+        return "work/item/itemHandle";
+    }
+
     @RequestMapping("/addItem")
     public String addItem() {
         return "work/item/addItem";

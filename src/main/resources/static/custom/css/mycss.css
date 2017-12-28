@@ -1,0 +1,83 @@
+/**
+ * @description 自定义css
+ * @author louiemain
+ * @date Created on 2017-12-28 13:06
+ * @param null
+ * @return 
+ */
+.childrenBody{
+    margin: 10px 10px 0;
+    background-color: #f2f2f2;
+}
+.layui-fluid{padding: 0px 0px}
+.fly-panel{margin-bottom: 0px; border-radius: 10px; background-color: #fff; box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.05);}
+.fly-panel[pad20]{padding: 20px;}
+.fly-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px solid #E9E9E9; color: #333; font-size: 14px;}
+.fly-panel-footer{position: relative; text-align: center; background-color: #ffffff; height: 40px; line-height: 40px; padding: 0 15px; border-top: 1px solid #eeeeee; color: #333; font-size: 14px;}
+.fly-panel-border .fly-panel-title{border-bottom: 1px solid #e6e6e6;}
+
+.fly-list-one .fly-panel-title{margin-bottom: 5px;}
+.fly-list-one dd{margin: 0 15px; margin-bottom: 5px; line-height: 26px; list-style: decimal-leading-zero inside; *list-style-type: decimal inside; color: #009E94;}
+.fly-list-one dd a,
+.fly-list-one dd span{display: inline-block; *display: inline; *zoom: 1; vertical-align: top; font-style: normal}
+.fly-list-one dd a{max-width: 85%; margin-right: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;}
+.fly-list-one dd span{font-size: 12px; color: #ccc;}
+.fly-list-one dd:last-child{padding-bottom: 5px;}
+
+/*i:hover {*/
+    /*font-size: 30px;*/
+/*}*/
+
+.fly-panel-header {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.header-red {
+    background-color: #FD482C;
+    color: white;
+}
+.header-white {
+    background-color: #ffffff;
+    color: black;
+}
+.header-green {
+    background-color: #009688;
+    color: white;
+}
+.header-gray {
+    background-color: #d2d2d2;
+    color: gray;
+}
+.header-orange {
+    background-color: #FFB800;
+    color: white;
+}
+.layui-badge-rim {
+    height: 25px;
+    width: 15%;
+    line-height: 25px;
+    border-radius: 25px;
+    cursor: pointer
+}
+.layui-badge-rim:hover {
+    background-color: #f2f2f2;
+}
+.rim-red {
+    border: solid 1px red;
+    color: red;
+}
+.rim-green {
+    border: solid 1px #009688;
+    color: #009688;
+}
+.td-key {
+    background-color: #f2f2f2;
+    text-align: right;
+    white-space: nowrap;
+}
+.td-value {
+    color: black;
+}
+.layui-table {
+    table-layout: fixed;
+}

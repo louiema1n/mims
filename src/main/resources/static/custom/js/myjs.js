@@ -9,7 +9,7 @@
  */
 function timeStamp2String (time, mode){
     if (time == null) {
-        return null;
+        return "";
     }
     var datetime = new Date();
     datetime.setTime(time);
@@ -30,4 +30,15 @@ function timeStamp2String (time, mode){
 //创建补0函数
 function addZero(s) {
     return s < 10 ? '0' + s : s;
+}
+
+/**
+ * @description 根据时间获取时间戳
+ * @author louiemain
+ * @date Created on 2017-12-29 11:33
+ * @param null
+ * @return
+ */
+function string2Timestamp(str) {
+    return Date.parse(str);
 }

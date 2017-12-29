@@ -60,6 +60,7 @@
                 title : "新增",
                 type : 2,
                 content : "/addRew",
+                area: ['100%', '100%'],
                 success : function(layero, index){
                     setTimeout(function(){
                         layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
@@ -68,7 +69,6 @@
                     },500)
                 }
             });
-            layer.full(index);
         })
 
         // 修改
@@ -89,6 +89,7 @@
                 title : "修改",
                 type : 2,
                 content : "/addRew",
+                area: ['100%', '100%'],
                 success : function(layero, index){
                     setTimeout(function(){
                         layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
@@ -109,8 +110,7 @@
                         body.find("[name='state']").attr('checked', true);
                 }
             });
-            layer.full(index);
-        })
+        });
 
         // 删除
         $(".del").click(function() {

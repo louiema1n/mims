@@ -14,26 +14,25 @@
 
 </head>
 <body class="childrenBody">
-<form class="layui-form" action="" lay-filter="addItem">
+<form class="layui-form" lay-filter="addItem">
+
+    <input type="hidden" name="itemid" value="0">
 
     <div class="layui-form-item">
     <label class="layui-form-label">类型</label>
     <div class="layui-input-block">
-    <input type="radio" name="type" lay-filter="type" value="item" title="临时事项" checked>
-    <input type="radio" name="type" lay-filter="type" value="prj" title="项目计划">
+        <input type="hidden" id="typeT">
+        <input type="radio" name="type" lay-filter="type" value="0" title="今日事项" checked>
+        <input type="radio" name="type" lay-filter="type" value="1" title="持续事项">
+        <input type="radio" name="type" lay-filter="type" value="2" title="项目计划">
     </div>
     </div>
 
     <div class="layui-form-item">
+        <input type="hidden" id="prjT">
         <label class="layui-form-label">项目</label>
         <div class="layui-input-block">
-            <select name="prj" lay-filter="prj" id="prj" disabled>
-                <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
+            <select name="prjid" lay-filter="prj" id="prj" disabled>
             </select>
         </div>
     </div>
@@ -41,71 +40,43 @@
     <div class="layui-form-item">
         <label class="layui-form-label">事项</label>
         <div class="layui-input-block">
-            <input type="text" name="title"  lay-verify="required" placeholder="请输入事项内容" autocomplete="on" class="layui-input">
+            <input type="text" name="itemname"  lay-verify="required" placeholder="请输入事项内容" autocomplete="on" class="layui-input">
         </div>
     </div>
-    <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">密码框</label>-->
-        <!--<div class="layui-input-inline">-->
-            <!--<input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">-->
-        <!--</div>-->
-        <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
-    <!--</div>-->
+
     <div class="layui-form-item">
         <label class="layui-form-label">负责人</label>
+        <input type="hidden" id="leaderT">
         <div class="layui-input-block">
-            <select name="city" lay-verify="required">
-                <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
+            <select name="leader" lay-verify="required">
+                <option value="LM">LM</option>
+                <option value="庞敏" >庞敏</option>
+                <option value="刘庆">刘庆</option>
+                <option value="李博">李博</option>
+                <option value="付正乾">付正乾</option>
             </select>
         </div>
     </div>
     <div class="layui-form-item">
+        <input id="assistantT" type="hidden">
         <label class="layui-form-label">协助人</label>
         <div class="layui-input-block">
-            <select name="city1" lay-verify="required">
-                <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
-            </select>
+            <input type="checkbox" name="assistant" value="刘庆" title="刘庆">
+            <input type="checkbox" name="assistant" title="李博" value="李博">
+            <input type="checkbox" name="assistant" title="庞敏" value="庞敏">
+            <input type="checkbox" name="assistant" title="付正乾" value="付正乾">
+            <input type="checkbox" name="assistant" title="杨忠喜" value="杨忠喜">
         </div>
     </div>
-    <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">复选框</label>-->
-        <!--<div class="layui-input-block">-->
-            <!--<input type="checkbox" name="like[write]" title="写作">-->
-            <!--<input type="checkbox" name="like[read]" title="阅读" checked>-->
-            <!--<input type="checkbox" name="like[dai]" title="发呆">-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">开关</label>-->
-        <!--<div class="layui-input-block">-->
-            <!--<input type="checkbox" name="switch" lay-skin="switch">-->
-        <!--</div>-->
-    <!--</div>-->
-
 
     <div class="layui-form-item">
         <label class="layui-form-label">时间</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="test6" placeholder=" - ">
+            <input type="text" class="layui-input" id="time" name="time" placeholder=" - " disabled>
         </div>
+        <div class="layui-form-mid layui-word-aux">起止时间段</div>
     </div>
 
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">说明</label>
-        <div class="layui-input-block">
-            <textarea name="desc" placeholder="请输入说明" class="layui-textarea"></textarea>
-        </div>
-    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="subBtn">立即提交</button>
@@ -114,6 +85,7 @@
     </div>
 </form>
 <script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
 <script>
     //Demo
     layui.use(['element', 'form', 'laydate'], function(){
@@ -123,27 +95,135 @@
 
         //日期范围
         laydate.render({
-            elem: '#test6'
+            elem: '#time'
             ,range: true
-        });;
+        });
+
+        // 初始化project
+        $.ajax({
+            url:'/prj/all',
+            type: 'get',
+            success:function (data) {
+                //do something
+                var str = '<option value=""></option>',
+                    result = data.data;
+                for (var i = 0; i < result.length; i++) {
+                    if ($("#prjT").val() == result[i].prjid) {
+                        str += '<option value="'+result[i].prjid+'" selected>'+result[i].prjname+'</option>';
+                        $("[name='prjid']").removeAttr('disabled');
+                    } else
+                        str += '<option value="'+result[i].prjid+'">'+result[i].prjname+'</option>';
+                }
+                $("#prj").html(str);
+                // 重新渲染
+                form.render();
+            }
+        });
+        // type
+        var typs = $("[name='type']");
+        for (var i = 0; i < typs.length; i++) {
+            $(typs[i]).removeAttr('checked');
+            if ($(typs[i]).val() == $("#typeT").val()) {
+                $(typs[i]).prop('checked', true);
+                break;
+            } else {
+                $(typs[0]).prop('checked', true);
+            }
+        }
+        // leader
+        var ops = $("[name='leader'] option");
+        for (var i = 0; i < ops.length; i++) {
+            $(ops[i]).removeAttr('selected');
+            if ($(ops[i]).val() == $("#leaderT").val()) {
+                $(ops[i]).prop('selected', true);
+            }
+        }
+        // assistant
+        var ass = $("input[name='assistant']");
+        var assiss = $("#assistantT").val();
+        var arr = assiss.split(" ");
+        for (var i = 0; i < ass.length; i++) {
+            $(ass[i]).removeAttr('checked');
+            for (var j = 0; j < arr.length; j++) {
+                if ($(ass[i]).val() == arr[j]) {
+                    $(ass[i]).prop('checked', true);
+                }
+            }
+        }
+        // time
+        if ($('#time').val() == '') {
+            $('#time').val(timeStamp2String(new Date()) + ' - ' + timeStamp2String(new Date()));
+        }
 
         //监听提交
         form.on('submit(subBtn)', function(data){
-            layer.msg(JSON.stringify(data.field));
+            var result = data.field;
+            // 格式化assistant
+            var assistant = '';
+            var ass = $("input[name='assistant']:checked");
+            for (var i = 0; i < ass.length; i++) {
+                assistant += $(ass[i]).val() + " ";
+            }
+            // 格式化time
+            var time = result.time;
+            var str = time.substr(0, time.lastIndexOf(' - ')) + ' 00:00:00';
+            var pre = time.substr(time.lastIndexOf(' - ') + 3) + ' 00:00:00';
+
+            // 提交数据
+            var itemid = $("[name='itemid']").val();
+            $.ajax({
+                url:'/item/' + (itemid > 0 ? 'upd' : 'add'),
+                type: 'post',
+                data: {
+                    'itemid': itemid,
+                    'itemname': result.itemname,
+                    'leader': result.leader,
+                    'assistant': assistant,
+                    'str': str,
+                    'pre': pre,
+                    'type': result.type,
+                    'prjid': (result.prjid == '' ? 0 : result.prjid),
+                },
+                success:function (data) {
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+                        parent.location.reload();
+                    });
+
+                    //假设这是iframe页
+//                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+//                    parent.layer.close(index); //再执行关闭
+                }
+            });
+
             return false;
         });
 
+        // 格式化表单元素
         form.on('radio(type)', function (data) {
-//            console.log(data.elem); //得到radio原始DOM对象
-//            console.log(data.value); //被点击的radio的value值
-//            layer.alert(data.value, {icon: 1});
-            if (data.value == 'prj') {
+            if (data.value == "1") {
+                $('#time').removeAttr('disabled');
+                $('#prj').attr('disabled', 'disabled');
+                $('#prj').val(null);
+            } else if (data.value == "2") {
                 $('#prj').removeAttr('disabled');
+                $('#time').removeAttr('disabled');
             } else {
                 $('#prj').attr('disabled', 'disabled');
+                $('#time').attr('disabled', 'disabled');
+                $('#time').val(timeStamp2String(new Date()) + ' - ' + timeStamp2String(new Date()));
+                $('#prj').val(null);
             }
             // 重置表格状态
-            form.render(null, 'addItem');
+            form.render();
         })
 
     });

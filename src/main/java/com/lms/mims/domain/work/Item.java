@@ -14,8 +14,17 @@ public class Item {
     private Timestamp str;
     private Timestamp ed;
     private Timestamp pre;
-    private int state;
+    private int type;
     private String remark;
+    private int prjid;
+
+    public int getPrjid() {
+        return prjid;
+    }
+
+    public void setPrjid(int prjid) {
+        this.prjid = prjid;
+    }
 
     public int getItemid() {
         return itemid;
@@ -73,12 +82,12 @@ public class Item {
         this.pre = pre;
     }
 
-    public int getState() {
-        return state;
+    public int getType() {
+        return type;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getRemark() {

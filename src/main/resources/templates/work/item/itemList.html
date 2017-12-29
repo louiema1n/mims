@@ -16,35 +16,35 @@
 <body class="childrenBody">
 
 <div class="layui-btn-group demoTable">
-    <button class="layui-btn addTmp"><i class="layui-icon">&#xe654;</i>新增</button>
-    <button class="layui-btn" data-type="updTmp"><i class="layui-icon">&#xe642;</i>修改</button>
-    <button class="layui-btn layui-btn-danger" data-type="delTmp"><i class="layui-icon">&#xe640;</i>删除</button>
+    <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
 </div>
-<table id="demo" lay-filter="test"></table>
+<table id="itemTb" lay-filter="test"></table>
 
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/custom/js/myjs.js}"></script>
 <script type="text/javascript">
-    layui.use('table', function(){
+    layui.use(['table', 'layer'], function(){
         var table = layui.table,
-            $ = layui.jquery;
+            $ = layui.jquery, layer = layui.layer;
         var arr = [ //表头
-            {type:'checkbox'}
-            ,{field: 'itemid', title: '编号', sort: true, align: 'center'}
+            {type:'checkbox'},
+            {type:'numbers'}
             ,{field: 'itemname', title: '事项'}
             ,{field: 'leader', title: '负责人', sort: true, align: 'center'}
             ,{field: 'assistant', title: '协助人', align: 'center'}
             ,{field: 'str', title: '开始时间', sort: true, align: 'center', templet: '#strTpl'}
             ,{field: 'pre', title: '预计结束', sort: true, align: 'center', templet: '#preTpl'}
             ,{field: 'ed', title: '结束时间', sort: true, align: 'center', templet: '#edTpl'}
-            ,{field: 'state', title: '状态', sort: true, align: 'center', templet: '#stateTpl'}
+            ,{field: 'type', title: '类型', sort: true, align: 'center', templet: '#typeTpl'}
             ,{field: 'remark', title: '说明', sort: true}
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
         ];
 
         //第一个实例
         table.render({
-            elem: '#demo'
+            elem: '#itemTb'
 //            ,height: 315
             ,url: '/item/all' //数据接口
             ,page: true //开启分页
@@ -52,7 +52,8 @@
             ,even: true //开启隔行背景
         });
 
-        $(".addTmp").click(function(){
+        // 新增
+        $(".add").click(function(){
             var index = layui.layer.open({
                 title : "新增事项",
                 type : 2,
@@ -68,6 +69,92 @@
             })
         })
 
+        // 修改
+        $(".upd").click(function(){
+
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('itemTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                parent.layer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
+
+            var index = layer.open({
+                title : "修改",
+                type : 2,
+                content : "/addItem",
+                area : ['100%', '100%'],
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500);
+                    // 渲染数据-获取子frame对象
+                    var body = layer.getChildFrame('body', index);
+                    body.find("[name='itemid']").val(data[0].itemid);
+                    body.find("#prjT").val(data[0].prjid);
+                    body.find("[name='itemname']").val(data[0].itemname);
+                    body.find("#eaderT").val(data[0].leader);
+                    body.find("#assistantT").val(data[0].assistant);
+                    body.find("[name='time']").val(timeStamp2String(data[0].str) + ' - ' + timeStamp2String(data[0].pre));
+                    if (data[0].str != data[0].pre) {
+                        body.find("[name='time']").removeAttr('disabled');
+                    }
+                    body.find("#typeT").val(data[0].type);
+                }
+            });
+//            layer.full(index);
+        });
+
+        // 删除
+        $(".del").click(function() {
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('itemTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length != 0) {
+                parent.layer.confirm('确定要这样做吗?', {
+                        icon: 2,
+                        title: '警告'},
+                    function (index) {
+                        $.ajax({
+                            url: '/item/del/' + data[0].itemid,
+                            type: 'delete',
+                            success: function (data) {
+                                // 成功
+                                parent.layer.msg(data, {
+                                    icon: 1,
+                                    offset: 'rb',
+                                    anim: 2,
+                                    time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                                }, function () {
+                                    // 表格重载
+                                    table.reload('itemTb', {
+                                        url: '/item/all'
+                                        , where: {} //设定异步数据接口的额外参数
+                                        //,height: 300
+                                    });
+                                });
+                            }
+                        });
+                        // 关闭提示框
+                        layer.close(index);
+                    });
+
+                return false;
+            } else {
+                parent.layer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+            }
+
+        });
+
     });
 </script>
 
@@ -81,8 +168,12 @@
 <script type="text/html" id="edTpl">
     {{# return timeStamp2String(d.ed)}}
 </script>
-<script type="text/html" id="stateTpl">
-    {{d.state == 0 ? '<span class="layui-badge" style="border-radius: 15px">未完成</span>' : '<span class="layui-badge layui-bg-gray" style="border-radius: 15px">已完成</span>'}}
+<script type="text/html" id="typeTpl">
+    {{# if(d.type == 0){return '<span class="layui-badge" style="border-radius: 15px">今日事项</span>';}
+        if(d.type == 1){return '<span class="layui-badge layui-bg-orange" style="border-radius: 15px">持续事项</span>';}
+        if(d.type == 2){return '<span class="layui-badge layui-bg-green" style="border-radius: 15px">项目计划</span>';}
+    }}
+
 </script>
 
 <!-- toolbar -->

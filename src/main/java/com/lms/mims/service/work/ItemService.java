@@ -11,13 +11,46 @@ import java.util.List;
 public class ItemService {
 
     @Autowired
-    private ItemMapper tmpMapper;
+    private ItemMapper itemMapper;
 
     /**
      * 查询所有tmpitem
      * @return
      */
     public List<Item> queryAll() {
-        return this.tmpMapper.selectAll();
+        return this.itemMapper.selectAll();
+    }
+
+    /**
+     * @description 新增
+     * @author louiemain
+     * @date Created on 2017-12-29 11:24
+     * @param item
+     * @return java.lang.Integer
+     */
+    public Integer add(Item item) {
+        return this.itemMapper.add(item);
+    }
+
+    /**
+     * @description 更新
+     * @author louiemain
+     * @date Created on 2017-12-29 11:25
+     * @param item
+     * @return java.lang.Integer
+     */
+    public Integer upd(Item item) {
+        return this.itemMapper.upd(item);
+    }
+
+    /**
+     * @description 删除
+     * @author louiemain
+     * @date Created on 2017-12-29 16:25
+     * @param item
+     * @return java.lang.Integer
+     */
+    public Integer del(Item item) {
+        return this.itemMapper.del(item);
     }
 }

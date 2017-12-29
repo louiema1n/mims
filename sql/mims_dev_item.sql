@@ -30,13 +30,13 @@ CREATE TABLE `item` (
   `str` date DEFAULT NULL COMMENT '开始时间',
   `ed` date DEFAULT NULL COMMENT '完成时间',
   `pre` date DEFAULT NULL COMMENT '预计结束时间',
-  `state` int(11) DEFAULT NULL COMMENT '状态',
+  `type` int(11) DEFAULT NULL COMMENT '类型',
   `remark` varchar(20000) DEFAULT NULL COMMENT '完成情况说明',
   `prjid` int(11) DEFAULT NULL COMMENT '项目id',
   PRIMARY KEY (`itemid`),
   KEY `item_project_prjid_fk` (`prjid`),
   CONSTRAINT `item_project_prjid_fk` FOREIGN KEY (`prjid`) REFERENCES `project` (`prjid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='事项';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='事项';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'测试项目','张三','李四','2017-12-21','2017-12-21','2017-12-21',1,'基本完成。',NULL),(2,'测试2','里斯','王五','2017-12-20','2017-12-22','2017-12-22',0,'完成',NULL);
+INSERT INTO `item` VALUES (10,'测试一下','LM','刘庆 ','2017-12-29',NULL,'2017-12-29',0,NULL,NULL);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-27 19:21:46
+-- Dump completed on 2017-12-29 17:23:50

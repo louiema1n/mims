@@ -1,10 +1,7 @@
 package com.lms.mims.mapper.work;
 
 import com.lms.mims.domain.work.Item;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,6 +13,9 @@ public interface ItemMapper {
 
     @Select("select * from item")
     List<Item> selectAll();
+
+    @Select("select * from item where (ed is null and str <= #{today}) or ed = #{today}")
+    List<Item> selectToday(@Param("today") String today);
 
     @InsertProvider(type = ItemProviderDao.class, method = "add")
     Integer add(Item item);

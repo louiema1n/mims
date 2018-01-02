@@ -1,6 +1,6 @@
 package com.lms.mims.service.sys;
 
-import com.lms.mims.domain.sys.InitUpd;
+import com.lms.mims.domain.DateResultSet;
 import com.lms.mims.domain.sys.Upd;
 import com.lms.mims.mapper.sys.UpdMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,15 @@ public class UpdService {
      * 查询所有
      * @return
      */
-    public List<InitUpd> queryAll() {
+    public List<DateResultSet<Upd>> queryAll() {
         List<Upd> upds = this.updMapper.selectAll();
         // 对数据进行格式化
-        InitUpd initUpd = new InitUpd();
-        List<InitUpd> initUpdList = new ArrayList<>();
+        DateResultSet<Upd> initUpd = new DateResultSet();
+        List<DateResultSet<Upd>> initUpdList = new ArrayList<>();
         List<Upd> results = new ArrayList<>();
+        // 初始化数据
         Timestamp ts = upds.get(0).getUpddate();
-        initUpd.setUpddate(ts);
+        initUpd.setDate(ts);
         results.add(upds.get(0));
         for (int i = 1; i < upds.size(); i++) {
             // Timestamp判断相等需用equals
@@ -39,8 +40,8 @@ public class UpdService {
                 initUpdList.add(initUpd);
                 ts = upds.get(i).getUpddate();
                 results = new ArrayList<>();
-                initUpd = new InitUpd();
-                initUpd.setUpddate(ts);
+                initUpd = new DateResultSet();
+                initUpd.setDate(ts);
                 results.add(upds.get(i));
             }
         }

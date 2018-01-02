@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>延期</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<div class="layui-fluid">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">延期至</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="delayTime" name="pre" placeholder="yyyy-MM-dd" >
+            </div>
+        </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">说明</label>
+        <div class="layui-input-block">
+            <textarea name="remark" placeholder="请输入延期说明" class="layui-textarea"></textarea>
+            </div>
+        </div> 
+</form>
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form', 'layer', 'laydate'], function(){
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laydate = layui.laydate;
+
+        //开启公历节日
+        laydate.render({
+            elem: '#delayTime'
+            ,calendar: true
+        });
+
+        // 渲染表单
+        form.render();
+    });
+</script>
+
+</body>
+</html>

@@ -78,9 +78,9 @@
                         <dd><a href="javascript:;" class="site-demo-active"
                                data-type="tabAdd"
                                data-src="indexTab"
-                               data-title="事项处理"
+                               data-title="今日事项处理"
                                data-url="/itemHandle"
-                               data-id="itemHandle"><i class="layui-icon">&#xe64e;</i> 事项处理</a>
+                               data-id="itemHandle"><i class="layui-icon">&#xe64e;</i> 今日事项处理</a>
                         </dd>
                         <dd><a href="javascript:;" class="site-demo-active"
                                data-type="tabAdd"
@@ -153,16 +153,26 @@
 
     <div class="layui-footer" style="text-align: center">
         <!-- 底部固定区域 -->
-        版权归©louiemain所有 - 当前版本v0.1
+
     </div>
 </div>
 <script th:src="@{/layui/layui.js}"></script>
 <script>
     //JavaScript代码区域
-    layui.use(['element', 'layer'], function(){
+    layui.use(['element', 'layer', 'laydate', 'form'], function(){
         var $ = layui.jquery
             , element = layui.element
-            , layer = layui.layer; // 解决modal覆盖外层页面
+            , layer = layui.layer,
+            laydate = layui.laydate, form = layui.form; // 解决modal覆盖外层页面
+
+        // 初始化数据
+        $.ajax({
+            url: '/upd/get/max',
+            type: 'get',
+            success: function (data) {
+                $(".layui-footer").html("版权归©louiemain所有 - 当前版本v " + data.ver);
+            }
+        });
 
         //触发事件
         var active = {

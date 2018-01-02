@@ -1,6 +1,6 @@
 package com.lms.mims.controller.sys;
 
-import com.lms.mims.domain.sys.InitUpd;
+import com.lms.mims.domain.DateResultSet;
 import com.lms.mims.domain.sys.Upd;
 import com.lms.mims.service.sys.UpdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UpdController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<InitUpd> getAll() {
+    public List<DateResultSet<Upd>> getAll() {
         return this.updService.queryAll();
     }
 

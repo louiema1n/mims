@@ -31,6 +31,11 @@ public class indexController {
         return "work/item/addItem";
     }
 
+    @RequestMapping("/delay")
+    public String delay() {
+        return "work/item/delay";
+    }
+
     @RequestMapping("/prjList")
     public String prjList() {
         return "work/project/prjList";

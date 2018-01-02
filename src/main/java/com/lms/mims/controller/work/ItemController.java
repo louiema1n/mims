@@ -1,10 +1,13 @@
 package com.lms.mims.controller.work;
 
+import com.lms.mims.domain.DateResultSet;
 import com.lms.mims.domain.ResultSet;
 import com.lms.mims.domain.work.Item;
 import com.lms.mims.service.work.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * tmpitem控制器
@@ -17,7 +20,7 @@ public class ItemController {
     private ItemService itemService;
 
     /**
-     * 获取所有tmpitem
+     * 获取所有item
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -28,6 +31,18 @@ public class ItemController {
         tmpResultSet.setCount(this.itemService.queryAll().size());
         tmpResultSet.setData(this.itemService.queryAll());
         return tmpResultSet;
+    }
+
+    /**
+     * @description 获取当天所有item
+     * @author louiemain
+     * @date Created on 2018-01-02 11:05
+     * @param
+     * @return java.util.List<com.lms.mims.domain.DateResultSet<com.lms.mims.domain.work.Item>>
+     */
+    @RequestMapping(value = "/today", method = RequestMethod.GET)
+    public List<Item> getAllAndInit() {
+        return this.itemService.queryToday();
     }
 
     /**

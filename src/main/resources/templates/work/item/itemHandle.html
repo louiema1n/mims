@@ -54,13 +54,13 @@
             var unfinished = "", finished = "", str = "";
             for (var i = 0; i < results.length; i++) {
                 var ed = results[i].ed, type = results[i].type;
-                str = '<div class="layui-col-md4">\n' +
+                str = '<div class="layui-col-md4" id="panel-'+results[i].itemid+'">\n' +
                     '                        <dl class="fly-panel fly-list-one">\n' +
                     bg(ed, type) +
                     '                                <span class="layui-badge-dot layui-bg-gray"></span>\n' +
                     (results[i].type == 0 ? '今日事项' : (results[i].type == 1 ? '持续事项' : '工作计划')) +
                     '                                <div style="float: right">\n' +
-                    '                                    <i class="layui-icon" style="cursor: pointer; color: #FF5722; line-height: 55px; font-size: 20px" title="关闭">&#x1007;</i>\n' +
+                    '                                    <i class="layui-icon" style="cursor: pointer; color: #FF5722; line-height: 55px; font-size: 20px" title="隐藏" onclick="closePanel('+results[i].itemid+')">&#x1007;</i>\n' +
                     '                                </div>\n' +
                     '                            </dt>\n' +
                     '                            <dd>\n' +
@@ -122,12 +122,16 @@
                     '                                        <td class="td-key"><i class="layui-icon">&#xe60e; </i>预计点:</td>\n' +
                     '                                        <td class="td-value">'+timeStamp2String(result.pre)+'</td>\n' +
                     '                                    </tr>\n' +
+                    '                                    <tr>\n' +
+                    '                                        <td class="td-key"><i class="layui-icon">&#xe705; </i>结果集:</td>\n' +
+                    '                                        <td class="td-value">'+result.remark+'</td>\n' +
+                    '                                    </tr>\n' +
                     '                                    </tbody>\n' +
                     '                                </table>\n' +
                     '                            </dd>\n' +
                     '                    <dt class="fly-panel-footer">\n' +
-                    '                        <span class="layui-badge-rim rim-red" onclick="delay('+result.itemid+', \''+result.type+'\')">延期</span>&nbsp;&nbsp;&nbsp;\n' +
-                    '                        <span class="layui-badge-rim rim-green" onclick="done('+result.itemid+', \''+result.type+'\')">完成</span>\n' +
+                    '                        <span class="layui-badge-rim rim-red" onclick="delay('+result.itemid+', \''+result.type+'\', \''+result.pre+'\', \''+result.remark + '\')">延期</span>&nbsp;&nbsp;&nbsp;\n' +
+                    '                        <span class="layui-badge-rim rim-green" onclick="done('+result.itemid+', \''+result.type+'\', \''+result.remark+'\')">完成</span>\n' +
                     '                    </dt>' +
                     '                        </dl>\n' +
                     '                    </div>';
@@ -153,7 +157,7 @@
         }
 
         // 完成方法
-        window.done = function (itemid, type) {
+        window.done = function (itemid, type, remark) {
             // 弹出输入框
             parent.layer.prompt({
                 formType: 2,
@@ -167,7 +171,7 @@
                     type: 'post',
                     data:{
                         'itemid': itemid,
-                        'remark': value,
+                        'remark': remark + '完成原因：' + value,
                         'type': type,
                         'ed': timeStamp2String(Date.parse(new Date())) + ' 00:00:00',
                     },
@@ -183,40 +187,34 @@
         }
 
 //        延期方法
-        window.delay = function (itemid, type) {
+        window.delay = function (itemid, type, pre, remark) {
             // 弹出输入框
             var index = parent.layer.open({
                 // type - 2代表url
                 type: 2,
                 title: '延期',
                 content: '/delay',
-                area: ['50%', '70%'],
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-//                    var index = parent.layer.getFrameIndex(window.name);
-                    var iframeWin = window[layero.find('iframe')[0]['name']];
-                    // 提交数据
-                    alert(iframeWin.html());
-                    $.ajax({
-                        url: '/item/upd',
-                        type: 'post',
-                        data:{
-                            'itemid': itemid,
-                            'pre': layero.find("[name='pre']").val(),
-                            'remark': layero.find("[name='remark']").val(),
-                            'type': type,
-                        },
-                        success: function (data) {
-                            // 成功,关闭当前弹出层
-//                            parent.layer.close(index);
-//                            // 刷新当前iframe页面
-//                            location.reload();
-                        }
-                    });
-                    // 关闭弹出层
-                    parent.layer.close(index);
+                area: ['50%', '60%'],
+                success: function(layero, index){
+                    var body = parent.layer.getChildFrame('body', index);
+                    body.find("[name='itemid']").val(itemid);
+                    body.find("[name='type']").val(type);
+                    body.find("[name='preT']").val(timeStamp2String(pre));
+                    body.find("[name='pre']").val(timeStamp2String(pre));
+                    body.find("[name='remarkT']").val(remark);
+                },
+                end: function () {
+                    // 刷新当前iframe页面
+                    location.reload();
                 }
             });
+        }
+
+    //    根据id隐藏
+        window.closePanel = function (itemid) {
+            var id = '#panel-' + itemid;
+            $(id).addClass('panel-hidden');
+            // $(e.target).addClass('panel-hidden');
         }
 
     });

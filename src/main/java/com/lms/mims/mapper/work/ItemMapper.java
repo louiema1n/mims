@@ -37,13 +37,13 @@ public interface ItemMapper {
          * @return java.lang.String
          */
         public String add(Item item) {
-            String sql = "insert into item (itemname, leader, assistant, str, pre, type, prjid) values ('"
+            String sql = "insert into item (itemname, leader, assistant, str, pre, type, remark, prjid) values ('"
                     + item.getItemname() + "', '"
                     + item.getLeader() + "', '"
                     + item.getAssistant() + "', '"
                     + item.getStr() + "', '"
                     + item.getPre() + "', "
-                    + item.getType() + ", "
+                    + item.getType() + ", '', " // remark设为''
                     + (item.getPrjid() == 0 ? null : item.getPrjid()) + ")";
             return sql;
         }

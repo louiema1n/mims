@@ -81,3 +81,6 @@
 .layui-table {
     table-layout: fixed;
 }
+.panel-hidden {
+    display: none;
+}

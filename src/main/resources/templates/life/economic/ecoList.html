@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>经济管理列表</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+        .red {
+            color: #FF5722;
+        }
+        .green {
+            color: #009688;
+        }
+        .blue {
+            color: #01AAED;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
+</div>
+<table id="ecoTb"></table>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script type="text/javascript">
+    layui.use(['table', 'jquery', 'layer'], function(){
+        var table = layui.table
+            , $ = layui.jquery
+            , layer = layui.layer;
+        var arr = [ //表头
+            {type:'checkbox'}
+            ,{type:'numbers'}   // 序号
+            ,{field: 'category', title: '类别', sort: true}
+            ,{field: 'money', title: '金额', sort:true, align: 'left', templet: '#moneyTpl'}
+            ,{field: 'ecoTime', title: '时间', sort:true, align: 'center', templet: '#ecoTimeTpl'}
+            ,{field: 'ecoName', title: '往来人'}
+            ,{field: 'remark', title: '备注'}
+            ,{field: 'state', title: '状态', sort: true, align: 'center', templet: '#stateTpl'}
+            ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
+        ];
+
+        // 渲染表格数据
+        table.render({
+            elem: '#ecoTb'
+//            ,height: 315
+            ,url: '/eco/all' //数据接口
+            ,page: true //开启分页
+            ,cols: [arr]
+            ,even: true //开启隔行背景
+        });
+
+        // 新增
+        $(".add").click(function(){
+            var index = layer.open({
+                title : "新增",
+                type : 2,
+                content : "/addEco",
+                area: ['100%', '100%'],
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500)
+                }
+            });
+        })
+
+        // 修改
+        $(".upd").click(function(){
+
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('ecoTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                parent.layer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
+
+            var index = layer.open({
+                title : "修改",
+                type : 2,
+                content : "/addEco",
+                area: ['100%', '100%'],
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500);
+                    // 渲染数据-获取子frame对象
+                    var body = layer.getChildFrame('body', index);
+                    body.find("[name='ecoid']").val(data[0].ecoid);
+                    body.find("[name='category']").val(data[0].category);
+                    body.find("[name='money']").val(data[0].money);
+                    body.find("[name='ecoTime']").val(data[0].ecoTime);
+                    body.find("#ecoNameT").val(data[0].ecoName);
+                    body.find("[name='remark']").val(data[0].remark);
+                    body.find("#stateT").val(data[0].state);
+                }
+            });
+        });
+
+        // 删除
+        $(".del").click(function() {
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('ecoTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                parent.layer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
+
+            parent.layer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
+
+                $.ajax({
+                    url: '/eco/del/' + data[0].ecoid,
+                    type: 'delete',
+                    success: function (data) {
+                        // 成功
+                        parent.layer.msg(data, {
+                            icon: 1,
+                            offset: 'rb',
+                            anim: 2,
+                            time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            // 表格重载
+                            table.reload('ecoTb', {
+                                url: '/eco/all'
+                                , where: {} //设定异步数据接口的额外参数
+                                //,height: 300
+                            });
+                        });
+                    }
+                });
+                // 关闭提示框
+                layer.close(index);
+            });
+        });
+    });
+</script>
+
+<!-- templet -->
+<script type="text/html" id="stateTpl">
+    {{ d.state == 0 ? '<span class="layui-badge" style="border-radius: 15px">支出</span>' :
+    (d.state == 1 ? '<span class="layui-badge layui-bg-green" style="border-radius: 15px">收入</span>' :
+    '<span class="layui-badge layui-bg-blue" style="border-radius: 15px">预支出</span>')}}
+</script>
+<script type="text/html" id="ecoTimeTpl">
+    {{# return timeStamp2String(d.ecoTime)}}
+</script>
+<script type="text/html" id="moneyTpl">
+    {{ d.state == 0 ? '<span class="red">- '+d.money.toFixed(2)+'</span>' :
+    (d.state == 1 ? '<span class="green">+ '+d.money.toFixed(2)+'</span>' :
+    '<span class="blue">* '+d.money.toFixed(2)+'</span>')}}
+</script>
+
+<!-- toolbar -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+</body>
+</html>

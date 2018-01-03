@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<form class="layui-form" lay-filter="addEco">
+    <!-- 默认值为0 解决新增报错 -->
+    <input type="hidden" name="ecoid" value="0">
+    <input type="hidden" name="ecoTime">
+    <input type="hidden" id="ecoNameT">
+    <input type="hidden" id="stateT">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">经济类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="state" value="0" title="支出" checked>
+            <input type="radio" name="state" value="1" title="收入">
+            <input type="radio" name="state" value="2" title="预支出">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">类别</label>
+        <div class="layui-input-block">
+            <select name="category" >
+                <option value="">请选择</option>
+                <option value="工资">工资</option>
+                <option value="吃饭">吃饭</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="money" lay-verify="number" placeholder="请输入金额:￥ 00.00" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">经济涉及人</label>
+        <div class="layui-input-block">
+            <input type="radio" name="ecoName" value="LouieMain" title="LouieMain">
+            <input type="radio" name="ecoName" value="Xtz" title="Xtz" checked>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注内容" name="remark" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="subBtn" id="submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form', 'layer'], function(){
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer;
+
+        // 初始化ecotime
+        $("[name='ecoTime']").val(timeStamp2String(Date.parse(new Date())) + " 00:00:00");
+
+        // state
+        var states = $("[name='state']");
+        for (var i = 0; i < states.length; i++) {
+            $(states[i]).removeAttr('checked');
+            if ($(states[i]).val() == $("#stateT").val()) {
+                $(states[i]).prop('checked', true);
+                break;
+            } else {
+                $(states[0]).prop('checked', true);
+            }
+        }
+
+        // ecoName
+        var ecoNames = $("[name='ecoName']");
+        for (var i = 0; i < ecoNames.length; i++) {
+            $(ecoNames[i]).removeAttr('checked');
+            if ($(ecoNames[i]).val() == $("#ecoNameT").val()) {
+                $(ecoNames[i]).prop('checked', true);
+                break;
+            } else {
+                $(ecoNames[0]).prop('checked', true);
+            }
+        }
+
+        form.render();
+
+        // 监听提交
+        form.on('submit(subBtn)', function(data){
+
+            // 提交数据
+            $.ajax({
+                url:'/eco/' + ($("[name='ecoid']").val() > 0 ? 'upd' : 'add'),
+                type: 'post',
+                data: data.field,
+                success:function (data) {
+                    // 成功
+                    parent.layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+                        parent.location.reload();
+                        // 表格重载
+                        // table.reload('rewTb', {
+                        //     url: '/rew/all'
+                        //     ,where: {} //设定异步数据接口的额外参数
+                        //     //,height: 300
+                        // });
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

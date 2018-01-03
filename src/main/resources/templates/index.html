@@ -60,18 +60,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-this"><a href="/index"><i class="layui-icon">&#xe68e;</i> 主页</a></li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;"><i class="layui-icon">&#xe65e;</i> 财务管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="收入/支出"
-                               data-url="/index"
-                               data-id="inAndOut"><i class="layui-icon">&#xe64e;</i> 收入/支出</a>
-                        </dd>
-                    </dl>
-                </li>
+
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon">&#xe63c;</i> 工作管理</a>
                     <dl class="layui-nav-child">
@@ -109,6 +98,26 @@
                                data-title="自查"
                                data-url="/sfeList"
                                data-id="sfeList"><i class="layui-icon">&#xe64e;</i> 自查</a>
+                        </dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;"><i class="layui-icon">&#xe65e;</i> 生活管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" class="site-demo-active"
+                               data-type="tabAdd"
+                               data-src="indexTab"
+                               data-title="经济管理"
+                               data-url="/ecoList"
+                               data-id="ecoList"><i class="layui-icon">&#xe64e;</i> 经济管理</a>
+                        </dd>
+                        <dd><a href="javascript:;" class="site-demo-active"
+                               data-type="tabAdd"
+                               data-src="indexTab"
+                               data-title="油耗管理"
+                               data-url="/index"
+                               data-id="inAndOut"><i class="layui-icon">&#xe64e;</i> 油耗管理</a>
                         </dd>
                     </dl>
                 </li>

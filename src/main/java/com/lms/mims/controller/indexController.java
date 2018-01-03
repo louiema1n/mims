@@ -75,4 +75,14 @@ public class indexController {
     public String addUpd() {
         return "sys/upd/addUpd";
     }
+
+    @RequestMapping("/ecoList")
+    public String ecoList() {
+        return "life/economic/ecoList";
+    }
+
+    @RequestMapping("/addEco")
+    public String addEco() {
+        return "life/economic/addEco";
+    }
 }

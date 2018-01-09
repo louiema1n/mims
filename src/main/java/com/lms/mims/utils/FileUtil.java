@@ -27,7 +27,7 @@ public class FileUtil {
         // 格式化新文件名，避免重复
         String suf = filename.substring(filename.lastIndexOf("."));
         String dateStr = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
-        String newFn = "/" + dateStr + UUID.randomUUID() + suf;
+        String newFn = dateStr + "/" + UUID.randomUUID() + suf;
         // 创建目标文件
         File dist = new File(updPath + newFn);
         if (!dist.getParentFile().exists()) {

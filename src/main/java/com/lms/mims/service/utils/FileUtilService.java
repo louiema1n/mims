@@ -26,7 +26,8 @@ public class FileUtilService {
         String distName = new FileUtil().upload(file, updPath);
         if (distName != null) {
             // 格式化新文件名
-            return "<a href=\"" + distName + "\">"+file.getOriginalFilename()+"</a>";
+            return "<a href=\"" + distName + "\" TARGET=\"_blank\"><i class=\"layui-icon\" >&#xe622; </i>"+file.getOriginalFilename()+
+                    "</a>&nbsp;<a href=\""+distName+"\"><i class=\"layui-icon\" style=\"font-weight: bold; color: #1E9FFF;\">&#xe601; </i></a>";
         }
         return null;
     }

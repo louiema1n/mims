@@ -106,6 +106,7 @@
                     body.find("[name='requiredB']").html(data[0].requiredB);
                     body.find("[name='requiredC']").html(data[0].requiredC);
                     body.find("[name='eg']").html(data[0].eg);
+                    body.find("#exitEg").html(data[0].eg);
                     data[0].state == 0 ? body.find("[name='state']").removeAttr('checked') :
                         body.find("[name='state']").attr('checked', true);
                 }

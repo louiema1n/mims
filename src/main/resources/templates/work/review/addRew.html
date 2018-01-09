@@ -71,6 +71,10 @@
                     <i class="layui-icon"></i>
                     <p>点击上传，或将文件拖拽到此处</p>
                 </div>
+                <!-- 已有文件列表 -->
+                <div id="exitEg">
+
+                </div>
                 <div class="layui-upload-list">
                     <table class="layui-table">
                         <thead>
@@ -237,8 +241,8 @@
 
                     // 赋值eg
                     var egs = res.data;
-                    var str = $("[name='eg']").val() + egs[0] + "<br>";
-                    $("[name='eg']").val(str);
+                    $("#exitEg").append(egs[0] + "<br>");
+                    $("[name='eg']").val($("#exitEg").html());
 
                     return delete this.files[index]; //删除文件队列已经上传成功的文件
                 }

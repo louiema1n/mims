@@ -58,82 +58,8 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <ul class="layui-nav layui-nav-tree"  id="nav" lay-filter="nav">
                 <li class="layui-nav-item layui-this"><a href="/index"><i class="layui-icon">&#xe68e;</i> 主页</a></li>
-
-                <li class="layui-nav-item">
-                    <a href="javascript:;"><i class="layui-icon">&#xe63c;</i> 工作管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="今日事项处理"
-                               data-url="/itemHandle"
-                               data-id="itemHandle"><i class="layui-icon">&#xe64e;</i> 今日事项处理</a>
-                        </dd>
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="事项管理"
-                               data-url="/itemList"
-                               data-id="itemList"><i class="layui-icon">&#xe64e;</i> 事项管理</a>
-                        </dd>
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="项目"
-                               data-url="/prjList"
-                               data-id="prjList"><i class="layui-icon">&#xe64e;</i> 项目</a>
-                        </dd>
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="评审细则管理"
-                               data-url="/rewList"
-                               data-id="sarList"><i class="layui-icon">&#xe64e;</i> 评审细则管理</a>
-                        </dd>
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="自查"
-                               data-url="/sfeList"
-                               data-id="sfeList"><i class="layui-icon">&#xe64e;</i> 自查</a>
-                        </dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;"><i class="layui-icon">&#xe65e;</i> 生活管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="经济管理"
-                               data-url="/ecoList"
-                               data-id="ecoList"><i class="layui-icon">&#xe64e;</i> 经济管理</a>
-                        </dd>
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="油耗管理"
-                               data-url="/index"
-                               data-id="inAndOut"><i class="layui-icon">&#xe64e;</i> 油耗管理</a>
-                        </dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;"><i class="layui-icon">&#xe65e;</i> 系统管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="site-demo-active"
-                               data-type="tabAdd"
-                               data-src="indexTab"
-                               data-title="更新日志"
-                               data-url="/updLog"
-                               data-id="updateLog"><i class="layui-icon">&#xe64e;</i> 更新日志</a>
-                        </dd>
-                    </dl>
-                </li>
 
             </ul>
         </div>
@@ -174,7 +100,42 @@
             , layer = layui.layer,
             laydate = layui.laydate, form = layui.form; // 解决modal覆盖外层页面
 
-        // 初始化数据
+        // 初始化nav
+        $.ajax({
+            url: '/nav/all',
+            type: 'get',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].uplevel == 0) {
+                        // 一级nav
+                        var li = '                <li class="layui-nav-item">\n' +
+                            '                    <a href="javascript:;"><i class="layui-icon">'+data[i].icon+'</i> '+data[i].name+'</a>\n' +
+                            '                    <dl class="layui-nav-child" id="'+data[i].id+'">\n' +
+
+                            '                    </dl>\n' +
+                            '                </li>';
+                        $("#nav").append(li);
+                    } else {
+                        // 二级nav
+                        var id = "#" + data[i].uplevel;
+                        var url = data[i].url;
+                        var dataid = url.substr(1, url.length);
+                        var dd = '                   <dd><a href="javascript:;" class="site-demo-active"' +
+                            '                               data-type="tabAdd"' +
+                            '                               data-src="indexTab"' +
+                            '                               data-title="'+data[i].name+'"' +
+                            '                               data-url="'+url+'"' +
+                            '                               data-id="'+dataid+'"><i class="layui-icon">'+data[i].icon+'</i> '+data[i].name+'</a>\n' +
+                            '                        </dd>';
+                        $(id).append(dd);
+                    }
+                }
+                element.render();
+            },
+            async: false
+        });
+
+        // 初始化底部信息区域数据
         $.ajax({
             url: '/upd/get/max',
             type: 'get',

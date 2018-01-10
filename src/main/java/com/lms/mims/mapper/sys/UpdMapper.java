@@ -14,7 +14,7 @@ public interface UpdMapper {
     List<Upd> selectAll();
 
     @Select("select * from upd where updid = #{updid}")
-    Update selectById(@Param("updid") int updid);
+    Upd selectById(@Param("updid") int updid);
 
     @UpdateProvider(type = UpdProviderDao.class, method = "add")
     Integer add(Upd upd);

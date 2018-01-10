@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<form class="layui-form" lay-filter="addSfe">
+    <!-- 默认值为0 解决新增报错 -->
+    <input type="hidden" name="rid" value="0">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属标准</label>
+        <input type="hidden" name="stdTmp" value="0">
+        <div class="layui-input-block" id="std">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">细则名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="rname" lay-verify="required" placeholder="请输入评审细则名称" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审标准</label>
+        <div class="layui-input-block">
+            <textarea name="reviewstd" placeholder="请输入评审标准" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审要求A</label>
+        <div class="layui-input-block">
+            <textarea name="requiredA" placeholder="请输入评审要求A" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审要求B</label>
+        <div class="layui-input-block">
+            <textarea name="requiredB" placeholder="请输入评审要求B" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">评审要求C</label>
+        <div class="layui-input-block">
+            <textarea name="requiredC" placeholder="请输入评审要求C" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">参考资料</label>
+        <div class="layui-input-block">
+            <!--// 用于提交上传文件名-->
+            <input type="hidden" name="eg">
+            <!--// 上传文件-->
+            <div class="layui-upload">
+                <div class="layui-upload-drag" id="multiFile">
+                    <i class="layui-icon"></i>
+                    <p>点击上传，或将文件拖拽到此处</p>
+                </div>
+                <!-- 已有文件列表 -->
+                <div id="exitEg">
+
+                </div>
+                <div class="layui-upload-list">
+                    <table class="layui-table">
+                        <thead>
+                        <tr><th>文件名</th>
+                            <th>大小</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr></thead>
+                        <tbody id="egFileTb"></tbody>
+                    </table>
+                </div>
+                <button type="button" class="layui-btn" id="beginUp">开始上传</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="state" lay-skin="switch" lay-text="启用|禁用" value="1" checked>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="subBtn" id="submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form', 'upload'], function(){
+        var form = layui.form,
+            $ = layui.jquery,
+            upload = layui.upload;
+
+        //初始化数据
+        initData();
+
+        // 失去焦点处理
+        $("[name='requiredA']").blur(function () {
+            var rqA = $("[name='requiredA']").val();
+            // 处理空格和换行
+            rqA = rqA.replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+            $("[name='requiredA']").val(rqA);
+        });
+        $("[name='requiredB']").blur(function () {
+            var rqB = $("[name='requiredB']").val();
+            // 处理空格和换行
+            rqB = rqB.replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+            $("[name='requiredB']").val(rqB);
+        });
+        $("[name='requiredC']").blur(function () {
+            var rqC = $("[name='requiredC']").val();
+            // 处理空格和换行
+            rqC = rqC.replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+            $("[name='requiredC']").val(rqC);
+        });
+
+        // 监听提交
+        form.on('submit(subBtn)', function(data){
+
+            // 提交数据
+            $.ajax({
+                url:'/rew/' + ($("[name='rid']").val() > 0 ? 'upd' : 'add'),
+                type: 'post',
+                data: data.field,
+                success:function (data) {
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+                        parent.location.reload();
+                        // 表格重载
+                        // table.reload('rewTb', {
+                        //     url: '/rew/all'
+                        //     ,where: {} //设定异步数据接口的额外参数
+                        //     //,height: 300
+                        // });
+                    });
+                }
+            });
+            return false;
+        });
+
+        // 初始化数据
+        function initData() {
+            // 初始化standard
+            $.ajax({
+                url:'/std/all',
+                type: 'get',
+                success:function (data) {
+                    //do something
+                    var str = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == 0) {
+                            str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '">';
+                        } else {
+                            str += '<input type="radio" name="stdid" value="'+data[i].stdid+'" title="' + data[i].stdname + '">';
+                        }
+                    }
+                    $("#std").html(str);
+                    // 默认选中radio
+                    $("[name='stdTmp']").val() == 0 ? $("[name='stdid'][value='1']").attr('checked', true) :
+                        $("[name='stdid'][value='"+$("[name='stdTmp']").val()+"']").attr('checked', true);
+                    form.render();
+                }
+            });
+        }
+
+        //多文件列表示例
+        var demoListView = $('#egFileTb')
+            ,uploadListIns = upload.render({
+            elem: '#multiFile'
+            ,url: '/file/upload/single'
+            ,accept: 'file'
+            ,multiple: true
+            ,auto: false
+            ,bindAction: '#beginUp'
+            ,choose: function(obj){
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function(index, file, result){
+                    var tr = $(['<tr id="upload-'+ index +'">'
+                        ,'<td>'+ file.name +'</td>'
+                        ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
+                        ,'<td>等待上传</td>'
+                        ,'<td>'
+                        ,'<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                        ,'<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                        ,'</td>'
+                        ,'</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function(){
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function(){
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            ,done: function(res, index, upload){
+                if(res.code == 0){ //上传成功
+                    var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html(''); //清空操作
+
+                    // 赋值eg
+                    var egs = res.data;
+                    $("#exitEg").append(egs[0] + "<br>");
+                    $("[name='eg']").val($("#exitEg").html());
+
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            ,error: function(index, upload){
+                var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -8,81 +8,101 @@ public class indexController {
 
     @RequestMapping("/index")
     public String test() {
-        return "index";
+        return "back/index";
     }
 
     @RequestMapping("/main")
     public String main() {
-        return "main";
+        return "back/main";
     }
 
     @RequestMapping("/itemList")
     public String itemList() {
-        return "work/item/itemList";
+        return "back/work/item/itemList";
     }
 
     @RequestMapping("/itemHandle")
     public String itemHandle() {
-        return "work/item/itemHandle";
+        return "back/work/item/itemHandle";
     }
 
     @RequestMapping("/addItem")
     public String addItem() {
-        return "work/item/addItem";
+        return "back/work/item/addItem";
     }
 
     @RequestMapping("/delay")
     public String delay() {
-        return "work/item/delay";
+        return "back/work/item/delay";
     }
 
     @RequestMapping("/prjList")
     public String prjList() {
-        return "work/project/prjList";
+        return "back/work/project/prjList";
     }
 
     @RequestMapping("/rewList")
     public String rewList() {
-        return "work/review/rewList";
+        return "back/work/review/rewList";
     }
 
     @RequestMapping("/addRew")
     public String addRew() {
-        return "work/review/addRew";
+        return "back/work/review/addRew";
     }
 
     @RequestMapping("/sfeList")
     public String sfeList() {
-        return "work/selfexam/sfeList";
+        return "back/work/selfexam/sfeList";
     }
 
     @RequestMapping("/addSfe")
     public String addSfe() {
-        return "work/selfexam/addSfe";
+        return "back/work/selfexam/addSfe";
     }
 
     @RequestMapping("/exam")
     public String exam() {
-        return "work/selfexam/exam";
+        return "back/work/selfexam/exam";
     }
 
     @RequestMapping("/updLog")
     public String updLog() {
-        return "sys/upd/updLog";
+        return "back/sys/upd/updLog";
     }
 
     @RequestMapping("/addUpd")
     public String addUpd() {
-        return "sys/upd/addUpd";
+        return "back/sys/upd/addUpd";
     }
 
     @RequestMapping("/ecoList")
     public String ecoList() {
-        return "life/economic/ecoList";
+        return "back/life/economic/ecoList";
     }
 
     @RequestMapping("/addEco")
     public String addEco() {
-        return "life/economic/addEco";
+        return "back/life/economic/addEco";
+    }
+
+    @RequestMapping("/docList")
+    public String docList() {
+        return "back/study/doc/docList";
+    }
+
+    @RequestMapping("/addDoc")
+    public String addDoc() {
+        return "back/study/doc/addDoc";
+    }
+
+    @RequestMapping("/dictList")
+    public String dictList() {
+        return "back/sys/dict/dictList";
+    }
+
+    @RequestMapping("/addDict")
+    public String addDict() {
+        return "back/sys/dict/addDict";
     }
 }

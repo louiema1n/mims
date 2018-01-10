@@ -33,7 +33,7 @@ CREATE TABLE `exam` (
   KEY `exam_review_rid_fk` (`rewid`),
   CONSTRAINT `exam_review_rid_fk` FOREIGN KEY (`rewid`) REFERENCES `review` (`rid`),
   CONSTRAINT `exam_selfexam_sid_fk` FOREIGN KEY (`sfeid`) REFERENCES `selfexam` (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 COMMENT='查验';
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COMMENT='查验';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `exam` (
 
 LOCK TABLES `exam` WRITE;
 /*!40000 ALTER TABLE `exam` DISABLE KEYS */;
-INSERT INTO `exam` VALUES (63,38,1,NULL,NULL),(64,38,3,NULL,NULL);
+INSERT INTO `exam` VALUES (71,40,1,NULL,''),(72,40,2,NULL,''),(73,40,3,NULL,NULL);
 /*!40000 ALTER TABLE `exam` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-03 17:07:57
+-- Dump completed on 2018-01-10 17:10:31

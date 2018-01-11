@@ -27,4 +27,26 @@ public class DictService {
     public List<Dict> queryAll() {
         return this.dictMapper.selectAll();
     }
+
+    /**
+     * @description 新增
+     * @author louiemain
+     * @date Created on 2018/1/11 18:37
+     * @param dict
+     * @return java.lang.Integer
+     */
+    public Integer add(Dict dict) {
+        return this.dictMapper.add(dict);
+    }
+
+    /**
+     * @description 修改
+     * @author louiemain
+     * @date Created on 2018/1/11 18:37
+     * @param dict
+     * @return java.lang.Integer
+     */
+    public Integer upd(Dict dict) {
+        return this.dictMapper.upd(dict);
+    }
 }

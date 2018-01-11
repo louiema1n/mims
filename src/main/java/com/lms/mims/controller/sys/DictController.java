@@ -31,4 +31,20 @@ public class DictController {
     public List<Dict> getAll() {
         return this.dictService.queryAll();
     }
+
+    /**
+     * @description 修改
+     * @author louiemain
+     * @date Created on 2018/1/11 18:41
+     * @param dict
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/upd", method = RequestMethod.POST)
+    public String upd(Dict dict) {
+        Integer i = this.dictService.upd(dict);
+        if (i > 0) {
+            return "保存成功";
+        }
+        return "保存失败";
+    }
 }

@@ -28,10 +28,11 @@
         <div class="layui-col-md10" style="display: block; height: 20%">
             <!-- 字典tab -->
             <div class="layui-btn-group demoTable">
-                <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
+                <button class="layui-btn add" id="add"><i class="layui-icon">&#xe654;</i>新增</button>
                 <button class="layui-btn save"><i class="layui-icon">&#xe61d;</i>保存</button>
                 <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
             </div>
+            <input type="hidden" id="dictId">
             <table id="dictTb" lay-data="{id: 'dictTb'}"></table>
         </div>
     </div>
@@ -65,18 +66,44 @@
             });
         })
 
+        $(".null").click(function () {
+            alert("null")
+        })
+
         // 保存
         $(".save").click(function(){
             var data = table.cache['dictTb'];
             var str = '[';
             for (var i = 0; i < data.length; i++) {
                 str += '{"id":' + data[i].LAY_TABLE_INDEX +
-                        ', "key":' + data[i].key +
-                        ', "value":' + data[i].value + '}, ';
+                        ', "key":"' + data[i].key +
+                        '", "value":"' + data[i].value + '"}, ';
             }
             str = str.substr(0, str.lastIndexOf(','));
             str += ']';
-            alert(str);
+
+            // 保存数据
+            $.ajax({
+                url: '/dict/upd',
+                type: 'post',
+                data: {
+                    "id": $("#dictId").val(),
+                    "content": str
+                },
+                success: function (data) {
+                    // 成功
+                    parent.layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+
+                    });
+                }
+            })
         });
 
         // 删除
@@ -114,11 +141,21 @@
                     elem: '#dict' //指定元素
                     ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
                     ,click: function(item){ //点击节点回调
+                        // 赋值dictId
+                        $("#dictId").val(item.id);
 //                        $('#demo2-view').html('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
+                        // 判断是否为根节点
+                        var content = item.content;
+                        if (content == null) {
+                            $("#add").removeClass('add');
+                            $("#add").addClass('null');
+                            content = '[{}]';
+                        } else {
+                        }
                         // 渲染表格数据
                         table.render({
                             elem: '#dictTb'
-                            ,data: JSON.parse(item.content)
+                            ,data: JSON.parse(content)
 //                            ,url: '/dict/all' //数据接口
                             ,page: true //开启分页
                             ,cols: [arr]

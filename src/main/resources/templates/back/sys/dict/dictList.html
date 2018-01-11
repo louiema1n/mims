@@ -29,10 +29,10 @@
             <!-- 字典tab -->
             <div class="layui-btn-group demoTable">
                 <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
-                <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
+                <button class="layui-btn save"><i class="layui-icon">&#xe61d;</i>保存</button>
                 <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
             </div>
-            <table id="dictTb"></table>
+            <table id="dictTb" lay-data="{id: 'dictTb'}"></table>
         </div>
     </div>
 </div>
@@ -48,108 +48,57 @@
         var arr = [ //表头
             {type:'checkbox'}
             ,{type:'numbers'}   // 序号
-            ,{field: 'field', title: '字段名', sort: true}
-            ,{field: 'value', title: '字段值'}
-            ,{field: 'state', title: '状态', sort: true, align: 'center', templet: '#stateTpl'}
-            ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
+            ,{field: 'key', title: '字段名', sort: true, edit: 'text'}
+            ,{field: 'value', title: '字段值', edit: 'text'}
         ];
 
         // 新增
         $(".add").click(function(){
-            var index = layer.open({
-                title : "新增",
-                type : 2,
-                content : "/addRew",
-                area: ['100%', '100%'],
-                success : function(layero, index){
-                    setTimeout(function(){
-                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 2
-                        });
-                    },500)
-                }
+            var str = JSON.stringify(table.cache['dictTb']);
+            str = str.substr(0, str.length - 1);
+            // 添加空行
+            var data = str + ',{}]';
+            table.reload('dictTb', {
+                // data需json格式数据
+                data: JSON.parse(data)
+//                ,where: {} //设定异步数据接口的额外参数
             });
         })
 
-        // 修改
-        $(".upd").click(function(){
-
-            // 获取当前选中行数据
-            var checkStatus = table.checkStatus('rewTb');
-            var data = checkStatus.data;
-            // 判断是否选中
-            if (data.length == 0) {
-                parentlayer.msg('请选择需要操作的行', function(){
-                    //do something
-                });
-                return false;
+        // 保存
+        $(".save").click(function(){
+            var data = table.cache['dictTb'];
+            var str = '[';
+            for (var i = 0; i < data.length; i++) {
+                str += '{"id":' + data[i].LAY_TABLE_INDEX +
+                        ', "key":' + data[i].key +
+                        ', "value":' + data[i].value + '}, ';
             }
-
-            var index = layer.open({
-                title : "修改",
-                type : 2,
-                content : "/addRew",
-                area: ['100%', '100%'],
-                success : function(layero, index){
-                    setTimeout(function(){
-                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 2
-                        });
-                    },500);
-                    // 渲染数据-获取子frame对象
-                    var body = layer.getChildFrame('body', index);
-                    body.find("[name='rid']").val(data[0].rid);
-                    body.find("[name='stdTmp']").val(data[0].stdid);
-                    body.find("[name='rname']").val(data[0].rname);
-                    body.find("[name='reviewstd']").html(data[0].reviewstd);
-                    body.find("[name='requiredA']").html(data[0].requiredA);
-                    body.find("[name='requiredB']").html(data[0].requiredB);
-                    body.find("[name='requiredC']").html(data[0].requiredC);
-                    body.find("[name='eg']").html(data[0].eg);
-                    body.find("#exitEg").html(data[0].eg);
-                    data[0].state == 0 ? body.find("[name='state']").removeAttr('checked') :
-                        body.find("[name='state']").attr('checked', true);
-                }
-            });
+            str = str.substr(0, str.lastIndexOf(','));
+            str += ']';
+            alert(str);
         });
 
         // 删除
         $(".del").click(function() {
-            // 获取当前选中行数据
-            var checkStatus = table.checkStatus('rewTb');
-            var data = checkStatus.data;
-            // 判断是否选中
-            if (data.length == 0) {
-                parentlayer.msg('请选择需要操作的行', function(){
-                    //do something
-                });
-                return false;
+            // 获取当前表格所有数据
+            var data = table.cache['dictTb'];
+            var newData = '[';
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].LAY_CHECKED == true) {
+                    // 判断是否选中，选中则不保存
+                } else {
+                    // 保存未选中的数据
+                    newData += JSON.stringify(data[i]) + ', ';
+                }
             }
-
-            parentlayer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
-
-                $.ajax({
-                    url: '/rew/del/' + data[0].rid,
-                    type: 'delete',
-                    success: function (data) {
-                        // 成功
-                        parentlayer.msg(data, {
-                            icon: 1,
-                            offset: 'rb',
-                            anim: 2,
-                            time: 1000 //1秒关闭（如果不配置，默认是3秒）
-                        }, function () {
-                            // 表格重载
-                            table.reload('rewTb', {
-                                url: '/rew/all'
-                                , where: {} //设定异步数据接口的额外参数
-                                //,height: 300
-                            });
-                        });
-                    }
-                });
-                // 关闭提示框
-                layer.close(index);
+            // 构建json字符串
+            newData = newData.substr(0, newData.lastIndexOf(','));
+            newData += ']';
+            // 重载表格
+            table.reload('dictTb', {
+                data: JSON.parse(newData)
+//                ,where: {} //设定异步数据接口的额外参数
             });
         });
 
@@ -165,11 +114,12 @@
                     elem: '#dict' //指定元素
                     ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
                     ,click: function(item){ //点击节点回调
-                        $('#demo2-view').html('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
+//                        $('#demo2-view').html('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
                         // 渲染表格数据
                         table.render({
                             elem: '#dictTb'
-                            ,url: '/dict/all' //数据接口
+                            ,data: JSON.parse(item.content)
+//                            ,url: '/dict/all' //数据接口
                             ,page: true //开启分页
                             ,cols: [arr]
                             ,even: true //开启隔行背景
@@ -182,17 +132,6 @@
         });
 
     });
-</script>
-
-<!-- templet -->
-<script type="text/html" id="stateTpl">
-    {{d.state == 0 ? '<span class="layui-badge" style="border-radius: 15px">未启用</span>' : '<span class="layui-badge layui-bg-green" style="border-radius: 15px">使用中</span>'}}
-</script>
-
-<!-- toolbar -->
-<script type="text/html" id="toolbar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 </body>

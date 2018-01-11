@@ -9,7 +9,6 @@ public class Dict {
     private int id;
     private String name;
     private String content;
-    private int state;
     private int navid;
 
     public int getId() {
@@ -44,11 +43,5 @@ public class Dict {
         this.navid = navid;
     }
 
-    public int getState() {
-        return state;
-    }
 
-    public void setState(int state) {
-        this.state = state;
-    }
 }

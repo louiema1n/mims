@@ -31,7 +31,7 @@ CREATE TABLE `economic` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `state` tinyint(4) NOT NULL COMMENT '状态：0-支出；1-收入；2-预支出',
   PRIMARY KEY (`ecoid`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='经济出入记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='经济出入记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-10 17:10:31
+-- Dump completed on 2018-01-11 17:37:23

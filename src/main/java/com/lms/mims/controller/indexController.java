@@ -101,8 +101,4 @@ public class indexController {
         return "back/sys/dict/dictList";
     }
 
-    @RequestMapping("/addDict")
-    public String addDict() {
-        return "back/sys/dict/addDict";
-    }
 }

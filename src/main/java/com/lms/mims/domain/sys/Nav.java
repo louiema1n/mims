@@ -14,14 +14,14 @@ public class Nav {
     private String url;
     private int uplevel;
 
-    private List<Dict> dicts;
+    private List<Dict> children;
 
-    public List<Dict> getDicts() {
-        return dicts;
+    public List<Dict> getChildren() {
+        return children;
     }
 
-    public void setDicts(List<Dict> dicts) {
-        this.dicts = dicts;
+    public void setChildren(List<Dict> children) {
+        this.children = children;
     }
 
     public int getId() {

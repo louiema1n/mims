@@ -26,12 +26,11 @@ CREATE TABLE `dict` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '字典名称',
   `content` varchar(255) DEFAULT NULL COMMENT '字典内容',
-  `state` int(11) DEFAULT NULL COMMENT '状态',
   `navid` int(11) DEFAULT NULL COMMENT '所属nav',
   PRIMARY KEY (`id`),
   KEY `dict_sysnav_id_fk` (`navid`),
   CONSTRAINT `dict_sysnav_id_fk` FOREIGN KEY (`navid`) REFERENCES `sysnav` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='基础字典管理';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='基础字典管理';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +39,7 @@ CREATE TABLE `dict` (
 
 LOCK TABLES `dict` WRITE;
 /*!40000 ALTER TABLE `dict` DISABLE KEYS */;
-INSERT INTO `dict` VALUES (1,'类型','1',1,4),(2,'类型','2',1,4);
+INSERT INTO `dict` VALUES (1,'事项类型','[{\"id\":0,\"key\":\"0\",\"value\":\"111\"}]',4);
 /*!40000 ALTER TABLE `dict` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-10 17:10:32
+-- Dump completed on 2018-01-11 17:37:23

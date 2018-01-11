@@ -15,7 +15,7 @@ public interface NavMapper {
 
     @Select("select * from sysnav where uplevel != 0")
     @Results(value = {
-            @Result(column = "id", property = "dicts", one = @One(select = "com.lms.mims.mapper.sys.DictMapper.selectByNavid")),
+            @Result(column = "id", property = "children", one = @One(select = "com.lms.mims.mapper.sys.DictMapper.selectByNavid")),
     })
     List<Nav> select2Nav();
 

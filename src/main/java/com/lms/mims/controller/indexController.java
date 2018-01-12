@@ -96,6 +96,16 @@ public class indexController {
         return "back/study/doc/addDoc";
     }
 
+    @RequestMapping("/sybList")
+    public String sybList() {
+        return "back/study/syllabus/sybList";
+    }
+
+    @RequestMapping("/addSyb")
+    public String addSyb() {
+        return "back/study/syllabus/addSyb";
+    }
+
     @RequestMapping("/dictList")
     public String dictList() {
         return "back/sys/dict/dictList";

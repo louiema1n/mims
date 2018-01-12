@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+<form class="layui-form" lay-filter="addSyb">
+    <!-- 默认值为0 解决新增报错 -->
+    <input type="hidden" name="id" value="0">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">学科</label>
+        <div class="layui-input-block">
+            <select name="subject" lay-verify="required" lay-filter="subject">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">章节</label>
+        <div class="layui-input-block">
+            <select name="chapter" lay-verify="required" lay-filter="chapter">
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">单元</label>
+        <div class="layui-input-block">
+            <select name="unit" lay-verify="required">
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">知识点名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入知识点名称" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">知识点内容</label>
+        <div class="layui-input-block">
+            <textarea name="content" placeholder="请输入知识点内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">要求</label>
+        <div class="layui-input-block">
+            <input type="radio" name="req" value="0" title="了解" checked>
+            <input type="radio" name="req" value="1" title="掌握">
+            <input type="radio" name="req" value="2" title="熟练">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="subBtn" id="submit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form'], function(){
+        var form = layui.form,
+            $ = layui.jquery;
+
+        //初始化数据
+        initData();
+
+        // 监听提交
+        form.on('submit(subBtn)', function(data){
+
+            // 提交数据
+            $.ajax({
+                url:'/rew/' + ($("[name='rid']").val() > 0 ? 'upd' : 'add'),
+                type: 'post',
+                data: data.field,
+                success:function (data) {
+                    // 成功
+                    layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+                        parent.location.reload();
+                        // 表格重载
+                        // table.reload('rewTb', {
+                        //     url: '/rew/all'
+                        //     ,where: {} //设定异步数据接口的额外参数
+                        //     //,height: 300
+                        // });
+                    });
+                }
+            });
+            return false;
+        });
+
+        // 初始化数据
+        var result = '';
+        function initData() {
+            // 初始化standard
+            $.ajax({
+                url:'/syb/get/catalog',
+                type: 'get',
+                // async: false,
+                success:function (data) {
+                    //do something
+                    var str = '';
+                    result = JSON.parse(data);
+                    for (var i = 0; i < result.length; i++) {
+                        str += '<option value="'+result[i].id+'">'+result[i].name+'</option>';
+                    }
+                    $("[name='subject']").append(str);
+                    // 默认选中radio
+                    // $("[name='stdTmp']").val() == 0 ? $("[name='stdid'][value='1']").attr('checked', true) :
+                    //     $("[name='stdid'][value='"+$("[name='stdTmp']").val()+"']").attr('checked', true);
+                    form.render();
+                }
+            });
+        }
+
+        // 二级联动
+        form.on('select(subject)', function(data){
+            $("[name='chapter']").html('');
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].id == data.value) {
+                    var chapter = result[i].children;
+                    var str = '', unitStr = '';
+                    for (var j = 0; j < chapter.length; j++) {
+                        str += '<option value="'+chapter[j].id+'">'+chapter[j].name+'</option>';
+                    }
+                    // 更新三级菜单
+                    var unit = chapter[0].children;
+                    for (var k = 0; k < unit.length; k++) {
+                        unitStr += '<option value="'+unit[k].id+'">'+unit[k].name+'</option>';
+                    }
+                }
+            }
+            $("[name='chapter']").append(str);
+            $("[name='unit']").html(unitStr);
+            form.render();
+        });
+
+        // 三级联动
+        form.on('select(chapter)', function(data){
+            for (var i = 0; i < result.length; i++) {
+                var chapter = result[i].children;
+                for (var k = 0; k < chapter.length; k++) {
+                    if (chapter[k].id == data.value) {
+                        var str = '';
+                        var unit = chapter[k].children;
+                        for (var j = 0; j < unit.length; j++) {
+                            str += '<option value="'+unit[j].id+'">'+unit[j].name+'</option>';
+                        }
+                        break;
+                    }
+                }
+
+            }
+            $("[name='unit']").html(str);
+            form.render();
+        });
+    });
+
+</script>
+
+</body>
+</html>

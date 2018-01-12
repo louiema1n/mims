@@ -21,10 +21,9 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">职称考试</a>
+                <a href="javascript:;">考试大纲</a>
                 <dl class="layui-nav-child">
                     <dd><a href="">病理技师（初级）</a></dd>
-                    <dd><a href="">检验师（初级）</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="javascript:;" id="upd">精品文章</a></li>
@@ -35,7 +34,8 @@
     <div class="layui-body" style="left: 0px; padding: 20px 80px">
         <div class="layui-fluid">
             <div class="layui-row layui-col-space20">
-                <div class="layui-col-md3" style="display: block; height: 20%; position: fixed">
+                <div class="layui-col-md3" style="display: block; height: 20%;">
+                <!--<div class="layui-col-md3" style="display: block; height: 20%; position: fixed">-->
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
                         <dt class="fly-panel-title">
                             导航
@@ -48,7 +48,8 @@
                         </dd>
                     </dl>
                 </div>
-                <div class="layui-col-md9" style="left: 28%">
+                <div class="layui-col-md9" >
+                <!--<div class="layui-col-md9" style="left: 28%">-->
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
                         <dt class="fly-panel-title fly-panel-header-white" >文章</dt>
                         <ul class="fly-list">
@@ -149,68 +150,15 @@
 
         // 初始tree
         $.ajax({
-            url: '/nav/2nav',
+            url: '/syb/get/catalog',
             type: 'get',
             success: function (data) {
-                var nodes = '[{"name":"全部","id":1,"spread":true,"children":'+JSON.stringify(data)+'}]';
-                // key属性必须加""
-                nodes = JSON.parse(nodes);
                 layui.tree({
                     elem: '#dict' //指定元素
                     ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
-                    ,click: function(item){ //点击节点回调
-                        // 赋值dictId
-                        $("#dictId").val(item.id);
-//                        $('#demo2-view').html('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
-                        // 判断是否为根节点
-                        var content = item.content;
-                        if (content == null) {
-                            // 否，弹出提示
-                            parent.layer.prompt({
-                                formType: 0,
-//                                value: '初始值',
-                                title: '字典名称',
-//                                area: ['800px', '350px'] //自定义文本域宽高
-                            }, function(value, index, elem){
-                                parent.layer.close(index);
-                                // 保存数据
-                                $.ajax({
-                                    url: '/dict/add',
-                                    type: 'post',
-                                    data: {
-                                        "name": value,
-                                        "content": '[{}]',
-                                        "navid": item.id
-                                    },
-                                    success: function (data) {
-                                        // 成功
-                                        parent.layer.msg(data, {
-                                            icon: 1,
-                                            offset: 'rb',
-                                            anim: 2,
-                                            time: 1000 //1秒关闭（如果不配置，默认是3秒）
-                                        }, function(){
-                                            //关闭弹出层
-                                            parent.layer.closeAll();
-                                            location.reload();
-                                        });
-                                    }
-                                })
-                            });
-                        } else {
-                            // 是根节点
-                            // 渲染表格数据
-                            table.render({
-                                elem: '#dictTb'
-                                ,data: JSON.parse(content)
-//                            ,url: '/dict/all' //数据接口
-                                ,page: true //开启分页
-                                ,cols: [arr]
-                                ,even: true //开启隔行背景
-                            });
-                        }
+                    ,click: function(item) { //点击节点回调
                     }
-                    ,nodes: nodes
+                    ,nodes: JSON.parse(data)
                 });
 
             }

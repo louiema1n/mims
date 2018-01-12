@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>列表</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
+</div>
+<table id="SybTb" lay-filter="test"></table>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script type="text/javascript">
+    layui.use(['table', 'jquery', 'layer'], function(){
+        var table = layui.table
+            , $ = layui.jquery
+            , parentlayer = parent.layer === undefined ? layui.layer : parent.layer    // 弹出层modal覆盖父级页面
+            , layer = layui.layer;
+        var arr = [ //表头
+            {type:'checkbox'}
+            ,{type:'numbers'}   // 序号
+            ,{field: 'subject', title: '科目'}
+            ,{field: 'chapter', title: '章节'}
+            ,{field: 'unit', title: '单元'}
+            ,{field: 'name', title: '知识点名称'}
+            ,{field: 'content', title: '内容'}
+            ,{field: 'creator', title: '创建人'}
+            ,{field: 'creatdate', title: '时间', templet: '#dateTpl'}
+            ,{field: 'req', title: '要求', sort: true, align: 'center', templet: '#reqTpl'}
+            ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
+        ];
+
+        // 渲染表格数据
+        table.render({
+            elem: '#SybTb'
+//            ,height: 315
+            ,url: '/syb/all' //数据接口
+            ,page: true //开启分页
+            ,cols: [arr]
+            ,even: true //开启隔行背景
+        });
+
+        // 新增
+        $(".add").click(function(){
+            var index = layer.open({
+                title : "新增",
+                type : 2,
+                content : "/addSyb",
+                area: ['100%', '100%'],
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500)
+                }
+            });
+        })
+
+        // 修改
+        $(".upd").click(function(){
+
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('SybTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                parentlayer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
+
+            var index = layer.open({
+                title : "修改",
+                type : 2,
+                content : "/addSyb",
+                area: ['100%', '100%'],
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500);
+                    // 渲染数据-获取子frame对象
+                    var body = layer.getChildFrame('body', index);
+                    body.find("[name='rid']").val(data[0].rid);
+                    body.find("[name='stdTmp']").val(data[0].stdid);
+                    body.find("[name='rname']").val(data[0].rname);
+                    body.find("[name='reviewstd']").html(data[0].reviewstd);
+                    body.find("[name='requiredA']").html(data[0].requiredA);
+                    body.find("[name='requiredB']").html(data[0].requiredB);
+                    body.find("[name='requiredC']").html(data[0].requiredC);
+                    body.find("[name='eg']").html(data[0].eg);
+                    body.find("#exitEg").html(data[0].eg);
+                    data[0].state == 0 ? body.find("[name='state']").removeAttr('checked') :
+                        body.find("[name='state']").attr('checked', true);
+                }
+            });
+        });
+
+        // 删除
+        $(".del").click(function() {
+            // 获取当前选中行数据
+            var checkStatus = table.checkStatus('SybTb');
+            var data = checkStatus.data;
+            // 判断是否选中
+            if (data.length == 0) {
+                parentlayer.msg('请选择需要操作的行', function(){
+                    //do something
+                });
+                return false;
+            }
+
+            parentlayer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
+
+                $.ajax({
+                    url: '/syb/del/' + data[0].rid,
+                    type: 'delete',
+                    success: function (data) {
+                        // 成功
+                        parentlayer.msg(data, {
+                            icon: 1,
+                            offset: 'rb',
+                            anim: 2,
+                            time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            // 表格重载
+                            table.reload('SybTb', {
+                                url: '/syb/all'
+                                , where: {} //设定异步数据接口的额外参数
+                                //,height: 300
+                            });
+                        });
+                    }
+                });
+                // 关闭提示框
+                layer.close(index);
+            });
+        });
+    });
+</script>
+
+<!-- templet -->
+<script type="text/html" id="reqTpl">
+    {{d.req == 0 ? '<span class="layui-badge layui-bg-green" style="border-radius: 15px">了解</span>' :
+    (d.req == 1 ? '<span class="layui-badge layui-bg-orange" style="border-radius: 15px">掌握</span>' :
+    '<span class="layui-badge" style="border-radius: 15px">熟练</span>')}}
+</script>
+<script type="text/html" id="dateTpl">
+    {{# return timeStamp2String(d.creatdate)}}
+</script>
+
+<!-- toolbar -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+</body>
+</html>

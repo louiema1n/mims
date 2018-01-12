@@ -30,7 +30,7 @@ CREATE TABLE `dict` (
   PRIMARY KEY (`id`),
   KEY `dict_sysnav_id_fk` (`navid`),
   CONSTRAINT `dict_sysnav_id_fk` FOREIGN KEY (`navid`) REFERENCES `sysnav` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='基础字典管理';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='基础字典管理';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `dict` (
 
 LOCK TABLES `dict` WRITE;
 /*!40000 ALTER TABLE `dict` DISABLE KEYS */;
-INSERT INTO `dict` VALUES (1,'事项类型','[{\"id\":0,\"key\":\"0\",\"value\":\"111\"}]',4);
+INSERT INTO `dict` VALUES (1,'事项类型','[{\"id\":0, \"key\":\"0\", \"value\":\"今日事项\"}, {\"id\":1, \"key\":\"1\", \"value\":\"持续事项\"}, {\"id\":2, \"key\":\"2\", \"value\":\"项目计划\"}]',4),(2,'经济类型','[{\"id\":0, \"key\":\"0\", \"value\":\"支出\"}, {\"id\":1, \"key\":\"1\", \"value\":\"收入\"}, {\"id\":2, \"key\":\"2\", \"value\":\"预支出\"}]',10),(3,'负责人','[{\"id\":0, \"key\":\"0\", \"value\":\"LM\"}, {\"id\":1, \"key\":\"1\", \"value\":\"庞敏\"}, {\"id\":2, \"key\":\"2\", \"value\":\"刘庆\"}, {\"id\":3, \"key\":\"3\", \"value\":\"李博\"}, {\"id\":4, \"key\":\"4\", \"value\":\"付正乾\"}]',4),(4,'协助人','[{\"id\":0, \"key\":\"0\", \"value\":\"刘庆\"}, {\"id\":1, \"key\":\"1\", \"value\":\"李博\"}, {\"id\":2, \"key\":\"2\", \"value\":\"庞敏\"}, {\"id\":3, \"key\":\"3\", \"value\":\"付正乾\"}, {\"id\":4, \"key\":\"4\", \"value\":\"杨忠喜\"}]',4),(6,'经济涉及人','[{\"id\":0, \"key\":\"0\", \"value\":\"LouieMain\"}, {\"id\":1, \"key\":\"1\", \"value\":\"Xtz\"}]',10),(7,'类别','[{\"id\":0, \"key\":\"0\", \"value\":\"工资\"}, {\"id\":1, \"key\":\"1\", \"value\":\"吃饭\"}]',10);
 /*!40000 ALTER TABLE `dict` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-11 17:37:23
+-- Dump completed on 2018-01-12 17:26:29

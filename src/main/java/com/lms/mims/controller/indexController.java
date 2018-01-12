@@ -101,4 +101,9 @@ public class indexController {
         return "back/sys/dict/dictList";
     }
 
+    @RequestMapping("/home")
+    public String home() {
+        return "front/home";
+    }
+
 }

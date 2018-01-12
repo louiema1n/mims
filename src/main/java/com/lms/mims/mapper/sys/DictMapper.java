@@ -21,6 +21,9 @@ public interface DictMapper {
     @Select("select * from dict where navid = #{navid}")
     List<Dict> selectByNavid(@Param("navid") int navid);
 
+    @Select("select * from dict where id = #{id}")
+    Dict selectById(@Param("id") int id);
+
     @InsertProvider(type = DictProviderDao.class, method = "add")
     Integer add(Dict dict);
 
@@ -46,7 +49,7 @@ public interface DictMapper {
         public String add(Dict dict) {
             String sql = "insert into dict (name, content, navid) values ('"
                     + dict.getName() + "', '"
-                    + dict.getContent() + "', '"
+                    + dict.getContent() + "', "
                     + dict.getNavid() + ")";
             return sql;
         }

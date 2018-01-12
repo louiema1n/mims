@@ -49,4 +49,26 @@ public class DictService {
     public Integer upd(Dict dict) {
         return this.dictMapper.upd(dict);
     }
+
+    /**
+     * @description 根据id查询
+     * @author louiemain
+     * @date Created on 2018-01-12 9:06
+     * @param id
+     * @return com.lms.mims.domain.sys.Dict
+     */
+    public Dict queryById(int id) {
+        return this.dictMapper.selectById(id);
+    }
+
+    /**
+     * @description 根据navid查询
+     * @author louiemain
+     * @date Created on 2018-01-12 9:30
+     * @param navid
+     * @return java.util.List<com.lms.mims.domain.sys.Dict>
+     */
+    public List<Dict> queryByNavid(int navid) {
+        return this.dictMapper.selectByNavid(navid);
+    }
 }

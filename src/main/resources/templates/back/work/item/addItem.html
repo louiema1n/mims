@@ -19,12 +19,10 @@
     <input type="hidden" name="itemid" value="0">
 
     <div class="layui-form-item">
-    <label class="layui-form-label">类型</label>
-    <div class="layui-input-block">
+    <label class="layui-form-label">事项类型</label>
+    <div class="layui-input-block" id="type">
         <input type="hidden" id="typeT">
-        <input type="radio" name="type" lay-filter="type" value="0" title="今日事项" checked>
-        <input type="radio" name="type" lay-filter="type" value="1" title="持续事项">
-        <input type="radio" name="type" lay-filter="type" value="2" title="项目计划">
+
     </div>
     </div>
 
@@ -48,24 +46,16 @@
         <label class="layui-form-label">负责人</label>
         <input type="hidden" id="leaderT">
         <div class="layui-input-block">
-            <select name="leader" lay-verify="required">
-                <option value="LM">LM</option>
-                <option value="庞敏" >庞敏</option>
-                <option value="刘庆">刘庆</option>
-                <option value="李博">李博</option>
-                <option value="付正乾">付正乾</option>
+            <select name="leader" lay-verify="required" id="leader">
+
             </select>
         </div>
     </div>
     <div class="layui-form-item">
         <input id="assistantT" type="hidden">
         <label class="layui-form-label">协助人</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="assistant" value="刘庆" title="刘庆">
-            <input type="checkbox" name="assistant" title="李博" value="李博">
-            <input type="checkbox" name="assistant" title="庞敏" value="庞敏">
-            <input type="checkbox" name="assistant" title="付正乾" value="付正乾">
-            <input type="checkbox" name="assistant" title="杨忠喜" value="杨忠喜">
+        <div class="layui-input-block" id="assistant">
+
         </div>
     </div>
 
@@ -119,6 +109,42 @@
                 form.render();
             }
         });
+
+        // 从字典获取数据进行初始化
+        $.ajax({
+            url:'/dict/getNavid/4',
+            type: 'get',
+            async: false,
+            success:function (data) {
+                var type = '', leader = '', assistant = '';
+                for (var i = 0; i < data.length; i++) {
+                    var str = data[i].content;
+                    var result = JSON.parse(str);
+                    for (var j = 0; j < result.length; j++) {
+                        if (data[i].name == '事项类型') {
+                            if (j == 0) {
+                                type += '<input type="radio" name="type" lay-filter="type" value="'+result[j].key+'" title="'+result[j].value+'" CHECKED>';
+                            } else {
+                                type += '<input type="radio" name="type" lay-filter="type" value="'+result[j].key+'" title="'+result[j].value+'">';
+                            }
+                        }
+                        if (data[i].name == '负责人') {
+                            leader += '<option value="'+result[j].value+'">'+result[j].value+'</option>';
+                        }
+                        if (data[i].name == '协助人') {
+                            assistant += '<input type="checkbox" name="assistant" value="'+result[j].value+'" title="'+result[j].value+'">';
+                        }
+                    }
+
+                }
+                $("#type").append(type);
+                $("#leader").append(leader);
+                $("#assistant").html(assistant);
+                // 重新渲染
+                form.render();
+            }
+        });
+
         // type
         var typs = $("[name='type']");
         for (var i = 0; i < typs.length; i++) {
@@ -130,6 +156,7 @@
                 $(typs[0]).prop('checked', true);
             }
         }
+
         // leader
         var ops = $("[name='leader'] option");
         for (var i = 0; i < ops.length; i++) {

@@ -18,84 +18,84 @@
     <input type="hidden" name="sid" id="sid">
     <input type="hidden" name="eid" id="eid">
     <div class="layui-form-item">
-            <table class="layui-table">
-                <tbody>
-                    <tr>
-                        <td width="9%" class="layui-bg-gray">自查名称：</td>
-                        <td id="sname">2</td>
-                    </tr>
-                    <tr>
-                        <td class="layui-bg-gray">项目：</td>
-                        <td id="prjname">2</td>
-                    </tr>
-                    <tr>
-                        <td class="layui-bg-gray">自查标准：</td>
-                        <td id="standard">2</td>
-                    </tr>
-                    <tr>
-                        <td class="layui-bg-gray">总评审数：</td>
-                        <td id="total">20</td>
-                    </tr>
-                    <!--<tr>-->
-                        <!--<td class="layui-bg-gray">评审名称：</td>-->
-                        <!--<td id="rname">2</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td class="layui-bg-gray">评审标准：</td>-->
-                        <!--<td id="standard">2</td>-->
-                    <!--</tr>-->
+        <table class="layui-table">
+            <tbody>
+            <tr>
+                <td width="9%" class="layui-bg-gray">自查名称：</td>
+                <td id="sname">2</td>
+            </tr>
+            <tr>
+                <td class="layui-bg-gray">项目：</td>
+                <td id="prjname">2</td>
+            </tr>
+            <tr>
+                <td class="layui-bg-gray">自查标准：</td>
+                <td id="standard">2</td>
+            </tr>
+            <tr>
+                <td class="layui-bg-gray">总评审数：</td>
+                <td id="total">20</td>
+            </tr>
+            <!--<tr>-->
+            <!--<td class="layui-bg-gray">评审名称：</td>-->
+            <!--<td id="rname">2</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td class="layui-bg-gray">评审标准：</td>-->
+            <!--<td id="standard">2</td>-->
+            <!--</tr>-->
 
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            <table class="layui-table">
-                <thead>
-                <!--<tr>-->
-                    <!--<th colspan="5" id="current">当前第1/20个</th>-->
-                <!--</tr>-->
-                <tr>
-                    <th>评审名称</th>
-                    <th colspan="4" id="rname">2</th>
-                </tr>
-                <tr>
-                    <th>评审标准</th>
-                    <th colspan="4" id="reviewstd" style="background-color: #fbfbfb; color: #009688; font-weight: bold;">
+        <table class="layui-table">
+            <thead>
+            <!--<tr>-->
+            <!--<th colspan="5" id="current">当前第1/20个</th>-->
+            <!--</tr>-->
+            <tr>
+                <th>评审名称</th>
+                <th colspan="4" id="rname">2</th>
+            </tr>
+            <tr>
+                <th>评审标准</th>
+                <th colspan="4" id="reviewstd" style="background-color: #fbfbfb; color: #009688; font-weight: bold;">
 
-                    </th>
-                </tr>
-                <tr>
-                    <th width="9%" style="text-align: center">等级</th>
-                    <th width="50%">要求</th>
-                    <th>参考资料</th>
-                    <th>自查说明</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align: center">
-                            <input type="radio" name="lv" value="A" title="A">
-                        </td>
-                        <td id="reqA">A</td>
-                        <td rowspan="3" id="eg">A</td>
-                        <td rowspan="3">
-                            <textarea name="remark" id="remark" placeholder="如有问题，在这里填入问题描述。" class="layui-textarea"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center">
-                            <input type="radio" name="lv" value="B" title="B">
-                        </td>
-                        <td id="reqB">B</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center">
-                            <input type="radio" name="lv" value="C" title="C">
-                        </td>
-                        <td id="reqC">C</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                </th>
+            </tr>
+            <tr>
+                <th width="9%" style="text-align: center">等级</th>
+                <th width="50%">要求</th>
+                <th>参考资料</th>
+                <th>自查说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="text-align: center">
+                    <input type="radio" name="lv" value="A" title="A">
+                </td>
+                <td id="reqA">A</td>
+                <td rowspan="3" id="eg">A</td>
+                <td rowspan="3">
+                    <textarea name="remark" id="remark" placeholder="如有问题，在这里填入问题描述。" class="layui-textarea"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    <input type="radio" name="lv" value="B" title="B">
+                </td>
+                <td id="reqB">B</td>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    <input type="radio" name="lv" value="C" title="C">
+                </td>
+                <td id="reqC">C</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <div class="layui-btn-group">
@@ -106,7 +106,7 @@
                     <i class="layui-icon">&#xe60e;重置</i>
                 </button>
                 <!--<button class="layui-btn" lay-submit lay-filter="subBtn">-->
-                    <!--<i class="layui-icon">&#xe65b;提交</i>-->
+                <!--<i class="layui-icon">&#xe65b;提交</i>-->
                 <!--</button>-->
                 <button class="layui-btn" id="next" type="button">
                     <i class="layui-icon">&#xe602;</i>
@@ -123,10 +123,8 @@
         var form = layui.form,
             $ = layui.jquery,
             table = layui.table;
-
         // 初始化数据
         getExamData();
-
         //监听提交
         // form.on('submit(subBtn)', function(data){
         //     // layer.msg(JSON.stringify(data.field));
@@ -134,7 +132,6 @@
         //     var sid = $("#sid").val();
         //     getData(sid + 1);
         // });
-
         var i = 0, result;
         // 下一个
         $("#next").click(function () {
@@ -151,7 +148,6 @@
             }
             initData();
         });
-
         // 提交数据
         function submitExam(eid, lv, remark) {
             $.ajax({
@@ -175,7 +171,6 @@
                 }
             });
         }
-
         // 上一个
         $("#up").click(function () {
             i--;
@@ -186,7 +181,6 @@
             getExamData();
             initData();
         });
-
         // 获取查验数据
         function getExamData() {
             $.ajax({
@@ -200,7 +194,6 @@
                 }
             });
         }
-
         // 初始化data
         function initData() {
             $("#eid").val(result[i].eid);
@@ -213,11 +206,9 @@
             $("#eg").html(result[i].review.eg);
             $("#remark").html(result[i].remark);
             initLv(result[i].lv);
-
             // 重置表格状态
             $("#rest").click();
         }
-
         // 初始化要求
         var names = $("input[name='lv']");
         function initLv(lv) {
@@ -226,9 +217,7 @@
             }
             $("input[value='"+lv+"']").attr('checked', true);
         }
-
     });
-
 </script>
 
 <!-- templet -->

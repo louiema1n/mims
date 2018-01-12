@@ -20,23 +20,20 @@
     <input type="hidden" name="ecoTime">
     <input type="hidden" id="ecoNameT">
     <input type="hidden" id="stateT">
+    <input type="hidden" id="ctT">
 
     <div class="layui-form-item">
         <label class="layui-form-label">经济类型</label>
-        <div class="layui-input-block">
-            <input type="radio" name="state" value="0" title="支出" checked>
-            <input type="radio" name="state" value="1" title="收入">
-            <input type="radio" name="state" value="2" title="预支出">
+        <div class="layui-input-block" id="state">
+
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">类别</label>
         <div class="layui-input-block">
-            <select name="category" >
-                <option value="">请选择</option>
-                <option value="工资">工资</option>
-                <option value="吃饭">吃饭</option>
+            <select name="category" id="category">
+
             </select>
         </div>
     </div>
@@ -50,9 +47,8 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label">经济涉及人</label>
-        <div class="layui-input-block">
-            <input type="radio" name="ecoName" value="LouieMain" title="LouieMain">
-            <input type="radio" name="ecoName" value="Xtz" title="Xtz" checked>
+        <div class="layui-input-block" id="ecoName">
+
         </div>
     </div>
 
@@ -82,6 +78,45 @@
         // 初始化ecotime
         $("[name='ecoTime']").val(timeStamp2String(Date.parse(new Date())) + " 00:00:00");
 
+
+        // 从字典获取数据进行初始化
+        $.ajax({
+            url:'/dict/getNavid/10',
+            type: 'get',
+            async: false,
+            success:function (data) {
+                var state = '', category = '', ecoName = '';
+                for (var i = 0; i < data.length; i++) {
+                    var str = data[i].content;
+                    var result = JSON.parse(str);
+                    for (var j = 0; j < result.length; j++) {
+                        if (data[i].name == '经济类型') {
+                            if (j == 0) {
+                                state += '<input type="radio" name="state" value="'+result[j].key+'" title="'+result[j].value+'" checked>';
+                            } else {
+                                state += '<input type="radio" name="state" value="'+result[j].key+'" title="'+result[j].value+'">';
+                            }
+                        }
+                        if (data[i].name == '类别') {
+                            category += '<option value="'+result[j].value+'" >'+result[j].value+'</option>';
+                        }
+                        if (data[i].name == '经济涉及人') {
+                            if (j == 0) {
+                                ecoName += '<input type="radio" name="ecoName" value="'+result[j].value+'" title="'+result[j].value+'" checked>';
+                            } else {
+                                ecoName += '<input type="radio" name="ecoName" value="'+result[j].value+'" title="'+result[j].value+'">';
+                            }
+                        }
+                    }
+
+                }
+                $("#state").html(state);
+                $("#category").html(category);
+                $("#ecoName").html(ecoName);
+
+            }
+        });
+
         // state
         var states = $("[name='state']");
         for (var i = 0; i < states.length; i++) {
@@ -91,6 +126,15 @@
                 break;
             } else {
                 $(states[0]).prop('checked', true);
+            }
+        }
+
+        // category
+        var cts = $("[name='category'] option");
+        for (var i = 0; i < cts.length; i++) {
+            $(cts[i]).removeAttr('selected');
+            if ($(cts[i]).val() == $("#ctT").val()) {
+                $(cts[i]).prop('selected', true);
             }
         }
 
@@ -105,7 +149,7 @@
                 $(ecoNames[0]).prop('checked', true);
             }
         }
-
+        // 重新渲染
         form.render();
 
         // 监听提交

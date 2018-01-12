@@ -1,10 +1,10 @@
 package com.lms.mims.domain.work;
 
 /**
- * 标准实体
+ * @description
+ * @author&date Created by louiemain on 2018-01-12 10:51
  */
 public class Standard {
-
     private int stdid;
     private String stdname;
     private int state;

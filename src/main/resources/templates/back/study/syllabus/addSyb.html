@@ -156,7 +156,6 @@
                         str += '<option value="'+result[i].name+'">'+result[i].name+'</option>';
                     }
                     $("[name='subject']").append(str);
-                    form.render();
                 }
 
             });
@@ -164,7 +163,6 @@
 
         // subject
         var ops = $("[name='subject'] option");
-        alert(ops.length);
         for (var i = 0; i < ops.length; i++) {
             $(ops[i]).removeAttr('selected');
             if ($(ops[i]).val() == $("#subjectT").val()) {
@@ -183,11 +181,11 @@
                 $(reqs[0]).prop('checked', true);
             }
         }
-        form.render();
 
         // 二级联动
         form.on('select(subject)', function(data){
             $("[name='chapter']").html('');
+            alert(result.length)
             for (var i = 0; i < result.length; i++) {
                 if (result[i].name == data.value) {
                     var chapter = result[i].children;
@@ -204,7 +202,6 @@
             }
             $("[name='chapter']").append(str);
             $("[name='unit']").html(unitStr);
-            form.render();
         });
 
         // 三级联动
@@ -224,8 +221,9 @@
 
             }
             $("[name='unit']").html(str);
-            form.render();
         });
+
+        form.render();
     });
 
 </script>

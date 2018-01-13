@@ -17,6 +17,10 @@
 <form class="layui-form" lay-filter="addSyb">
     <!-- 默认值为0 解决新增报错 -->
     <input type="hidden" name="id" value="0">
+    <input type="hidden" id="reqT" >
+    <input type="hidden" id="subjectT" >
+    <input type="hidden" id="chapterT" >
+    <input type="hidden" id="unitT" >
 
     <div class="layui-form-item">
         <label class="layui-form-label">学科</label>
@@ -109,7 +113,7 @@
 
             // 提交数据
             $.ajax({
-                url:'/syb/' + ($("[name='rid']").val() > 0 ? 'upd' : 'add'),
+                url:'/syb/' + ($("[name='id']").val() > 0 ? 'upd' : 'add'),
                 type: 'post',
                 data: data.field,
                 success:function (data) {
@@ -143,7 +147,7 @@
             $.ajax({
                 url:'/syb/get/catalog',
                 type: 'get',
-                // async: false,
+                async: false,
                 success:function (data) {
                     //do something
                     var str = '';
@@ -152,13 +156,34 @@
                         str += '<option value="'+result[i].name+'">'+result[i].name+'</option>';
                     }
                     $("[name='subject']").append(str);
-                    // 默认选中radio
-                    // $("[name='stdTmp']").val() == 0 ? $("[name='stdid'][value='1']").attr('checked', true) :
-                    //     $("[name='stdid'][value='"+$("[name='stdTmp']").val()+"']").attr('checked', true);
                     form.render();
                 }
+
             });
         }
+
+        // subject
+        var ops = $("[name='subject'] option");
+        alert(ops.length);
+        for (var i = 0; i < ops.length; i++) {
+            $(ops[i]).removeAttr('selected');
+            if ($(ops[i]).val() == $("#subjectT").val()) {
+                $(ops[i]).prop('selected', true);
+            }
+        }
+
+        // req
+        var reqs = $("[name='req']");
+        for (var i = 0; i < reqs.length; i++) {
+            $(reqs[i]).removeAttr('checked');
+            if ($(reqs[i]).val() == $("#reqT").val()) {
+                $(reqs[i]).prop('checked', true);
+                break;
+            } else {
+                $(reqs[0]).prop('checked', true);
+            }
+        }
+        form.render();
 
         // 二级联动
         form.on('select(subject)', function(data){

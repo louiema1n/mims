@@ -98,17 +98,13 @@
                     },500);
                     // 渲染数据-获取子frame对象
                     var body = layer.getChildFrame('body', index);
-                    body.find("[name='rid']").val(data[0].rid);
-                    body.find("[name='stdTmp']").val(data[0].stdid);
-                    body.find("[name='rname']").val(data[0].rname);
-                    body.find("[name='reviewstd']").html(data[0].reviewstd);
-                    body.find("[name='requiredA']").html(data[0].requiredA);
-                    body.find("[name='requiredB']").html(data[0].requiredB);
-                    body.find("[name='requiredC']").html(data[0].requiredC);
-                    body.find("[name='eg']").html(data[0].eg);
-                    body.find("#exitEg").html(data[0].eg);
-                    data[0].state == 0 ? body.find("[name='state']").removeAttr('checked') :
-                        body.find("[name='state']").attr('checked', true);
+                    body.find("[name='id']").val(data[0].id);
+                    body.find("[name='name']").val(data[0].name);
+                    body.find("[name='content']").val(data[0].content);
+                    body.find("#reqT").val(data[0].req);
+                    body.find("#subjectT").val(data[0].subject);
+                    body.find("#chapterT").val(data[0].chapter);
+                    body.find("#unitT").val(data[0].unit);
                 }
             });
         });

@@ -15,6 +15,9 @@ public class FileUtilService {
     @Value("${web.updPath}")
     private String updPath;
 
+    @Value("${web.imgPath}")
+    private String imgPath;
+
     /**
      * @description 上传
      * @author louiemain
@@ -28,6 +31,22 @@ public class FileUtilService {
             // 格式化新文件名
             return "<a href=\"" + distName + "\" TARGET=\"_blank\"><i class=\"layui-icon\" >&#xe622; </i>"+file.getOriginalFilename()+
                     "</a>&nbsp;<a href=\""+distName+"\"><i class=\"layui-icon\" style=\"font-weight: bold; color: #1E9FFF;\">&#xe601; </i></a>";
+        }
+        return null;
+    }
+
+    /**
+     * @description 上传图片文件
+     * @author louiemain
+     * @date Created on 2018-01-13 10:22
+     * @param file
+     * @return java.lang.String
+     */
+    public String uploadImg(MultipartFile file) {
+        String distName = new FileUtil().upload(file, imgPath);
+        if (distName != null) {
+            // 格式化新文件名
+            return distName;
         }
         return null;
     }

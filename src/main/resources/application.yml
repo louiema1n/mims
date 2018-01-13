@@ -16,4 +16,4 @@ spring:
     static-path-pattern: /**
 # 加入所有静态资源路径（覆盖默认配置）
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/json/,classpath:/public/,file:${web.updPath},file:${web.dwdPath}
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/json/,classpath:/public/,file:${web.updPath},file:${web.dwdPath},file:${web.imgPath}

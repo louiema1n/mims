@@ -5,6 +5,7 @@ package com.lms.mims.controller.utils;
  * @author&date Created by louiemain on 2017-12-27 10:17
  */
 
+import com.lms.mims.domain.ResultMap;
 import com.lms.mims.domain.ResultSet;
 import com.lms.mims.service.utils.FileUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/file")
@@ -78,6 +81,34 @@ public class FileUtilController {
                 }
             }
             res.setData(data);
+        }
+        return res;
+    }
+
+    /**
+     * @description 上传图片-单个
+     * @author louiemain
+     * @date Created on 2018-01-13 10:24
+     * @param file
+     * @return com.lms.mims.domain.ResultSet<java.lang.String>
+     */
+    @RequestMapping(value = "/upload/img", method = RequestMethod.POST)
+    public ResultMap updImg(@RequestParam("file") MultipartFile file) {
+        ResultMap res = new ResultMap();
+        Map<String, String> img = new LinkedHashMap<>();
+        if (file.isEmpty()) {
+            res.setCode(1);
+        } else {
+            String distname = this.fileUtilService.uploadImg(file);
+            if (distname == null) {
+                res.setCode(1);
+            } else {
+                res.setCode(0);
+                res.setMsg("上传成功");
+                img.put("src", distname);
+                img.put("title", distname);
+                res.setData(img);
+            }
         }
         return res;
     }

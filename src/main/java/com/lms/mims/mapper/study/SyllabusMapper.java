@@ -1,8 +1,11 @@
 package com.lms.mims.mapper.study;
 
 import com.lms.mims.domain.study.syllabus.Syllabus;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -13,4 +16,74 @@ public interface SyllabusMapper {
 
     @Select("select * from syllabus")
     List<Syllabus> selectAll();
+
+    @InsertProvider(type = SybProviderDao.class, method = "add")
+    Integer add(Syllabus syllabus);
+
+    @UpdateProvider(type = SybProviderDao.class, method = "upd")
+    Integer upd(Syllabus syllabus);
+
+
+    class SybProviderDao {
+        /**
+         * 新增
+         * @param syllabus
+         * @return
+         */
+        public String add(Syllabus syllabus) {
+            String sql = "insert into syllabus (name, content, creator, creatdate, req, subject, chapter, unit) values ('"
+                    + syllabus.getName() + "', '"
+                    + syllabus.getContent() + "', '"
+                    + syllabus.getCreator() + "', '"
+                    + syllabus.getCreatdate() + "', "
+                    + syllabus.getReq() + ", '"
+                    + syllabus.getSubject() + "', '"
+                    + syllabus.getChapter() + "', '"
+                    + syllabus.getUnit() + "')";
+            return sql;
+        }
+
+        /**
+         * 更新
+         * @param syllabus
+         * @return
+         */
+        public String upd(Syllabus syllabus) {
+            String sql = "update syllabus set ", str = "";
+            Timestamp ts = null;
+            str = syllabus.getName();
+            if (str != null) {
+                sql += "name = '" + str + "', ";
+            }
+            str = syllabus.getContent();
+            if (str != null) {
+                sql += "content = '" + str + "', ";
+            }
+            str = syllabus.getCreator();
+            if (str != null) {
+                sql += "creator = '" + str + "', ";
+            }
+            ts = syllabus.getCreatdate();
+            if (str != null) {
+                sql += "creatdate = '" + ts + "', ";
+            }
+            sql += "req = " + syllabus.getReq() + ", ";
+            str = syllabus.getSubject();
+            if (str != null) {
+                sql += "subject = '" + str + "', ";
+            }
+            str = syllabus.getChapter();
+            if (str != null) {
+                sql += "chapter = '" + str + "', ";
+            }
+            str = syllabus.getUnit();
+            if (str != null) {
+                sql += "unit = '" + str + "', ";
+            }
+
+            sql = sql.substring(0, sql.lastIndexOf(", "));
+            sql += " where id = " + syllabus.getId();
+            return sql;
+        }
+    }
 }

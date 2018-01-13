@@ -53,7 +53,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">知识点内容</label>
         <div class="layui-input-block">
-            <textarea name="content" placeholder="请输入知识点内容" class="layui-textarea"></textarea>
+            <!-- 富文本编辑器 -->
+            <textarea name="content" id="content" style="display: none" lay-verify="editContent"></textarea>
         </div>
     </div>
 
@@ -76,9 +77,29 @@
 <script th:src="@{/layui/layui.js}"></script>
 <script>
     //Demo
-    layui.use(['element', 'form'], function(){
+    layui.use(['element', 'form', 'layedit', 'layer'], function(){
         var form = layui.form,
-            $ = layui.jquery;
+            $ = layui.jquery
+            ,layedit = layui.layedit
+            ,layer = layui.layer;
+
+        // 开启编辑器图片上传
+        layedit.set({
+            uploadImage: {
+                url: '/file/upload/img' //接口url
+                ,type: 'post' //默认post
+            }
+        });
+        //建立编辑器;
+        var index = layedit.build('content');
+
+        //表单验证
+        form.verify({
+            // 自定义表单验证
+            editContent:function (vale) {
+                layedit.sync(index); //同步编辑内容到textarea
+            }
+        })
 
         //初始化数据
         initData();
@@ -88,12 +109,12 @@
 
             // 提交数据
             $.ajax({
-                url:'/rew/' + ($("[name='rid']").val() > 0 ? 'upd' : 'add'),
+                url:'/syb/' + ($("[name='rid']").val() > 0 ? 'upd' : 'add'),
                 type: 'post',
                 data: data.field,
                 success:function (data) {
                     // 成功
-                    layer.msg(data, {
+                    top.layer.msg(data, {
                         icon: 1,
                         offset: 'rb',
                         anim: 2,
@@ -128,7 +149,7 @@
                     var str = '';
                     result = JSON.parse(data);
                     for (var i = 0; i < result.length; i++) {
-                        str += '<option value="'+result[i].id+'">'+result[i].name+'</option>';
+                        str += '<option value="'+result[i].name+'">'+result[i].name+'</option>';
                     }
                     $("[name='subject']").append(str);
                     // 默认选中radio
@@ -143,16 +164,16 @@
         form.on('select(subject)', function(data){
             $("[name='chapter']").html('');
             for (var i = 0; i < result.length; i++) {
-                if (result[i].id == data.value) {
+                if (result[i].name == data.value) {
                     var chapter = result[i].children;
                     var str = '', unitStr = '';
                     for (var j = 0; j < chapter.length; j++) {
-                        str += '<option value="'+chapter[j].id+'">'+chapter[j].name+'</option>';
+                        str += '<option value="'+chapter[j].name+'">'+chapter[j].name+'</option>';
                     }
                     // 更新三级菜单
                     var unit = chapter[0].children;
                     for (var k = 0; k < unit.length; k++) {
-                        unitStr += '<option value="'+unit[k].id+'">'+unit[k].name+'</option>';
+                        unitStr += '<option value="'+unit[k].name+'">'+unit[k].name+'</option>';
                     }
                 }
             }
@@ -166,11 +187,11 @@
             for (var i = 0; i < result.length; i++) {
                 var chapter = result[i].children;
                 for (var k = 0; k < chapter.length; k++) {
-                    if (chapter[k].id == data.value) {
+                    if (chapter[k].name == data.value) {
                         var str = '';
                         var unit = chapter[k].children;
                         for (var j = 0; j < unit.length; j++) {
-                            str += '<option value="'+unit[j].id+'">'+unit[j].name+'</option>';
+                            str += '<option value="'+unit[j].name+'">'+unit[j].name+'</option>';
                         }
                         break;
                     }

@@ -50,4 +50,28 @@ public class SyllabusController {
     public String getCatalog() {
         return this.syllabusService.getCatalog();
     }
+
+    /**
+     * @description 新增
+     * @author louiemain
+     * @date Created on 2018-01-13 11:03
+     * @param syllabus
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(Syllabus syllabus) {
+        return this.syllabusService.add(syllabus);
+    }
+
+    /**
+     * @description 修改
+     * @author louiemain
+     * @date Created on 2018-01-13 11:02
+     * @param syllabus
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/upd", method = RequestMethod.POST)
+    public String upd(Syllabus syllabus) {
+        return this.syllabusService.upd(syllabus);
+    }
 }

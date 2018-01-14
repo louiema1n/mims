@@ -21,12 +21,12 @@
     <input type="hidden" id="subjectT" >
     <input type="hidden" id="chapterT" >
     <input type="hidden" id="unitT" >
+    <input type="hidden" id="json" >
 
     <div class="layui-form-item">
         <label class="layui-form-label">学科</label>
         <div class="layui-input-block">
             <select name="subject" lay-verify="required" lay-filter="subject">
-                <option value=""></option>
             </select>
         </div>
     </div>
@@ -141,7 +141,6 @@
         });
 
         // 初始化数据
-        var result = '';
         function initData() {
             // 初始化standard
             $.ajax({
@@ -151,23 +150,28 @@
                 success:function (data) {
                     //do something
                     var str = '';
+                    var result;
                     result = JSON.parse(data);
+                    $("#json").val(data);
+                    var chapter = result[0].children;
+                    var unit = chapter[0].children;
                     for (var i = 0; i < result.length; i++) {
                         str += '<option value="'+result[i].name+'">'+result[i].name+'</option>';
                     }
-                    $("[name='subject']").append(str);
+                    $("[name='subject']").html(str);
+                    $("[name='chapter']").html(option(chapter));
+                    $("[name='unit']").html(option(unit));
                 }
 
             });
         }
 
-        // subject
-        var ops = $("[name='subject'] option");
-        for (var i = 0; i < ops.length; i++) {
-            $(ops[i]).removeAttr('selected');
-            if ($(ops[i]).val() == $("#subjectT").val()) {
-                $(ops[i]).prop('selected', true);
+        function option(data) {
+            var str = '';
+            for (var i = 0; i < data.length; i++) {
+                str += '<option value="'+data[i].name+'">'+data[i].name+'</option>';
             }
+            return str;
         }
 
         // req
@@ -182,46 +186,79 @@
             }
         }
 
-        // 二级联动
-        form.on('select(subject)', function(data){
+        function second(val) {
             $("[name='chapter']").html('');
-            alert(result.length)
+            var result = JSON.parse($("#json").val());
+            var str = '', unitStr = '';
             for (var i = 0; i < result.length; i++) {
-                if (result[i].name == data.value) {
+                if (result[i].name == val) {
                     var chapter = result[i].children;
-                    var str = '', unitStr = '';
-                    for (var j = 0; j < chapter.length; j++) {
-                        str += '<option value="'+chapter[j].name+'">'+chapter[j].name+'</option>';
-                    }
-                    // 更新三级菜单
                     var unit = chapter[0].children;
-                    for (var k = 0; k < unit.length; k++) {
-                        unitStr += '<option value="'+unit[k].name+'">'+unit[k].name+'</option>';
-                    }
+                    str = option(chapter);
+                    unitStr = option(unit);
                 }
             }
-            $("[name='chapter']").append(str);
+            $("[name='chapter']").html(str);
             $("[name='unit']").html(unitStr);
-        });
+            form.render();
+        }
 
-        // 三级联动
-        form.on('select(chapter)', function(data){
+        function third(val) {
+            var result = JSON.parse($("#json").val());
+            var str = '';
             for (var i = 0; i < result.length; i++) {
                 var chapter = result[i].children;
                 for (var k = 0; k < chapter.length; k++) {
-                    if (chapter[k].name == data.value) {
-                        var str = '';
+                    if (chapter[k].name == val) {
                         var unit = chapter[k].children;
-                        for (var j = 0; j < unit.length; j++) {
-                            str += '<option value="'+unit[j].name+'">'+unit[j].name+'</option>';
-                        }
+                        str += option(unit);
                         break;
                     }
                 }
 
             }
             $("[name='unit']").html(str);
+            form.render();
+        }
+
+        // 二级联动
+        form.on('select(subject)', function(data){
+            second(data.value)
         });
+
+        // 三级联动
+        form.on('select(chapter)', function(data){
+            third(data.value)
+        });
+
+        // subject
+        var ops = $("[name='subject'] option");
+        for (var i = 0; i < ops.length; i++) {
+            $(ops[i]).removeAttr('selected');
+            if ($(ops[i]).val() == $("#subjectT").val()) {
+                $(ops[i]).prop('selected', true);
+                second($("#subjectT").val());
+                third($("#subjectT").val());
+            }
+        }
+
+        // chapter
+        var ops = $("[name='chapter'] option");
+        for (var i = 0; i < ops.length; i++) {
+            $(ops[i]).removeAttr('selected');
+            if ($(ops[i]).val() == $("#chapterT").val()) {
+                $(ops[i]).prop('selected', true);
+            }
+        }
+
+        // unit
+        var ops = $("[name='unit'] option");
+        for (var i = 0; i < ops.length; i++) {
+            $(ops[i]).removeAttr('selected');
+            if ($(ops[i]).val() == $("#unitT").val()) {
+                $(ops[i]).prop('selected', true);
+            }
+        }
 
         form.render();
     });

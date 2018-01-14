@@ -4,6 +4,7 @@ import com.lms.mims.domain.ResultSet;
 import com.lms.mims.domain.study.syllabus.Syllabus;
 import com.lms.mims.service.study.SyllabusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +53,19 @@ public class SyllabusController {
     }
 
     /**
+     * @description 修改目录
+     * @author louiemain
+     * @date Created on 2018/1/14 19:45
+     * @param json
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/catalog/upd", method = RequestMethod.POST)
+    public String addCatalog(String json) {
+        this.syllabusService.updCatalog(json);
+        return "success";
+    }
+
+    /**
      * @description 新增
      * @author louiemain
      * @date Created on 2018-01-13 11:03
@@ -73,5 +87,19 @@ public class SyllabusController {
     @RequestMapping(value = "/upd", method = RequestMethod.POST)
     public String upd(Syllabus syllabus) {
         return this.syllabusService.upd(syllabus);
+    }
+
+    /**
+     * @description 删除
+     * @author louiemain
+     * @date Created on 2018/1/14 12:13
+     * @param id
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/del/{id}", method = RequestMethod.DELETE)
+    public String del(@PathVariable int id) {
+        Syllabus syllabus = new Syllabus();
+        syllabus.setId(id);
+        return this.syllabusService.del(syllabus);
     }
 }

@@ -101,6 +101,11 @@ public class indexController {
         return "back/study/syllabus/sybList";
     }
 
+    @RequestMapping("/catalogManage")
+    public String catalogManage() {
+        return "back/study/syllabus/catalogManage";
+    }
+
     @RequestMapping("/addSyb")
     public String addSyb() {
         return "back/study/syllabus/addSyb";

@@ -52,7 +52,7 @@
                 <!--<div class="layui-col-md9" style="left: 28%">-->
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
                         <dt class="fly-panel-title fly-panel-header-white" >文章</dt>
-                        <ul class="fly-list">
+                        <ul class="fly-list" id="content">
                             <li>
                                 <h2>
                                     <a class="layui-badge layui-bg-green">了解</a>
@@ -115,6 +115,7 @@
     </div>
 </div>
 <script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
 <script>
     //JavaScript代码区域
     layui.use(['element', 'layer', 'laydate', 'form', 'tree', 'util'], function(){
@@ -161,6 +162,49 @@
                     ,nodes: JSON.parse(data)
                 });
 
+            }
+        });
+
+        // 初始文章
+        $.ajax({
+            url: '/syb/all',
+            type: 'get',
+            success: function (data) {
+                var lis = '';
+                var result = data.data;
+                for (var i = 0; i < result.length; i++) {
+                    var color = '';
+                    var title = '';
+                    switch (result[i].req) {
+                        case 0:
+                            color = 'layui-bg-green';
+                            title = '了解';
+                            break;
+                        case 1:
+                            color = 'layui-bg-orange';
+                            title = '掌握';
+                            break;
+                        case 2:
+                            color = '';
+                            title = '熟练';
+                            break;
+                    }
+                    lis += '                        <li>\n' +
+                        '                                <h2>\n' +
+                        '                                    <a class="layui-badge '+color+'">'+title+'</a>\n' +
+                        '                                    <a href="#">'+result[i].name+'</a>\n' +
+                        '                                </h2>\n' +
+                        '                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>引用区域的文字...</blockquote>\n' +
+                        '                                <div class="fly-list-info">\n' +
+                        '                                    <span><i class="layui-icon">&#xe612; </i>'+result[i].creator+'</span>\n' +
+                        '                                    <span><i class="layui-icon">&#xe60e; </i>'+timeStamp2String(result[i].creatdate)+'</span>\n' +
+                        '                                    <span class="fly-list-nums">\n' +
+                        '                                        <span class="layui-badge-dot '+color+'" title="'+title+'"></span>\n' +
+                        '                                    </span>\n' +
+                        '                                </div>\n' +
+                        '                            </li>';
+                }
+                $("#content").html(lis);
             }
         });
     });

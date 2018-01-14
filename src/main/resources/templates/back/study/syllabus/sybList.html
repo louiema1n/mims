@@ -19,6 +19,7 @@
     <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
     <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
     <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
+    <button class="layui-btn layui-btn-normal catalog"><i class="layui-icon">&#xe62d;</i>目录管理</button>
 </div>
 <table id="SybTb" lay-filter="test"></table>
 
@@ -125,7 +126,7 @@
             parentlayer.confirm('确定要这样做吗?', {icon: 2, title: '警告'}, function (index) {
 
                 $.ajax({
-                    url: '/syb/del/' + data[0].rid,
+                    url: '/syb/del/' + data[0].id,
                     type: 'delete',
                     success: function (data) {
                         // 成功
@@ -148,6 +149,23 @@
                 layer.close(index);
             });
         });
+
+        // 目录管理
+        $(".catalog").click(function(){
+            var index = parent.layer.open({
+                title : "目录管理",
+                type : 2,
+                area: ['50%', '60%'],
+                content : "/catalogManage",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点此关闭', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 2
+                        });
+                    },500)
+                }
+            });
+        })
     });
 </script>
 

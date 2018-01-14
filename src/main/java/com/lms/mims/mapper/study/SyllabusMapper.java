@@ -1,6 +1,7 @@
 package com.lms.mims.mapper.study;
 
 import com.lms.mims.domain.study.syllabus.Syllabus;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.UpdateProvider;
@@ -23,6 +24,8 @@ public interface SyllabusMapper {
     @UpdateProvider(type = SybProviderDao.class, method = "upd")
     Integer upd(Syllabus syllabus);
 
+    @DeleteProvider(type = SybProviderDao.class, method = "del")
+    Integer del(Syllabus syllabus);
 
     class SybProviderDao {
         /**
@@ -84,6 +87,17 @@ public interface SyllabusMapper {
             sql = sql.substring(0, sql.lastIndexOf(", "));
             sql += " where id = " + syllabus.getId();
             return sql;
+        }
+
+        /**
+         * @description 删除
+         * @author louiemain
+         * @date Created on 2018/1/14 12:09
+         * @param syllabus
+         * @return java.lang.String
+         */
+        public String del(Syllabus syllabus) {
+            return "delete from syllabus where id = " + syllabus.getId();
         }
     }
 }

@@ -14,14 +14,14 @@ public class JsonUtil {
      * @description 读取JsonFile返回json 字符串
      * @author louiemain
      * @date Created on 2018/1/12 20:23
-     * @param resource
+     * @param filePath
      * @return java.lang.String
      */
-    public String fromFileJson2String(Resource resource) {
+    public String fromFileJson2String(String filePath) {
         BufferedReader br = null;
         String str = "";
         try {
-            InputStreamReader isr = new InputStreamReader(resource.getInputStream(), "UTF-8");
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(new File(filePath)), "UTF-8");
             br = new BufferedReader(isr);
 
             String tempStr = null;
@@ -46,5 +46,38 @@ public class JsonUtil {
         }
         str = str.replace("\r\n", "").replaceAll(" +", "");
         return str;
+    }
+
+    /**
+     * @description 写入json String到文件
+     * @author louiemain
+     * @date Created on 2018/1/14 21:09
+     * @param filepath
+     * @param json
+     * @return void
+     */
+    public void jsonString2File(String filepath, String json) {
+        FileWriter fw = null;
+        PrintWriter pw = null;
+        try {
+            fw = new FileWriter(filepath);
+            pw = new PrintWriter(fw, true);
+            pw.write(json);
+            pw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pw != null) {
+                pw.close();
+            }
+        }
     }
 }

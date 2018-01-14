@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>目录管理</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <style>
+        .childrenBody{
+            margin: 10px 10px 0;
+        }
+    </style>
+
+</head>
+<body class="childrenBody">
+
+<!-- 临时存储数据用 -->
+<input type="hidden" class="tmp">
+<input type="hidden" class="all">
+
+<div class="layui-btn-group">
+    <button class="layui-btn add"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn upd"><i class="layui-icon">&#xe642;</i>修改</button>
+    <button class="layui-btn layui-btn-danger del"><i class="layui-icon">&#xe640;</i>删除</button>
+</div>
+
+<!-- tree -->
+<div style="display: inline-block; width: 80%; height: 100%; padding: 10px; overflow: auto;">
+    <ul id="dict"></ul>
+</div>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use(['element', 'form', 'layer', 'tree'], function(){
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer;
+
+        // 初始化数据
+        $.ajax({
+            url: '/upd/get/max',
+            type: 'get',
+            success: function (data) {
+                $("[name='ver']").val(data.ver);
+            }
+        });
+
+        function initTree(data) {
+            layui.tree({
+                elem: '#dict' //指定元素
+                ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
+                ,click: function(item) { //点击节点回调
+                    $(".tmp").attr('id', item.id);
+                    var children = item.children;
+                    $(".tmp").attr('name', children == null ? "" : JSON.stringify(children));
+                }
+                ,nodes: data
+            });
+            $(".all").attr('name', JSON.stringify(data));
+        }
+
+        // 初始tree
+        $.ajax({
+            url: '/syb/get/catalog',
+            type: 'get',
+            success: function (data) {
+                initTree(JSON.parse(data));
+            }
+        });
+
+        // 监听提交
+        form.on('submit(subBtn)', function(data){
+
+            // 提交数据
+            $.ajax({
+                url:'/upd/add',
+                type: 'post',
+                data: data.field,
+                success:function (data) {
+                    // 成功
+                    parent.layer.msg(data, {
+                        icon: 1,
+                        offset: 'rb',
+                        anim: 2,
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //关闭弹出层
+                        parent.layer.closeAll();
+                        // 刷新父页面
+//                        parent.location.reload();
+                        // 表格重载
+                        // table.reload('rewTb', {
+                        //     url: '/rew/all'
+                        //     ,where: {} //设定异步数据接口的额外参数
+                        //     //,height: 300
+                        // });
+                    });
+                }
+            });
+            return false;
+        });
+
+        // 遍历-重命名name
+        function rename(currentId ,allData, value) {
+            for (var i = 0; i < allData.length; i++) {
+                var child = allData[i].children;
+                if (child != null) {
+                    rename(currentId, child, value);
+                }
+                if (currentId == allData[i].id) {
+                    allData[i].name = value;
+                    break;
+                }
+            }
+        }
+
+        // 遍历-移除元素
+        function delArr(currentId, allData) {
+            for (var i = 0; i < allData.length; i++) {
+                var child = allData[i].children;
+                if (child != null) {
+                    delArr(currentId, child);
+                }
+
+                if (currentId == allData[i].id) {
+                    allData.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        // 新增
+        $(".add").click(function (data) {
+            var name = $(".tmp").attr('name');
+            if (name == "") {
+                parent.layer.msg('请选择上一级目录，当前为最终目录。', function(){
+                    //do something
+                    return false;
+                });
+            }
+            var current = JSON.parse(name),
+                currentId = $(".tmp").attr('id'),
+                newCurrrnt = '';
+            var allData = JSON.parse($(".all").attr('name'));
+            var index = parent.layer.prompt({
+                formType: 0,
+                title: '目录名称',
+            }, function(value, index, elem){
+                newCurrrnt = {
+                    "id": parseInt(current[current.length - 1].id) + 1,
+                    "name": value
+                };
+
+                current.push(newCurrrnt);
+
+                for (var i = 0; i < allData.length; i++) {
+                    var child = allData[i].children;
+                    for (var k = 0; k < child.length; k++) {
+                        if (currentId == child[k].id) {
+                            child[k].children = current;
+                            break;
+                        }
+                    }
+                    if (currentId == allData[i].id) {
+                        allData[i].children = current;
+                        break;
+                    }
+                }
+
+                // 保存数据
+                submitCata(allData);
+                parent.layer.close(index);
+            });
+        });
+
+        // 重命名
+        $(".upd").click(function (data) {
+            var currentId = $(".tmp").attr('id');
+            var allData = JSON.parse($(".all").attr('name'));
+            var index = parent.layer.prompt({
+                formType: 0,
+                title: '目录名称',
+            }, function(value, index, elem){
+
+                // 遍历修改数据
+                rename(currentId, allData, value);
+
+                // 保存数据
+                submitCata(allData);
+                parent.layer.close(index);
+            });
+        });
+
+        // 删除
+        $(".del").click(function (data) {
+            var currentId = $(".tmp").attr('id');
+            var allData = JSON.parse($(".all").attr('name'));
+            delArr(currentId, allData);
+
+            // 保存数据
+            submitCata(allData);
+        });
+
+        // 提交目录更改数据
+        function submitCata(allData) {
+            $.ajax({
+                url: '/syb/catalog/upd',
+                type: 'post',
+                data: {
+                    "json": JSON.stringify(allData),
+                },
+                success: function (data) {
+                    // 重新加载tree
+                    $("#dict li").remove();
+                    initTree(allData);
+                }
+            })
+        }
+
+        // 渲染表单
+        form.render();
+    });
+</script>
+
+</body>
+</html>

@@ -22,10 +22,6 @@ public class SyllabusService {
     @Autowired
     private SyllabusMapper syllabusMapper;
 
-    // 读取classpath下文件
-    @Value(value = "classpath:/json/Pathologist-junior.json")
-    private Resource resource;
-
     /**
      * @description 查询所有
      * @author louiemain
@@ -45,7 +41,19 @@ public class SyllabusService {
      * @return java.lang.String
      */
     public String getCatalog() {
-        return new JsonUtil().fromFileJson2String(resource);
+        // System.getProperty("user.dir")-项目根目录
+        return new JsonUtil().fromFileJson2String(System.getProperty("user.dir") + "/json/Pathologist-junior.json");
+    }
+
+    /**
+     * @description 更新目录
+     * @author louiemain
+     * @date Created on 2018/1/14 21:10
+     * @param json
+     * @return void
+     */
+    public void updCatalog(String json) {
+        new JsonUtil().jsonString2File(System.getProperty("user.dir") + "/json/Pathologist-junior.json", json);
     }
 
     /**
@@ -78,5 +86,20 @@ public class SyllabusService {
             return "修改成功";
         }
         return "修改失败";
+    }
+
+    /**
+     * @description 删除
+     * @author louiemain
+     * @date Created on 2018/1/14 12:11
+     * @param syllabus
+     * @return java.lang.String
+     */
+    public String del(Syllabus syllabus) {
+        int i = this.syllabusMapper.del(syllabus);
+        if (i > 0) {
+            return "删除成功";
+        }
+        return "删除失败";
     }
 }

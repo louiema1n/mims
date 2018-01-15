@@ -109,6 +109,15 @@
 .fly-list-badge{position: absolute; right: 15px; top: 15px; font-size: 0;}
 .fly-list-badge .layui-badge{margin-left: 5px; border-radius: 2px; font-size: 12px;}
 
+.detail-body{margin: 20px 0 0; min-height: 40px; line-height: 26px; font-size: 16px; color: #333; word-wrap: break-word;}
+.detail-body p{margin-bottom:15px;}
+.detail-body img{max-width: 100%; cursor: crosshair;}
+
+.detail-body .layui-btn{margin: 0 10px 10px 0;}
+.detail-body .layui-btn a{color: #fff;}
+.detail-body ul>li{margin-top: 0;}
+.detail-body .layui-elem-quote{margin: 10px 0; font-size: 14px; line-height: 26px;}
+
 blockquote{
     background-color: #f2f2f2;
     padding: 10px;

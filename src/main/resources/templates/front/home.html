@@ -15,6 +15,14 @@
 
 </head>
 <body class="layui-layout-body body">
+
+<form id="form" action="/showContent" method="post">
+    <input type="hidden" id="json" name="json">
+</form>
+
+<!-- 存储所有文章数据 -->
+<input type="hidden" id="allData">
+
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header layui-bg-green">
         <div class="layui-logo" style="color: white">前台展示</div>
@@ -23,7 +31,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">考试大纲</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">病理技师（初级）</a></dd>
+                    <dd><a href="#">病理技师（初级）</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="javascript:;" id="upd">精品文章</a></li>
@@ -42,7 +50,7 @@
                         </dt>
                         <dd>
                             <!-- tree -->
-                            <div style="display: inline-block; width: 80%; height: 100%; padding: 10px; overflow: auto;">
+                            <div style="display: inline-block; width: 100%; height: 100%; padding: 10px; overflow: auto;">
                                 <ul id="dict"></ul>
                             </div>
                         </dd>
@@ -53,54 +61,7 @@
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
                         <dt class="fly-panel-title fly-panel-header-white" >文章</dt>
                         <ul class="fly-list" id="content">
-                            <li>
-                                <h2>
-                                    <a class="layui-badge layui-bg-green">了解</a>
-                                    <a href="#">苏迁的梦与实</a>
-                                </h2>
-                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>引用区域的文字...</blockquote>
-                                <div class="fly-list-info">
-                                    <span><i class="layui-icon">&#xe612; </i>LM</span>
-                                    <span><i class="layui-icon">&#xe60e; </i>2018-1-12 16:40:58 </span>
-                                    <span class="fly-list-nums">
-                                        <!--<span class="layui-badge-dot" title="熟练掌握"></span>-->
-                                        <!--<span class="layui-badge-dot layui-bg-orange" title="掌握"></span>-->
-                                        <span class="layui-badge-dot layui-bg-green" title="了解"></span>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <h2>
-                                    <a class="layui-badge">熟练</a>
-                                    <a href="#">苏迁的梦与实</a>
-                                </h2>
-                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>引用区域的文字...</blockquote>
-                                <div class="fly-list-info">
-                                    <span><i class="layui-icon">&#xe612; </i>LM</span>
-                                    <span><i class="layui-icon">&#xe60e; </i>2018-1-12 16:40:58 </span>
-                                    <span class="fly-list-nums">
-                                        <span class="layui-badge-dot" title="熟练掌握"></span>
-                                        <!--<span class="layui-badge-dot layui-bg-orange" title="掌握"></span>-->
-                                        <!--<span class="layui-badge-dot layui-bg-green" title="了解"></span>-->
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <h2>
-                                    <a class="layui-badge layui-bg-orange">掌握</a>
-                                    <a href="#">苏迁的梦与实</a>
-                                </h2>
-                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>引用区域的文字...</blockquote>
-                                <div class="fly-list-info">
-                                    <span><i class="layui-icon">&#xe612; </i>LM</span>
-                                    <span><i class="layui-icon">&#xe60e; </i>2018-1-12 16:40:58 </span>
-                                    <span class="fly-list-nums">
-                                        <!--<span class="layui-badge-dot " title="熟练掌握"></span>-->
-                                        <span class="layui-badge-dot layui-bg-orange" title="掌握"></span>
-                                        <!--<span class="layui-badge-dot layui-bg-green" title="了解"></span>-->
-                                    </span>
-                                </div>
-                            </li>
+
                         </ul>
                     </dl>
                 </div>
@@ -149,6 +110,18 @@
             }
         });
 
+        // 初始文章
+        $.ajax({
+            url: '/syb/all',
+            type: 'get',
+            success: function (data) {
+                var result = data.data;
+                // 存储数据
+                $("#allData").val(JSON.stringify(result));
+                initArticle(result);
+            }
+        });
+
         // 初始tree
         $.ajax({
             url: '/syb/get/catalog',
@@ -158,6 +131,14 @@
                     elem: '#dict' //指定元素
                     ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
                     ,click: function(item) { //点击节点回调
+                        var allData = JSON.parse($("#allData").val());
+                        var dist = new Array();
+                        for (var i = 0; i < allData.length; i++) {
+                            if (allData[i].subject == item.name || allData[i].chapter == item.name || allData[i].unit == item.name) {
+                                dist.push(allData[i]);
+                            }
+                        }
+                        initArticle(dist);
                     }
                     ,nodes: JSON.parse(data)
                 });
@@ -165,48 +146,68 @@
             }
         });
 
-        // 初始文章
-        $.ajax({
-            url: '/syb/all',
-            type: 'get',
-            success: function (data) {
-                var lis = '';
-                var result = data.data;
-                for (var i = 0; i < result.length; i++) {
-                    var color = '';
-                    var title = '';
-                    switch (result[i].req) {
-                        case 0:
-                            color = 'layui-bg-green';
-                            title = '了解';
-                            break;
-                        case 1:
-                            color = 'layui-bg-orange';
-                            title = '掌握';
-                            break;
-                        case 2:
-                            color = '';
-                            title = '熟练';
-                            break;
-                    }
-                    lis += '                        <li>\n' +
-                        '                                <h2>\n' +
-                        '                                    <a class="layui-badge '+color+'">'+title+'</a>\n' +
-                        '                                    <a href="#">'+result[i].name+'</a>\n' +
-                        '                                </h2>\n' +
-                        '                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>引用区域的文字...</blockquote>\n' +
-                        '                                <div class="fly-list-info">\n' +
-                        '                                    <span><i class="layui-icon">&#xe612; </i>'+result[i].creator+'</span>\n' +
-                        '                                    <span><i class="layui-icon">&#xe60e; </i>'+timeStamp2String(result[i].creatdate)+'</span>\n' +
-                        '                                    <span class="fly-list-nums">\n' +
-                        '                                        <span class="layui-badge-dot '+color+'" title="'+title+'"></span>\n' +
-                        '                                    </span>\n' +
-                        '                                </div>\n' +
-                        '                            </li>';
+        // 初始化文章
+        function initArticle(result) {
+            var lis = '';
+            for (var i = 0; i < result.length; i++) {
+                // 颜色
+                var color = '';
+                // 文字
+                var title = '';
+                switch (result[i].req) {
+                    case 0:
+                        color = 'layui-bg-green';
+                        title = '了解';
+                        break;
+                    case 1:
+                        color = 'layui-bg-orange';
+                        title = '掌握';
+                        break;
+                    case 2:
+                        color = '';
+                        title = '熟练';
+                        break;
                 }
-                $("#content").html(lis);
+
+                // 引用文字
+                var block = result[i].content;
+                block = block.substr(0, 50) + "......";
+                // 判断是否为中文
+                var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+                if (!reg.test(block)) {
+                    block = "未获取到描述内容。";
+                }
+
+                // 处理content&name中的引号
+                var content = result[i].content, name = result[i].name;
+                name = name.replace(/"/g, '\\\"');
+                content = content.replace(/"/g, '\\\"');
+                result[i].name = name;
+                result[i].content = content;
+
+                lis += '                        <li>\n' +
+                    '                                <h2>\n' +
+                    '                                    <a class="layui-badge '+color+'">'+title+'</a>\n' +
+                    '                                    <a href="javascript:;" onclick="show(\''+JSON.stringify(result[i]).replace(/"/g, '&quot;') +'\')">'+result[i].name+'</a>\n' +
+                    '                                </h2>\n' +
+                    '                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>'+block+'</blockquote>\n' +
+                    '                                <div class="fly-list-info">\n' +
+                    '                                    <span><i class="layui-icon">&#xe612; </i>'+result[i].creator+'</span>\n' +
+                    '                                    <span><i class="layui-icon">&#xe60e; </i>'+timeStamp2String(result[i].creatdate)+'</span>\n' +
+                    '                                    <span class="fly-list-nums">\n' +
+                    '                                        <span class="layui-badge-dot '+color+'" title="'+title+'"></span>\n' +
+                    '                                    </span>\n' +
+                    '                                </div>\n' +
+                    '                            </li>';
             }
-        });
+            $("#content").html(lis);
+        }
+
+        // 展示内容
+        window.show = function(val) {
+            $("#json").val(val);
+            $("#form").submit();
+        }
     });
 
 </script>

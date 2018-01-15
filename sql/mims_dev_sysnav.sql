@@ -29,7 +29,7 @@ CREATE TABLE `sysnav` (
   `url` varchar(255) DEFAULT NULL COMMENT '导航url',
   `uplevel` int(11) NOT NULL COMMENT '上次导航id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='系统导航表';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='系统导航表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `sysnav` (
 
 LOCK TABLES `sysnav` WRITE;
 /*!40000 ALTER TABLE `sysnav` DISABLE KEYS */;
-INSERT INTO `sysnav` VALUES (2,'工作管理','&#xe63c;','',0),(3,'今日事项处理','&#xe64e;','/itemHandle',2),(4,'事项管理','&#xe64e;','/itemList',2),(5,'项目','&#xe64e;','/prjList',2),(6,'评审细则管理','&#xe64e;','/rewList',2),(7,'自查','&#xe64e;','/sfeList',2),(9,'生活管理','&#xe65e;',NULL,0),(10,'经济管理','&#xe64e;','/ecoList',9),(11,'学习管理','&#xe65e;',NULL,0),(12,'文档管理','&#xe65e;','/docList',11),(13,'系统管理','&#xe65e;',NULL,0),(14,'更新日志','&#xe65e;','/updLog',13),(15,'基础字典管理','&#xe65e;','/dictList',13);
+INSERT INTO `sysnav` VALUES (2,'工作管理','&#xe63c;','',0),(3,'今日事项处理','&#xe64e;','/itemHandle',2),(4,'事项管理','&#xe64e;','/itemList',2),(5,'项目','&#xe64e;','/prjList',2),(6,'评审细则管理','&#xe64e;','/rewList',2),(7,'自查','&#xe64e;','/sfeList',2),(9,'生活管理','&#xe65e;',NULL,0),(10,'经济管理','&#xe64e;','/ecoList',9),(11,'学习管理','&#xe65e;',NULL,0),(12,'文档管理','&#xe65e;','/docList',11),(13,'系统管理','&#xe65e;',NULL,0),(14,'更新日志','&#xe65e;','/updLog',13),(15,'基础字典管理','&#xe65e;','/dictList',13),(16,'考试大纲','&#xe65e;','/sybList',11);
 /*!40000 ALTER TABLE `sysnav` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-12 17:26:29
+-- Dump completed on 2018-01-15 15:13:20

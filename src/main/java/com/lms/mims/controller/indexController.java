@@ -1,7 +1,13 @@
 package com.lms.mims.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lms.mims.domain.study.syllabus.Syllabus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.io.IOException;
 
 @Controller
 public class indexController {
@@ -121,4 +127,29 @@ public class indexController {
         return "front/home";
     }
 
+    @RequestMapping(value = "/showContent", method = RequestMethod.POST)
+    public String showContent(String json, Model model) {
+        try {
+            // jsonstring转对象
+            ObjectMapper om = new ObjectMapper();
+            Syllabus syllabus = om.readValue(json, Syllabus.class);
+            model.addAttribute("syllabus", syllabus);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "front/showContent";
+    }
+
+    @RequestMapping(value = "/show", method = RequestMethod.POST)
+    public String show(String json, Model model) {
+        try {
+            // jsonstring转对象
+            ObjectMapper om = new ObjectMapper();
+            Syllabus syllabus = om.readValue(json, Syllabus.class);
+            model.addAttribute("syllabus", syllabus);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "front/show";
+    }
 }

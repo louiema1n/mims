@@ -1,0 +1,122 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>内容展示</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/custom/css/mycss.css}">
+
+    <style>
+        .body{
+            background-color: #f2f2f2;
+        }
+    </style>
+
+</head>
+<body class="layui-layout-body body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header layui-bg-green">
+        <div class="layui-logo" style="color: white">前台展示</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">考试大纲</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/home">病理技师（初级）</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:;" id="upd">精品文章</a></li>
+        </ul>
+    </div>
+
+    <!-- 中间区域 -->
+    <div class="layui-body" style="left: 0px; padding: 20px 260px">
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-md12" >
+                <!--<div class="layui-col-md9" style="left: 28%">-->
+                    <dl class="fly-panel fly-list-one" style="border-radius: 0px">
+                        <dt class="fly-panel-title fly-panel-header-white" >
+                            <h2 th:switch="${syllabus.req}">
+                                <a class="layui-badge layui-bg-green" th:case="'0'">了解</a>
+                                <a class="layui-badge layui-bg-orange" th:case="'1'">掌握</a>
+                                <a class="layui-badge" th:case="'2'">熟练</a>
+                                <a style="font-weight: bold" th:text="${syllabus.name}"></a>
+                            </h2>
+                        </dt>
+                        <ul class="fly-list" id="content">
+                            <li>
+                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span><span id="block" th:utext="${syllabus.content}">引用区域的文字...</span></blockquote>
+                                <div class="detail-body layui-text photos" th:utext="${syllabus.content}">
+
+                                </div>
+                                <div class="fly-list-info">
+                                    <span><i class="layui-icon" th:text="'&#xe612; ' + ${syllabus.creator}"></i></span>
+                                    <span><i class="layui-icon" th:text="'&#xe60e; ' + ${syllabus.creatdate}"></i></span>
+                                    <span class="fly-list-nums" th:switch="${syllabus.req}">
+                                        <span class="layui-badge-dot" title="熟练掌握" th:case="'2'"></span>
+                                        <span class="layui-badge-dot layui-bg-orange" title="掌握" th:case="'1'"></span>
+                                        <span class="layui-badge-dot layui-bg-green" title="了解" th:case="'0'"></span>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-footer" style="text-align: center; left: 0px">
+        <!-- 底部固定区域 -->
+
+    </div>
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(['layer', 'util'], function(){
+        var $ = layui.jquery;
+
+        //固定块
+//        util.fixbar({
+//            bar1: true
+//            ,bar2: true
+//            ,css: {right: 50, bottom: 100}
+//            ,bgcolor: '#393D49'
+//            ,click: function(type){
+//                if(type === 'bar1'){
+//                    layer.msg('icon是可以随便换的')
+//                } else if(type === 'bar2') {
+//                    layer.msg('两个bar都可以设定是否开启')
+//                }
+//            }
+//        });
+
+        // 初始化底部信息区域数据
+        $.ajax({
+            url: '/upd/get/max',
+            type: 'get',
+            success: function (data) {
+                $(".layui-footer").html("版权归©louiemain所有 - 当前版本v " + data.ver);
+            }
+        });
+
+        // 格式化block
+        var block = $("#block").html();
+        block = block.substr(0, 50) + "......";
+        // 判断是否为中文
+        var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+        if (!reg.test(block)) {
+            block = "未获取到描述内容。";
+        }
+        $("#block").html(block);
+
+    });
+
+</script>
+</body>
+</html>

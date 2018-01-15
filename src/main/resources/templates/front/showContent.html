@@ -52,7 +52,7 @@
                         </dt>
                         <ul class="fly-list" id="content">
                             <li>
-                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span><span id="block" th:utext="${syllabus.content}">引用区域的文字...</span></blockquote>
+                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span><span id="block" th:utext="${syllabus.content}" >引用区域的文字...</span></blockquote>
                                 <div class="detail-body layui-text photos" th:utext="${syllabus.content}">
 
                                 </div>
@@ -112,6 +112,7 @@
 
         // 格式化block
         var block = $("#block").html();
+        // alert(block);
         block = block.substr(0, 50) + "......";
         // 判断是否为中文
         var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");

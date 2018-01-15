@@ -124,3 +124,7 @@ blockquote{
     color: #7c7c7c;
     margin: 5px;
 }
+/* 将会计元素转换成行级元素 */
+blockquote p {
+    display: inline;
+}

@@ -1,7 +1,5 @@
 package com.lms.mims.utils;
 
-import org.springframework.core.io.Resource;
-
 import java.io.*;
 
 /**
@@ -57,27 +55,32 @@ public class JsonUtil {
      * @return void
      */
     public void jsonString2File(String filepath, String json) {
-        FileWriter fw = null;
-        PrintWriter pw = null;
+//        FileWriter fw = null;
+//        PrintWriter pw = null;
+        OutputStreamWriter osw = null;
         try {
-            fw = new FileWriter(filepath);
-            pw = new PrintWriter(fw, true);
-            pw.write(json);
-            pw.close();
-            fw.close();
+//            fw = new FileWriter(filepath);
+//            pw = new PrintWriter(fw, true);
+            osw = new OutputStreamWriter(new FileOutputStream(filepath), "UTF-8");
+            osw.write(json);
+            osw.flush();
+            osw.close();
+//            pw.write(json);
+//            pw.close();
+//            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (fw != null) {
+            if (osw != null) {
                 try {
-                    fw.close();
+                    osw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if (pw != null) {
-                pw.close();
-            }
+//            if (pw != null) {
+//                pw.close();
+//            }
         }
     }
 }

@@ -4,6 +4,7 @@ server:
 # 文件上传地址
 web:
   updPath: D:/WorkStation/Mims/upd-prd/
+  imgPath: D:/WorkStation/Mims/img-dev/
   dwdPath: D:/WorkStation/Mims/dwd-prd/
 
 # 数据源

@@ -102,4 +102,16 @@ public class SyllabusController {
         syllabus.setId(id);
         return this.syllabusService.del(syllabus);
     }
+
+    /**
+     * @description 根据search查询
+     * @author louiemain
+     * @date Created on 2018/1/15 21:42
+     * @param search
+     * @return java.util.List<com.lms.mims.domain.study.syllabus.Syllabus>
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public List<Syllabus> getBySearch(String search) {
+        return this.syllabusService.queryBySearch(search);
+    }
 }

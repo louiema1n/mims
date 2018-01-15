@@ -22,11 +22,16 @@
 
 <!-- 存储所有文章数据 -->
 <input type="hidden" id="allData">
+<input type="hidden" id="tmp" value="0">
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header layui-bg-green">
         <div class="layui-logo" style="color: white">前台展示</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-left">
+            <input type="text" name="title" placeholder="输入内容按回车键或点击别处搜索。" class="layui-input search" >
+        </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">考试大纲</a>
@@ -35,6 +40,9 @@
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="javascript:;" id="upd">精品文章</a></li>
+
+        </ul>
+        <ul class="layui-nav layui-layout-right" style="display: inline">
         </ul>
     </div>
 
@@ -110,17 +118,28 @@
             }
         });
 
-        // 初始文章
-        $.ajax({
-            url: '/syb/all',
-            type: 'get',
-            success: function (data) {
-                var result = data.data;
-                // 存储数据
-                $("#allData").val(JSON.stringify(result));
-                initArticle(result);
+        // 获取文章
+        getArticle();
+        function getArticle() {
+            var search = $(".search").val();
+            // 解决搜索框未改变会继续查询问题
+            if ($("#tmp").val() == search) {
+                return false;
             }
-        });
+            $("#tmp").val(search);
+            $.ajax({
+                url: '/syb/search',
+                type: 'get',
+                data: {
+                    "search": search
+                },
+                success: function (data) {
+                    // 存储数据
+                    $("#allData").val(JSON.stringify(data));
+                    initArticle(data);
+                }
+            });
+        }
 
         // 初始tree
         $.ajax({
@@ -208,6 +227,24 @@
             $("#json").val(val);
             $("#form").submit();
         }
+
+        $(".search").hover(function () {
+            $(".search").parent("li").removeClass('layui-this');
+        })
+
+        // 回车键搜索
+        $(".search").keydown(function(e){
+            // 监听回车键
+            if(e.keyCode==13) {
+                // 失去焦点
+                $(".search").blur();
+                getArticle();
+            }
+        });
+        // 失去焦点搜索
+        $(".search").blur(function () {
+            getArticle();
+        })
     });
 
 </script>

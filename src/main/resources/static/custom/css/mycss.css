@@ -128,3 +128,13 @@ blockquote{
 blockquote p {
     display: inline;
 }
+
+.search {
+    border-radius: 25px;
+    width: 250px;
+    margin: 10px;
+    background-color: #e2e2e2;
+}
+.search:focus {
+    background-color: #ffffff;
+}

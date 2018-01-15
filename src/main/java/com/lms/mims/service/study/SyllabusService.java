@@ -102,4 +102,15 @@ public class SyllabusService {
         }
         return "删除失败";
     }
+
+    /**
+     * @description 根据search查询
+     * @author louiemain
+     * @date Created on 2018/1/15 21:41
+     * @param search
+     * @return java.util.List<com.lms.mims.domain.study.syllabus.Syllabus>
+     */
+    public List<Syllabus> queryBySearch(String search) {
+        return this.syllabusMapper.selectBySearch(search);
+    }
 }

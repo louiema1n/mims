@@ -48,6 +48,7 @@
                                 <a class="layui-badge layui-bg-orange" th:case="'1'">掌握</a>
                                 <a class="layui-badge" th:case="'2'">熟练</a>
                                 <a style="font-weight: bold" th:text="${syllabus.name}"></a>
+                                <a style="float: right" class="fly-list-info" th:text="'[' + ${syllabus.subject} + ']' + ' - ' + '[' + ${syllabus.chapter} + ']' + ' - ' + '[' + ${syllabus.unit} + ']'"></a>
                             </h2>
                         </dt>
                         <ul class="fly-list" id="content">

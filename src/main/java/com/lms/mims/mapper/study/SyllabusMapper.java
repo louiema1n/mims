@@ -18,6 +18,9 @@ public interface SyllabusMapper {
     @Select("select * from syllabus")
     List<Syllabus> selectAll();
 
+    @Select("select * from syllabus where name like concat('%',#{username},'%') or content like concat('%',#{username},'%')")
+    List<Syllabus> selectBySearch(String search);
+
     @InsertProvider(type = SybProviderDao.class, method = "add")
     Integer add(Syllabus syllabus);
 

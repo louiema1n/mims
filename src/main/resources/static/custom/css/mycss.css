@@ -93,7 +93,7 @@
 }
 .fly-list-info{white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .fly-list li h2{height: 26px; font-size: 0;}
-.fly-list li h2 a{display: inline-block; max-width: 80%; padding-right: 10px; font-size: 22px;}
+.fly-list li h2 a{ max-width: 80%; padding-right: 10px; font-size: 22px; line-height: 25px}
 .fly-list li h2 .layui-badge{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px;}
 
 .fly-list-info{position: relative; font-size: 13px; color: #999;}
@@ -138,3 +138,13 @@ blockquote p {
 .search:focus {
     background-color: #ffffff;
 }
+.radio {
+    margin-top: 30px;
+    padding: 5px;
+    line-height: 50px;
+    text-align: center
+}
+.radio button{
+    width: 30%
+}
+

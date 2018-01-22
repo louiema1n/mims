@@ -135,6 +135,10 @@ public class indexController {
     public String exercises() {
         return "front/exercises";
     }
+    @RequestMapping("/exercisesRandom")
+    public String exercisesRandom() {
+        return "front/exercisesRandom";
+    }
     @RequestMapping("/examCatalog")
     public String examCatalog() {
         return "front/examCatalog";

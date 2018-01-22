@@ -127,6 +127,19 @@ public class indexController {
         return "front/home";
     }
 
+    @RequestMapping("/mockExam")
+    public String mockExam() {
+        return "front/mockExam";
+    }
+    @RequestMapping("/exercises")
+    public String exercises() {
+        return "front/exercises";
+    }
+    @RequestMapping("/examCatalog")
+    public String examCatalog() {
+        return "front/examCatalog";
+    }
+
     @RequestMapping(value = "/showContent", method = RequestMethod.POST)
     public String showContent(String json, Model model) {
         try {

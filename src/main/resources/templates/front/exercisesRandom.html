@@ -163,7 +163,7 @@
                         '                                    <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="initTopic()" title="下一题">\n' +
                         '                                        <i class="layui-icon">&#xe602;</i>\n' +
                         '                                    </button>\n' +
-                        '                                    <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="showOrHidden()" title="查看/隐藏答案">\n' +
+                        '                                    <button class="layui-btn layui-btn-primary layui-btn-sm" id="showAnser" onclick="showOrHidden()" style="display: none" title="查看/隐藏答案">\n' +
                         '                                        <i class="layui-icon">&#xe625;</i>\n' +
                         '                                    </button>\n' +
                         '                                </div><br>\n' +
@@ -171,7 +171,7 @@
                         '                                <!-- 答案及解析 -->\n' +
                         '                                <fieldset class="layui-elem-field layui-field-title" style="display: none" id="result">\n' +
                         '                                    <legend style="text-align: center; color: #959595">答案及解析</legend>\n' +
-                        '                                    <h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green">'+data.anser+'</span></h4>\n' +
+                        '                                    <h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green" id="anser">'+data.anser+'</span></h4>\n' +
                         '                                    <h4 style="font-weight: bold; line-height: 30px">解析</h4>\n' +
                         '                                    <blockquote >'+data.analysis+'</blockquote>\n' +
                         '                                </fieldset>\n' +
@@ -183,6 +183,7 @@
                         $("#radio").removeAttr('class', 'layui-col-md9');
                         $("#radio").attr('class', 'layui-col-md12');
                     }
+
                 }
             });
         }
@@ -196,7 +197,32 @@
             } else {
                 $("#result").css('display', 'none');
             }
-        }
+        };
+
+        // 选择答案处理(动态绑定事件处理使用on代理，'.radio .layui-btn'（动态添加的元素）必须包含在"#content"（已经有的元素）中)
+        $("#content").on('click', '.radio .layui-btn', function (e) {
+            var target = $(e.target);
+            var id = e.target.getAttribute("id");
+            var anser = $("#anser").text();
+            // 禁用所有按钮
+            $(".radio .layui-btn").addClass('layui-btn-disabled').attr('disabled', 'disabled');
+            // 启用当前点击按钮
+            target.removeClass('layui-btn-disabled').removeAttr('disabled');
+            // 答案正确
+            if (id == anser) {
+                target.removeClass('layui-btn-primary');
+                $("#showAnser").css('display', 'inline');
+            } else {
+                // 错误
+                target.removeClass('layui-btn-primary').addClass('layui-btn-danger');
+                // 改变正确答案的颜色
+                anser = '#' + anser;
+                $(anser).removeClass('layui-btn-disabled').removeClass('layui-btn-primary');
+                // 显示答案
+                $("#result").css('display', 'block');
+                $("#showAnser").css('display', 'inline');
+            }
+        })
 
         // 初始化底部信息区域数据
         $.ajax({

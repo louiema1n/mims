@@ -122,7 +122,7 @@ blockquote{
     background-color: #f2f2f2;
     padding: 10px;
     color: #7c7c7c;
-    margin: 5px;
+    /*margin: 5px;*/
 }
 /* 将会计元素转换成行级元素 */
 blockquote p {
@@ -139,12 +139,12 @@ blockquote p {
     background-color: #ffffff;
 }
 .radio {
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     padding: 5px;
-    line-height: 50px;
+    line-height: 45px;
     text-align: center
 }
 .radio button{
-    width: 30%
+    width: 60%
 }
 

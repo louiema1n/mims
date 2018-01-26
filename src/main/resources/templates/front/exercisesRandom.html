@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/custom/css/mycss.css}">
 
     <style>
-        .body{
+        .body {
             background-color: #f2f2f2;
         }
     </style>
@@ -49,58 +49,65 @@
     </div>
 
     <!-- 中间区域 -->
-    <div class="layui-body" style="left: 0px; padding: 20px 20%">
+    <div class="layui-body" style="left: 0px; padding: 20px 15%">
         <div class="layui-fluid">
-            <div class="layui-row layui-col-space20">
-                <div class="layui-col-md12" >
-                <!--<div class="layui-col-md9" style="left: 28%">-->
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md10">
+                    <!--<div class="layui-col-md9" style="left: 28%">-->
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
-                        <!--<dt class="fly-panel-title fly-panel-header-white" >题目</dt>-->
+                        <dt class="fly-panel-title fly-panel-header-white" >本次答题成绩单</dt>
                         <ul class="fly-list" id="content">
-                            <!--<li>-->
-                                <!--&lt;!&ndash; 题目内容 &ndash;&gt;-->
-                                <!--<h2>-->
-                                    <!--<a>我是题目我是题目我是题目我是题目我是题目目我是题目我是题目我是题目我是题目</a>-->
-                                    <!--<a style="float: right; font-size: medium" class="fly-list-info">[A1型题]</a>-->
-                                <!--</h2>-->
-                                <!--<hr class="layui-bg-green">-->
-                                <!--&lt;!&ndash; 选项 &ndash;&gt;-->
-                                <!--<div class="layui-fluid">-->
-                                    <!--<div class="layui-row ">-->
-                                        <!--<div class="layui-col-md9" id="radio">-->
-                                            <!--<div class="radio">-->
-                                                <!--<button class="layui-btn layui-btn-radius layui-btn-primary">一个标准的按钮</button><br>-->
-                                                <!--<button class="layui-btn layui-btn-radius layui-btn-primary">一个标准的按钮</button><br>-->
-                                                <!--<button class="layui-btn layui-btn-radius layui-btn-primary">一个标准的按钮</button><br>-->
-                                                <!--<button class="layui-btn layui-btn-radius layui-btn-primary">一个标准的按钮</button><br>-->
-                                                <!--<button class="layui-btn layui-btn-radius layui-btn-primary">一个标准的按钮</button><br>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="layui-col-md3" >-->
-                                            <!--<span id="commons"></span>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--&lt;!&ndash; 按钮 &ndash;&gt;-->
-                                <!--<span style="font-size: medium" class="fly-list-info">第一章 人体解剖学</span>-->
-                                <!--<div class="layui-btn-group" style="float: right">-->
-                                    <!--<button class="layui-btn layui-btn-primary layui-btn-sm" title="下一题">-->
-                                        <!--<i class="layui-icon">&#xe602;</i>-->
-                                    <!--</button>-->
-                                    <!--<button class="layui-btn layui-btn-primary layui-btn-sm" onclick="showOrHidden()" title="查看/隐藏答案">-->
-                                        <!--<i class="layui-icon">&#xe625;</i>-->
-                                    <!--</button>-->
-                                <!--</div><br>-->
-
-                                <!--&lt;!&ndash; 答案及解析 &ndash;&gt;-->
-                                <!--<fieldset class="layui-elem-field layui-field-title" style="display: none" id="result">-->
-                                    <!--<legend style="text-align: center; color: #959595">答案及解析</legend>-->
-                                    <!--<h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green">C</span></h4>-->
-                                    <!--<h4 style="font-weight: bold; line-height: 30px">解析</h4>-->
-                                    <!--<blockquote >你好你好你好你好你好你好你好你好你好你好</blockquote>-->
-                                <!--</fieldset>-->
-                            <!--</li>-->
+                            <li>
+                                <table class="layui-table" lay-skin="nob" >
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td style="text-align: right; color: #a6a6a6">答题模式</td>
+                                        <td>随机</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right">本次答题用时</td>
+                                        <td>00:02:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right">答题人</td>
+                                        <td>10.5.4.165</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right">总题目数</td>
+                                        <td>25</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right">正确</td>
+                                        <td>20</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right">错误</td>
+                                        <td>5</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
+                    </dl>
+                </div>
+                <div class="layui-col-md2">
+                    <dl class="fly-panel fly-list-one" style="border-radius: 0px">
+                        <ul class="fly-list" id="analysis">
+                            <li style="text-align: center">
+                                <h4 style="font-weight: bold; padding-top: 10px">已开始时间</h4>
+                                <span id="showTime">00:00:00</span>
+                                <div style="padding-top: 10px">
+                                    <input type="hidden" id="guid">
+                                    <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="stopAnswer()">
+                                        停止答题
+                                    </button>
+                                </div>
+                            </li>
                         </ul>
                     </dl>
                 </div>
@@ -118,11 +125,16 @@
 <script th:src="@{/custom/js/myjs.js}"></script>
 <script>
     //JavaScript代码区域
-    layui.use('element', function(){
-        var $ = layui.jquery; // 解决modal覆盖外层页面
+    layui.use(['element', 'util'], function () {
+        var $ = layui.jquery,
+            element = layui.element,
+            util = layui.util;
+
+        // 生成guid
+        $("#guid").val(guid());
 
         // 初始化题目
-        window.initTopic = function() {
+        window.initTopic = function () {
             // 生成随机数id
             var id = Math.round(Math.random() * 2139 + 1);
             // 初始化题目
@@ -134,9 +146,10 @@
                     var li = '';
                     li += '<li>\n' +
                         '                                <!-- 题目内容 -->\n' +
+                        '<input type="hidden" id="examid" value="' + data.id + '">' +
                         '                                <h2>\n' +
-                        '                                    <a>'+data.name+'</a>\n' +
-                        '                                    <a style="float: right; font-size: medium" class="fly-list-info">['+data.type+']</a>\n' +
+                        '                                    <a>' + data.name + '</a>\n' +
+                        '                                    <a style="float: right; font-size: medium" class="fly-list-info">[' + data.type + ']</a>\n' +
                         '                                </h2>\n' +
                         '                                <hr class="layui-bg-green">\n' +
                         '                                <!-- 选项 -->\n' +
@@ -144,21 +157,21 @@
                         '                                    <div class="layui-row ">\n' +
                         '                                        <div class="layui-col-md9" id="radio">\n' +
                         '                                            <div class="radio">\n' +
-                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="A">'+data.radio.a+'</button><br>\n' +
-                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="B">'+data.radio.b+'</button><br>\n' +
-                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="C">'+data.radio.c+'</button><br>\n' +
-                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="D">'+data.radio.d+'</button><br>\n' +
-                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="E">'+data.radio.e+'</button><br>\n' +
+                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="A">' + data.radio.a + '</button><br>\n' +
+                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="B">' + data.radio.b + '</button><br>\n' +
+                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="C">' + data.radio.c + '</button><br>\n' +
+                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="D">' + data.radio.d + '</button><br>\n' +
+                        '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="E">' + data.radio.e + '</button><br>\n' +
                         '                                            </div>\n' +
                         '                                        </div>\n' +
                         '                                        <div class="layui-col-md3" >\n' +
-                        '                                            <span id="commons">'+data.commons+'</span>\n' +
+                        '                                            <span id="commons">' + data.commons + '</span>\n' +
                         '                                        </div>\n' +
                         '                                    </div>\n' +
                         '                                </div>\n' +
                         '\n' +
                         '                                <!-- 按钮 -->\n' +
-                        '                                <span style="font-size: medium" class="fly-list-info">'+data.catalog+'</span>\n' +
+                        '                                <span style="font-size: medium" class="fly-list-info">' + data.catalog + '</span>\n' +
                         '                                <div class="layui-btn-group" style="float: right">\n' +
                         '                                    <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="initTopic()" title="下一题">\n' +
                         '                                        <i class="layui-icon">&#xe602;</i>\n' +
@@ -171,12 +184,12 @@
                         '                                <!-- 答案及解析 -->\n' +
                         '                                <fieldset class="layui-elem-field layui-field-title" style="display: none" id="result">\n' +
                         '                                    <legend style="text-align: center; color: #959595">答案及解析</legend>\n' +
-                        '                                    <h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green" id="anser">'+data.anser+'</span></h4>\n' +
+                        '                                    <h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green" id="anser">' + data.anser + '</span></h4>\n' +
                         '                                    <h4 style="font-weight: bold; line-height: 30px">解析</h4>\n' +
-                        '                                    <blockquote >'+data.analysis+'</blockquote>\n' +
+                        '                                    <blockquote >' + data.analysis + '</blockquote>\n' +
                         '                                </fieldset>\n' +
                         '                            </li>';
-                    $("#content").html(li);
+//                    $("#content").html(li);
                     // 初始化选项
                     var commons = $("#commons").text();
                     if (commons == '') {
@@ -191,7 +204,7 @@
         initTopic();
 
         // 显示或隐藏答案
-        window.showOrHidden = function() {
+        window.showOrHidden = function () {
             if ($("#result").css('display') == 'none') {
                 $("#result").css('display', 'block');
             } else {
@@ -203,7 +216,7 @@
         $("#content").on('click', '.radio .layui-btn', function (e) {
             var target = $(e.target);
             var id = e.target.getAttribute("id");
-            var anser = $("#anser").text();
+            var anser = $("#anser").text(), sign = 0;
             // 禁用所有按钮
             $(".radio .layui-btn").addClass('layui-btn-disabled').attr('disabled', 'disabled');
             // 启用当前点击按钮
@@ -212,6 +225,7 @@
             if (id == anser) {
                 target.removeClass('layui-btn-primary');
                 $("#showAnser").css('display', 'inline');
+                sign = 1;
             } else {
                 // 错误
                 target.removeClass('layui-btn-primary').addClass('layui-btn-danger');
@@ -222,6 +236,40 @@
                 $("#result").css('display', 'block');
                 $("#showAnser").css('display', 'inline');
             }
+
+            // 提交答题记录
+            $.ajax({
+                url: '/ansr/add',
+                type: 'post',
+                data: {
+                    "examid": $("#examid").val(),
+                    "selectans": id,
+                    "sign": sign,
+                    "ansid": $("#guid").val(),
+                    "remark": ""
+                },
+                async: false,
+                success: function (data) {
+                    // do something
+                }
+            });
+
+
+            // 获取本题准确率
+            $.ajax({
+                url: '/ansr/getAccuracy/' + $("#examid").val(),
+                type: 'get',
+                success: function (data) {
+                    var accu = '<h4 style="font-weight: bold; padding-top: 10px">本题准确率</h4>\n' +
+                    '                                <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">\n' +
+                    '                                    <div class="layui-progress-bar layui-bg-green" lay-percent="'+(JSON.parse(data)).accuracy+'"></div>\n' +
+                    '                                </div>';
+                    // 初始化进度条
+                    $("#result").append(accu);
+                    element.init('progress');
+                }
+            });
+
         })
 
         // 初始化底部信息区域数据
@@ -232,6 +280,27 @@
                 $(".layui-footer").html("版权归©louiemain所有 - 当前版本v " + data.ver);
             }
         });
+
+        // 计时开始
+        var m = 0, h = 0, s = 0;
+        var timer = setInterval(function () {
+            s++;
+            if (s > 0 && (s % 60) == 0) {
+                m += 1;
+                s = 0;
+            }
+            if (m > 0 && (m % 60) == 0) {
+                h += 1;
+                m = 0;
+            }
+            t = addZero(h) + ":" + addZero(m) + ":" + addZero(s);  //时分秒运算
+            $("#showTime").text(t);
+        }, 1000);
+
+        // 停止答题
+        window.stopAnswer = function () {
+            clearInterval(timer);
+        }
 
     });
 

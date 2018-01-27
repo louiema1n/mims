@@ -16,6 +16,15 @@ public class Ansrecord {
     private String anser;
     private String ansid;
     private String remark;
+    private BLCJExam blcjExam;
+
+    public void setBlcjExam(BLCJExam blcjExam) {
+        this.blcjExam = blcjExam;
+    }
+
+    public BLCJExam getBlcjExam() {
+        return blcjExam;
+    }
 
     public int getId() {
         return id;

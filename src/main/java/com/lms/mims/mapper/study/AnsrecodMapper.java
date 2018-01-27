@@ -1,9 +1,7 @@
 package com.lms.mims.mapper.study;
 
 import com.lms.mims.domain.study.syllabus.Ansrecord;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -15,6 +13,14 @@ public interface AnsrecodMapper {
 
     @Select("select * from ansrecord")
     List<Ansrecord> selectAll();
+
+    @Select("select * from ansrecord where ansid = #{ansid}")
+    @Results(value = {
+            @Result(column = "examid", property = "examid"),
+            @Result(column = "examid", property = "blcjExam", one = @One(select = "com.lms.mims.mapper.study.BLCJExamMapper.selectById"))
+    }
+    )
+    List<Ansrecord> selectByAnsid(@Param("ansid") String ansid);
 
     @Select("select * from ansrecord where examid = #{examid} and anser = #{anser}")
     List<Ansrecord> selectByExamidAndAnser(@Param("examid") int examid, @Param("anser") String anser);

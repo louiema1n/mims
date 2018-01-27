@@ -1,0 +1,136 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>答题成绩单</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/custom/css/mycss.css}">
+
+    <style>
+        .body {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+</head>
+<body class="layui-layout-body body">
+
+<form id="form" action="/showContent" method="post">
+    <input type="hidden" id="json" name="json">
+</form>
+
+<!-- 存储所有文章数据 -->
+<input type="hidden" id="allData">
+<input type="hidden" id="tmp" value="0">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header layui-bg-green">
+        <div class="layui-logo" style="color: white">答题成绩单</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a href="/home">主页</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">病理技师(初级)</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/exercises">练习 - 章节</a></dd>
+                    <dd><a href="/exercisesRandom">练习 - 随机</a></dd>
+                    <dd><a href="/mockExam">考试模拟</a></dd>
+                    <dd><a href="/examCatalog">考试大纲</a></dd>
+                </dl>
+            </li>
+
+            <li class="layui-nav-item"><a href="javascript:;" id="upd">精品文章</a></li>
+
+        </ul>
+        <ul class="layui-nav layui-layout-right" style="display: inline">
+        </ul>
+    </div>
+
+    <!-- 中间区域 -->
+    <div class="layui-body" style="left: 0px; padding: 20px 15%">
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md12">
+                    <!--<div class="layui-col-md9" style="left: 28%">-->
+                    <dl class="fly-panel fly-list-one" style="border-radius: 0px">
+                        <dt class="fly-panel-title fly-panel-header-white" >本次答题成绩单<span class="fly-list-info" style="float: right"> 点击对应数字预览题目</span></dt>
+                        <input th:value="${ansid}" type="hidden" id="ansid">
+                        <ul class="fly-list" id="content">
+                            <li>
+                                <table class="layui-table" lay-skin="nob" >
+                                    <colgroup>
+                                        <col width="200">
+                                        <col width="200">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td class="report-key">答题模式</td>
+                                        <td th:text="${type}">随机</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="report-key">本次答题用时</td>
+                                        <td th:text="${time}">00:02:25</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="report-key">答题人</td>
+                                        <td th:text="${anser}">10.5.4.165</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li>
+                                <ul class="site-doc-color" style="text-align: center">
+                                    <li style="border: 1px solid #FFB800" onclick="review('total')">
+                                        <p th:text="${total}">25</p>
+                                        <p tips>总答题</p>
+                                    </li>
+                                    <li style="border: 1px solid #009688" onclick="review('right')">
+                                        <p th:text="${right}">25</p>
+                                        <p tips>正确</p>
+                                    </li>
+                                    <li style="border: 1px solid #FF5722" onclick="review('left')">
+                                        <p th:text="${left}">25</p>
+                                        <p tips>错误</p>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-footer" style="text-align: center; left: 0px">
+        <!-- 底部固定区域 -->
+
+    </div>
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/custom/js/myjs.js}"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(['element'], function () {
+        var $ = layui.jquery;
+
+        // 初始化底部信息区域数据
+        $.ajax({
+            url: '/upd/get/max',
+            type: 'get',
+            success: function (data) {
+                $(".layui-footer").html("版权归©louiemain所有 - 当前版本v " + data.ver);
+            }
+        });
+
+        window.review = function(val) {
+            window.open("/ansReview/" + $("#ansid").val() + "/" + val);
+        }
+
+    });
+
+</script>
+</body>
+</html>

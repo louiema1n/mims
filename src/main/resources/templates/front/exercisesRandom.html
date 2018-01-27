@@ -55,43 +55,8 @@
                 <div class="layui-col-md10">
                     <!--<div class="layui-col-md9" style="left: 28%">-->
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
-                        <dt class="fly-panel-title fly-panel-header-white" >本次答题成绩单</dt>
+                        <!--<dt class="fly-panel-title fly-panel-header-white" >本次答题成绩单</dt>-->
                         <ul class="fly-list" id="content">
-                            <li>
-                                <table class="layui-table" lay-skin="nob" >
-                                    <colgroup>
-                                        <col width="150">
-                                        <col width="200">
-                                        <col>
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td style="text-align: right; color: #a6a6a6">答题模式</td>
-                                        <td>随机</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right">本次答题用时</td>
-                                        <td>00:02:25</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right">答题人</td>
-                                        <td>10.5.4.165</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right">总题目数</td>
-                                        <td>25</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right">正确</td>
-                                        <td>20</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right">错误</td>
-                                        <td>5</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </li>
                         </ul>
                     </dl>
                 </div>
@@ -99,7 +64,7 @@
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
                         <ul class="fly-list" id="analysis">
                             <li style="text-align: center">
-                                <h4 style="font-weight: bold; padding-top: 10px">已开始时间</h4>
+                                <h4 style="font-weight: bold; padding-top: 10px">离答题已开始</h4>
                                 <span id="showTime">00:00:00</span>
                                 <div style="padding-top: 10px">
                                     <input type="hidden" id="guid">
@@ -189,7 +154,7 @@
                         '                                    <blockquote >' + data.analysis + '</blockquote>\n' +
                         '                                </fieldset>\n' +
                         '                            </li>';
-//                    $("#content").html(li);
+                    $("#content").html(li);
                     // 初始化选项
                     var commons = $("#commons").text();
                     if (commons == '') {
@@ -300,6 +265,7 @@
         // 停止答题
         window.stopAnswer = function () {
             clearInterval(timer);
+            window.location.href = "/ansReport/随机出题/" + $("#showTime").text() + "/" +$("#guid").val();
         }
 
     });

@@ -1,16 +1,28 @@
 package com.lms.mims.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lms.mims.domain.study.syllabus.Ansrecord;
 import com.lms.mims.domain.study.syllabus.Syllabus;
+import com.lms.mims.service.study.AnsrecordService;
+import com.lms.mims.utils.IpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 public class indexController {
+
+    @Autowired
+    private AnsrecordService ansrecordService;
 
     @RequestMapping("/index")
     public String test() {
@@ -144,6 +156,60 @@ public class indexController {
         return "front/examCatalog";
     }
 
+    @RequestMapping(value = "/ansReport/{type}/{time}/{ansid}")
+    public String ansReport(Model model, HttpServletRequest request,
+                            @PathVariable("type") String type,
+                            @PathVariable("time") String time,
+                            @PathVariable("ansid") String ansid) {
+        model.addAttribute("type", type);
+        model.addAttribute("time", time);
+        model.addAttribute("ansid", ansid);
+        model.addAttribute("anser", IpUtil.getIpAddr(request));
+
+        List<Ansrecord> ansrecords = this.ansrecordService.getByAnsid(ansid);
+        int right = 0, left = 0;
+        for (Ansrecord a : ansrecords) {
+            if (a.getSign() == 0) {
+                left++;
+            } else {
+                right++;
+            }
+        }
+        model.addAttribute("total", ansrecords.size());
+        model.addAttribute("right", right);
+        model.addAttribute("left", left);
+
+        return "front/ansReport";
+    }
+
+    @RequestMapping("/ansReview/{ansid}/{flag}")
+    public String ansReview(@PathVariable("ansid") String ansid, @PathVariable("flag") String flag, Model model) {
+        List<Ansrecord> ansrecords = this.ansrecordService.getByAnsid(ansid);
+        List<Ansrecord> dists = new LinkedList<>();
+        switch (flag) {
+            case "total":
+                model.addAttribute("ansrecords", ansrecords);
+                break;
+            case "right":
+                for (Ansrecord a : ansrecords) {
+                    if (a.getSign() == 1) {
+                        dists.add(a);
+                    }
+                }
+                model.addAttribute("ansrecords", dists);
+                break;
+            case "left":
+                for (Ansrecord a : ansrecords) {
+                    if (a.getSign() == 0) {
+                        dists.add(a);
+                    }
+                }
+                model.addAttribute("ansrecords", dists);
+                break;
+        }
+        return "front/ansReview";
+    }
+
     @RequestMapping(value = "/showContent", method = RequestMethod.POST)
     public String showContent(String json, Model model) {
         try {
@@ -157,16 +223,16 @@ public class indexController {
         return "front/showContent";
     }
 
-    @RequestMapping(value = "/show", method = RequestMethod.POST)
-    public String show(String json, Model model) {
-        try {
-            // jsonstring转对象
-            ObjectMapper om = new ObjectMapper();
-            Syllabus syllabus = om.readValue(json, Syllabus.class);
-            model.addAttribute("syllabus", syllabus);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "front/show";
-    }
+//    @RequestMapping(value = "/show", method = RequestMethod.POST)
+//    public String show(String json, Model model) {
+//        try {
+//            // jsonstring转对象
+//            ObjectMapper om = new ObjectMapper();
+//            Syllabus syllabus = om.readValue(json, Syllabus.class);
+//            model.addAttribute("syllabus", syllabus);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return "front/show";
+//    }
 }

@@ -5,27 +5,94 @@
  * @param null
  * @return 
  */
-.childrenBody{
+.childrenBody {
     margin: 10px 10px 0;
     background-color: #f2f2f2;
 }
-.layui-fluid{padding: 0px 0px}
-.fly-panel{margin-bottom: 0px; border-radius: 10px; background-color: #fff; box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.05);}
-.fly-panel[pad20]{padding: 20px;}
-.fly-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px solid #E9E9E9; color: #333; font-size: 14px;}
-.fly-panel-footer{position: relative; text-align: center; background-color: #ffffff; height: 40px; line-height: 40px; padding: 0 15px; border-top: 1px solid #eeeeee; color: #333; font-size: 14px;}
-.fly-panel-border .fly-panel-title{border-bottom: 1px solid #e6e6e6;}
 
-.fly-list-one .fly-panel-title{margin-bottom: 5px;}
-.fly-list-one dd{margin: 0 15px; margin-bottom: 5px; line-height: 26px; list-style: decimal-leading-zero inside; *list-style-type: decimal inside; color: #009E94;}
+.layui-fluid {
+    padding: 0px 0px
+}
+
+.fly-panel {
+    margin-bottom: 0px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.05);
+}
+
+.fly-panel[pad20] {
+    padding: 20px;
+}
+
+.fly-panel-title {
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+    border-bottom: 1px solid #E9E9E9;
+    color: #333;
+    font-size: 14px;
+}
+
+.fly-panel-footer {
+    position: relative;
+    text-align: center;
+    background-color: #ffffff;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    border-top: 1px solid #eeeeee;
+    color: #333;
+    font-size: 14px;
+}
+
+.fly-panel-border .fly-panel-title {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.fly-list-one .fly-panel-title {
+    margin-bottom: 5px;
+}
+
+.fly-list-one dd {
+    margin: 0 15px;
+    margin-bottom: 5px;
+    line-height: 26px;
+    list-style: decimal-leading-zero inside;
+    *list-style-type: decimal inside;
+    color: #009E94;
+}
+
 .fly-list-one dd a,
-.fly-list-one dd span{display: inline-block; *display: inline; *zoom: 1; vertical-align: top; font-style: normal}
-.fly-list-one dd a{max-width: 85%; margin-right: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;}
-.fly-list-one dd span{font-size: 12px; color: #ccc;}
-.fly-list-one dd:last-child{padding-bottom: 5px;}
+.fly-list-one dd span {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: top;
+    font-style: normal
+}
+
+.fly-list-one dd a {
+    max-width: 85%;
+    margin-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.fly-list-one dd span {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.fly-list-one dd:last-child {
+    padding-bottom: 5px;
+}
 
 /*i:hover {*/
-    /*font-size: 30px;*/
+/*font-size: 30px;*/
 /*}*/
 
 .fly-panel-header {
@@ -36,22 +103,27 @@
     background-color: #FD482C;
     color: white;
 }
+
 .header-white {
     background-color: #ffffff;
     color: black;
 }
+
 .header-green {
     background-color: #009688;
     color: white;
 }
+
 .header-gray {
     background-color: #d2d2d2;
     color: gray;
 }
+
 .header-orange {
     background-color: #FFB800;
     color: white;
 }
+
 .layui-badge-rim {
     height: 25px;
     width: 15%;
@@ -59,71 +131,184 @@
     border-radius: 25px;
     cursor: pointer
 }
+
 .layui-badge-rim:hover {
     background-color: #f2f2f2;
 }
+
 .rim-red {
     border: solid 1px red;
     color: red;
 }
+
 .rim-green {
     border: solid 1px #009688;
     color: #009688;
 }
+
 .td-key {
     background-color: #f2f2f2;
     text-align: right;
     white-space: nowrap;
 }
+
 .td-value {
     color: black;
 }
+
 .layui-table {
     table-layout: fixed;
 }
+
 .panel-hidden {
     display: none;
 }
 
-.fly-list li{position: relative; height: 100%; line-height: 22px; padding: 15px; border-bottom: 1px dotted #e2e2e2;}
-.fly-list li:last-child{border-bottom: none;}
+.fly-list li {
+    position: relative;
+    height: 100%;
+    line-height: 22px;
+    padding: 15px;
+    border-bottom: 1px dotted #e2e2e2;
+}
+
+.fly-list li:last-child {
+    border-bottom: none;
+}
+
 .fly-list li h2,
-.fly-list li h2 a:hover{
+.fly-list li h2 a:hover {
     color: #009688;
 }
-.fly-list-info{white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-.fly-list li h2{height: 26px; font-size: 0;}
-.fly-list li h2 a{ max-width: 80%; padding-right: 10px; font-size: 22px; line-height: 25px}
-.fly-list li h2 .layui-badge{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px;}
 
-.fly-list-info{position: relative; font-size: 13px; color: #999;}
-.fly-list-info>*{padding-right: 15px;}
-.fly-list-info a[link]{color: #999;}
-.fly-list-info a[link]:hover{color: #5FB878;}
-.fly-list-info .icon-renzheng{position: relative; top: 1px; margin-right: 3px;}
-.fly-list-info .fly-badge-vip{position: relative; margin-left: 2px;}
-.fly-list-kiss{color: #FF5722;}
-.fly-list-nums{position: absolute; right: 0; top: 0; padding-right: 0!important;}
-.fly-list-nums i{position: relative; padding: 0 3px 0 15px;}
+.fly-list-info {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-.fly-list-badge{position: absolute; right: 15px; top: 15px; font-size: 0;}
-.fly-list-badge .layui-badge{margin-left: 5px; border-radius: 2px; font-size: 12px;}
+.fly-list li h2 {
+    height: 26px;
+    font-size: 0;
+}
 
-.detail-body{margin: 20px 0 0; min-height: 40px; line-height: 26px; font-size: 16px; color: #333; word-wrap: break-word;}
-.detail-body p{margin-bottom:15px;}
-.detail-body img{max-width: 100%; cursor: crosshair;}
+.fly-list li h2 a {
+    max-width: 80%;
+    padding-right: 10px;
+    font-size: 22px;
+    line-height: 25px
+}
 
-.detail-body .layui-btn{margin: 0 10px 10px 0;}
-.detail-body .layui-btn a{color: #fff;}
-.detail-body ul>li{margin-top: 0;}
-.detail-body .layui-elem-quote{margin: 10px 0; font-size: 14px; line-height: 26px;}
+.fly-list li h2 .layui-badge {
+    top: -2px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 5px;
+    margin-right: 10px;
+    font-size: 12px;
+}
 
-blockquote{
+.fly-list-info {
+    position: relative;
+    font-size: 13px;
+    color: #999;
+}
+
+.fly-list-info > * {
+    padding-right: 15px;
+}
+
+.fly-list-info a[link] {
+    color: #999;
+}
+
+.fly-list-info a[link]:hover {
+    color: #5FB878;
+}
+
+.fly-list-info .icon-renzheng {
+    position: relative;
+    top: 1px;
+    margin-right: 3px;
+}
+
+.fly-list-info .fly-badge-vip {
+    position: relative;
+    margin-left: 2px;
+}
+
+.fly-list-kiss {
+    color: #FF5722;
+}
+
+.fly-list-nums {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-right: 0 !important;
+}
+
+.fly-list-nums i {
+    position: relative;
+    padding: 0 3px 0 15px;
+}
+
+.fly-list-badge {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 0;
+}
+
+.fly-list-badge .layui-badge {
+    margin-left: 5px;
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.detail-body {
+    margin: 20px 0 0;
+    min-height: 40px;
+    line-height: 26px;
+    font-size: 16px;
+    color: #333;
+    word-wrap: break-word;
+}
+
+.detail-body p {
+    margin-bottom: 15px;
+}
+
+.detail-body img {
+    max-width: 100%;
+    cursor: crosshair;
+}
+
+.detail-body .layui-btn {
+    margin: 0 10px 10px 0;
+}
+
+.detail-body .layui-btn a {
+    color: #fff;
+}
+
+.detail-body ul > li {
+    margin-top: 0;
+}
+
+.detail-body .layui-elem-quote {
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 26px;
+}
+
+blockquote {
     background-color: #f2f2f2;
     padding: 10px;
     color: #7c7c7c;
     /*margin: 5px;*/
 }
+
 /* 将会计元素转换成行级元素 */
 blockquote p {
     display: inline;
@@ -135,16 +320,48 @@ blockquote p {
     margin: 10px;
     background-color: #e2e2e2;
 }
+
 .search:focus {
     background-color: #ffffff;
 }
+
 .radio {
     /*margin-top: 30px;*/
     padding: 5px;
     line-height: 45px;
     text-align: center
 }
-.radio button{
+
+.radio button {
     width: 60%
 }
 
+.report-key {
+    text-align: right;
+    color: #939393;
+}
+
+.site-doc-color {
+    font-size: 0;
+}
+
+.site-doc-color li {
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 40px;
+    line-height: 22px;
+    font-size: 20px;
+}
+.site-doc-color li:hover {
+    background-color: #f2f2f2;
+}
+.site-doc-color li p[tips] {
+    opacity: 0.8;
+    font-size: 12px;
+}

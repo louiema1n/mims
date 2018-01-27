@@ -39,4 +39,15 @@ public class AnsrecordService {
     public List<Ansrecord> getByExamidAndAnser(int examid, String anser) {
         return this.ansrecodMapper.selectByExamidAndAnser(examid, anser);
     }
+
+    /**
+     * @description 根据ansid查询
+     * @author louiemain
+     * @date Created on 2018-01-27 23:45
+     * @param ansid
+     * @return java.util.List<com.lms.mims.domain.study.syllabus.Ansrecord>
+     */
+    public List<Ansrecord> getByAnsid(String ansid) {
+        return this.ansrecodMapper.selectByAnsid(ansid);
+    }
 }

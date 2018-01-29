@@ -17,6 +17,15 @@ public class Ansrecord {
     private String ansid;
     private String remark;
     private BLCJExam blcjExam;
+    private int flag;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public void setBlcjExam(BLCJExam blcjExam) {
         this.blcjExam = blcjExam;

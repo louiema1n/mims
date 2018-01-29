@@ -26,7 +26,7 @@
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header layui-bg-green">
-        <div class="layui-logo" style="color: white">初级病理技师习题练习系统</div>
+        <div class="layui-logo" style="color: white">初级病理技师随机练习系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
@@ -155,7 +155,7 @@
                         '                                </fieldset>\n' +
                         '                            </li>';
                     $("#content").html(li);
-                    // 初始化选项
+                    // 初始化共用备选答案
                     var commons = $("#commons").text();
                     if (commons == '') {
                         $("#radio").removeAttr('class', 'layui-col-md9');
@@ -185,7 +185,7 @@
             // 禁用所有按钮
             $(".radio .layui-btn").addClass('layui-btn-disabled').attr('disabled', 'disabled');
             // 启用当前点击按钮
-            target.removeClass('layui-btn-disabled').removeAttr('disabled');
+            target.removeClass('layui-btn-disabled');
             // 答案正确
             if (id == anser) {
                 target.removeClass('layui-btn-primary');
@@ -211,7 +211,8 @@
                     "selectans": id,
                     "sign": sign,
                     "ansid": $("#guid").val(),
-                    "remark": ""
+                    "remark": "",
+                    "flag": 0
                 },
                 async: false,
                 success: function (data) {

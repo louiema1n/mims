@@ -25,6 +25,9 @@ public interface AnsrecodMapper {
     @Select("select * from ansrecord where examid = #{examid} and anser = #{anser}")
     List<Ansrecord> selectByExamidAndAnser(@Param("examid") int examid, @Param("anser") String anser);
 
+    @Select("select * from ansrecord where examid = #{examid} and anser = #{anser} and flag =#{flag}")
+    Ansrecord selectByExamidAndFlag(@Param("examid") int examid, @Param("anser") String anser, @Param("flag") int flag);
+
     @InsertProvider(type = AnsrecordProviderDao.class, method = "add")
     Integer add(Ansrecord ansrecord);
 
@@ -38,14 +41,15 @@ public interface AnsrecodMapper {
          * @return java.lang.String
          */
         public String add(Ansrecord ansrecord) {
-            String sql = "insert into ansrecord (examid, selectans, sign, anstime, anser, ansid, remark) values ("
+            String sql = "insert into ansrecord (examid, selectans, sign, anstime, anser, ansid, remark, flag) values ("
                     + ansrecord.getExamid() + ", '"
                     + ansrecord.getSelectans() + "', "
                     + ansrecord.getSign() + ", '"
                     + ansrecord.getAnstime() + "', '"
                     + ansrecord.getAnser() + "', '"
                     + ansrecord.getAnsid() + "', '"
-                    + ansrecord.getRemark() + "')";
+                    + ansrecord.getRemark() + "', "
+                    + ansrecord.getFlag() + ")";
             return sql;
         }
 

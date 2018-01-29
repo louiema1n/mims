@@ -50,4 +50,17 @@ public class AnsrecordService {
     public List<Ansrecord> getByAnsid(String ansid) {
         return this.ansrecodMapper.selectByAnsid(ansid);
     }
+
+    /**
+     * @description 根据flag、examid查询
+     * @author louiemain
+     * @date Created on 2018-01-29 17:06
+     * @param examid
+     * @param anser
+     * @param flag
+     * @return com.lms.mims.domain.study.syllabus.Ansrecord
+     */
+    public Ansrecord getByExamidAndFlag(int examid, String anser, int flag) {
+        return this.ansrecodMapper.selectByExamidAndFlag(examid, anser, flag);
+    }
 }

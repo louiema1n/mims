@@ -24,9 +24,9 @@ public class indexController {
     @Autowired
     private AnsrecordService ansrecordService;
 
-    @RequestMapping("/index")
+    @RequestMapping("/test")
     public String test() {
-        return "back/index";
+        return "test";
     }
 
     @RequestMapping("/main")
@@ -143,9 +143,9 @@ public class indexController {
     public String mockExam() {
         return "front/mockExam";
     }
-    @RequestMapping("/exercises")
-    public String exercises() {
-        return "front/exercises";
+    @RequestMapping("/exercisesChapter")
+    public String exercisesChapter() {
+        return "front/exercisesChapter";
     }
     @RequestMapping("/exercisesRandom")
     public String exercisesRandom() {

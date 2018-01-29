@@ -65,4 +65,19 @@ public class AnsrecordController {
         String result = "{\"accuracy\":\"" + accuracy + " / " + ansrecords.size() + "\"}";
         return result;
     }
+
+    /**
+     * @description 根据examid、flag查询
+     * @author louiemain
+     * @date Created on 2018-01-29 17:10
+     * @param examid
+     * @param flag
+     * @param request
+     * @return com.lms.mims.domain.study.syllabus.Ansrecord
+     */
+    @RequestMapping("/get/{examid}/{flag}")
+    public Ansrecord getByExamidAndFlag(@PathVariable("examid") int examid, @PathVariable("flag") int flag, HttpServletRequest request) {
+        String ipAddr = IpUtil.getIpAddr(request);
+        return this.ansrecordService.getByExamidAndFlag(examid, ipAddr, flag);
+    }
 }

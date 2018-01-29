@@ -11,6 +11,13 @@ spring:
   profiles:
     active: dev
 
+  # pagehelper(https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md)
+  pagehelper:
+    offset-as-page-num: true
+    helper-dialect: mysql
+    row-bounds-with-count: true
+    reasonable: true
+
 # 表示所有的访问都经过静态资源路径；
   mvc:
     static-path-pattern: /**

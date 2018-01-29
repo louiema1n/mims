@@ -17,6 +17,8 @@ spring:
     helper-dialect: mysql
     row-bounds-with-count: true
     reasonable: true
+#    如果pageSize=0，则查询出所有结果
+    pageSizeZero: true
 
 # 表示所有的访问都经过静态资源路径；
   mvc:

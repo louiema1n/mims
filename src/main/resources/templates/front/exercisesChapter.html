@@ -70,9 +70,9 @@
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
                         <dt class="fly-panel-title">题目
                             <div class="fly-panel-title fly-filter fly-filter-right">
-                                <a href="/column/all/" class="layui-this">全部</a><span class="fly-mid"></span><a
-                                    href="/column/all/unsolved/">未做</a><span class="fly-mid"></span><a
-                                    href="/column/all/solved/">已做</a>
+                                <a href="javascript:;" id="all" class="layui-this">全部</a><span class="fly-mid"></span><a
+                                    href="javascript:;" id="no" >未做</a><span class="fly-mid"></span><a
+                                    href="javascript:;" id="yes" >已做</a>
                             </div>
                         </dt>
                         <ul class="fly-list" id="content">
@@ -177,8 +177,6 @@
         // 根据目录名获取题目
         var allData;
         function getTopicByCatalog(name) {
-            // 清空当前已有题目
-            $("#content").html('');
             // 获取全部数据
             $.ajax({
                 url: '/blcj/getTopicByCatalog/' + name + '/' + 1 + '/0',
@@ -186,6 +184,8 @@
                 async: false,
                 success: function (data) {
                     allData = data;
+                    $(".fly-filter a").removeClass("layui-this");
+                    $(".fly-filter a#all").addClass("layui-this");
                 }
             });
             if (allData.total != 0) {
@@ -195,6 +195,8 @@
 
         // 流加载数据
         function flowLoad(res, pageSize) {
+            // 清空当前已有题目
+            $("#content").html('');
             var dist = res.rows, j = 0;
             flow.load({
                 elem: '#content' //流加载容器
@@ -204,10 +206,11 @@
                     var lis = [];
                     var newDist = [];
                     // 遍历pageSize个数据
-                    for (var i = pageSize * j; i < pageSize * (j + 1); i++) {
+                    for (var i = pageSize * j; i < pageSize * (j + 1) && i < dist.length; i++) {
                         newDist.push(dist[i]);
                     }
                     j++;
+
                     layui.each(newDist, function (index, data) {
                         var li = '<li id="' + data.id + '">\n' +
                             '                                <!-- 题目内容 -->\n' +
@@ -262,6 +265,9 @@
                                 $(".radio .layui-btn[name='" + res.examid + "']#" + data.anser + "").removeClass('layui-btn-disabled').removeClass('layui-btn-danger').removeClass('layui-btn-primary');
                                 // title变灰
                                 $("#" + res.examid + " [name='title']").css('color', '#999');
+                                // 显示答案
+                                $("#" + res.examid + "").find("[name='result']").css('display', 'block');
+                                $("#" + res.examid + "").find("[name='showAnser']").css('display', 'inline');
                             }
                         });
                     });
@@ -282,6 +288,49 @@
 
             });
         }
+
+        // 过滤数据
+        $(".fly-filter a").click(function (e) {
+            var target = $(e.target);
+            $(".fly-filter a").removeClass("layui-this");
+            target.addClass("layui-this");
+            var yestotal = 0, nototal = 0;
+            var yesrows = [], norows = [];
+            var data = allData.rows, yesData = {'total':'', 'rows':[]}, noData = {'total':'', 'rows':[]};
+            for (var i = 0; i < data.length; i++) {
+                // 判断是否在章节顺序答题
+                $.ajax({
+                    url: '/ansr/get/' + data[i].id + '/' + 1,
+                    type: 'get',
+                    async: false,
+                    success: function (res) {
+                        if (res.length != 0) {
+                            // 已答题
+                            yestotal++;
+                            yesrows.push(data[i]);
+                        } else {
+                            nototal++;
+                            norows.push(data[i]);
+                        }
+                    }
+                });
+            }
+            yesData.rows = yesrows;
+            yesData.total = yestotal;
+            noData.rows = norows;
+            noData.total = nototal;
+            switch (target.attr('id')) {
+                case 'all':
+                    flowLoad(allData, 10);
+                    break;
+                case 'yes':
+                    flowLoad(yesData, 10);
+                    break;
+                case 'no':
+                    flowLoad(noData, 10);
+                    break;
+            }
+        })
 
         // 选择答案处理(动态绑定事件处理使用on代理，'.radio .layui-btn'（动态添加的元素）必须包含在"#content"（已经有的元素）中)
         $("#content").on('click', '.radio .layui-btn', function (e) {

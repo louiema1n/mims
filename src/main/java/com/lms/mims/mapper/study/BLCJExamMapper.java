@@ -26,4 +26,18 @@ public interface BLCJExamMapper {
     }
     )
     List<BLCJExam> selectByCatalog(@Param("catalog") String catalog);
+
+    @Select("SELECT * FROM blcjexam AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM blcjexam)-(SELECT MIN(id) FROM blcjexam))+(SELECT MIN(id) FROM blcjexam)) AS id) AS t2 WHERE t1.id >= t2.id ORDER BY t1.id LIMIT 1")
+    @Results(value = {
+            @Result(column = "rid", property = "rid"),
+            @Result(column = "rid", property = "radio", one = @One(select = "com.lms.mims.mapper.study.RadioMapper.selectById"))
+    })
+    BLCJExam selectRandOne();
+
+    @Select("select * from blcjexam where name like concat('%',#{search},'%') or commons like concat('%',#{search},'%') or analysis like concat('%',#{search},'%')")
+    @Results(value = {
+            @Result(column = "rid", property = "rid"),
+            @Result(column = "rid", property = "radio", one = @One(select = "com.lms.mims.mapper.study.RadioMapper.selectById"))
+    })
+    List<BLCJExam> selectBySearch(String search);
 }

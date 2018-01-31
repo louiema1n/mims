@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>病理技师（初级）模拟考试系统</title>
+    <title>病理技师（初级）考试模拟</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/custom/css/mycss.css}">
 
     <style>
-        .body{
+        .body {
             background-color: #f2f2f2;
         }
     </style>
@@ -16,17 +16,13 @@
 </head>
 <body class="layui-layout-body body">
 
-<form id="form" action="/showContent" method="post">
-    <input type="hidden" id="json" name="json">
-</form>
-
 <!-- 存储所有文章数据 -->
 <input type="hidden" id="allData">
 <input type="hidden" id="tmp" value="0">
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header layui-bg-green">
-        <div class="layui-logo" style="color: white">初级病理技师模拟考试系统</div>
+        <div class="layui-logo" style="color: white">初级病理技师考试模拟系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
@@ -34,11 +30,13 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">病理技师(初级)</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="/exercises">习题练习</a></dd>
+                    <dd><a href="/exercisesChapter">练习 - 章节</a></dd>
+                    <dd><a href="/exercisesRandom">练习 - 随机</a></dd>
                     <dd><a href="/mockExam">考试模拟</a></dd>
                     <dd><a href="/examCatalog">考试大纲</a></dd>
                 </dl>
             </li>
+
             <li class="layui-nav-item"><a href="javascript:;" id="upd">精品文章</a></li>
 
         </ul>
@@ -47,29 +45,30 @@
     </div>
 
     <!-- 中间区域 -->
-    <div class="layui-body" style="left: 0px; padding: 20px 80px">
+    <div class="layui-body" style="left: 0px; padding: 20px 10%">
         <div class="layui-fluid">
-            <div class="layui-row layui-col-space20">
-                <div class="layui-col-md3" style="display: block; height: 20%;">
-                <!--<div class="layui-col-md3" style="display: block; height: 20%; position: fixed">-->
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md10" id="top">
+                    <!--<div class="layui-col-md9" style="left: 28%">-->
                     <dl class="fly-panel fly-list-one" style="border-radius: 0px">
-                        <dt class="fly-panel-title">
-                            导航
-                        </dt>
-                        <dd>
-                            <!-- tree -->
-                            <div style="display: inline-block; width: 100%; height: 100%; padding: 10px; overflow: auto;">
-                                <ul id="dict"></ul>
-                            </div>
-                        </dd>
+                        <dt class="fly-panel-title fly-panel-header-white" >考试题目<span class="fly-list-info" style="float: right"> 随机生成100题</span></dt>
+                        <ul class="fly-list" id="content">
+                        </ul>
                     </dl>
                 </div>
-                <div class="layui-col-md9" >
-                <!--<div class="layui-col-md9" style="left: 28%">-->
-                    <dl class="fly-panel fly-list-one" style="border-radius: 0px">
-                        <dt class="fly-panel-title fly-panel-header-white" >文章</dt>
-                        <ul class="fly-list" id="content">
-
+                <div class="layui-col-md2" >
+                    <dl class="fly-panel fly-list-one" style="border-radius: 0px; position: fixed; margin-left: 10px; width: 12%">
+                        <ul class="fly-list" id="analysis">
+                            <li style="text-align: center">
+                                <h4 style="font-weight: bold; padding-top: 10px">剩余答题时间</h4>
+                                <span id="showTime">00:00:00</span>
+                                <div style="padding-top: 10px">
+                                    <input type="hidden" id="guid">
+                                    <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="stopAnswer()">
+                                        停止答题
+                                    </button>
+                                </div>
+                            </li>
                         </ul>
                     </dl>
                 </div>
@@ -87,27 +86,28 @@
 <script th:src="@{/custom/js/myjs.js}"></script>
 <script>
     //JavaScript代码区域
-    layui.use(['element', 'layer', 'laydate', 'form', 'tree', 'util'], function(){
+    layui.use(['element', 'layer', 'tree', 'util', 'flow'], function () {
         var $ = layui.jquery
             , element = layui.element
-            , layer = layui.layer,
-            laydate = layui.laydate, form = layui.form
-            ,util = layui.util;; // 解决modal覆盖外层页面
+            , layer = layui.layer
+            , util = layui.util
+            , flow = layui.flow; // 解决modal覆盖外层页面
+
+        // 生成guid
+        $("#guid").val(guid());
 
         //固定块
-//        util.fixbar({
-//            bar1: true
-//            ,bar2: true
-//            ,css: {right: 50, bottom: 100}
-//            ,bgcolor: '#393D49'
-//            ,click: function(type){
-//                if(type === 'bar1'){
-//                    layer.msg('icon是可以随便换的')
-//                } else if(type === 'bar2') {
-//                    layer.msg('两个bar都可以设定是否开启')
-//                }
-//            }
-//        });
+        util.fixbar({
+            bar2: '&#xe604;'
+            , showHeight: 200
+            , css: {right: 30, bottom: 50}
+            , bgcolor: '#c2c2c2'
+            , click: function (type) {
+                if (type === 'bar2') {
+                    window.location.href = "#top";
+                }
+            }
+        });
 
         // 初始化底部信息区域数据
         $.ajax({
@@ -118,114 +118,146 @@
             }
         });
 
-        // 获取文章
-        getArticle();
-        function getArticle() {
-            var search = $(".search").val();
-            // 解决搜索框未改变会继续查询问题
-            if ($("#tmp").val() == search) {
-                return false;
-            }
-            $("#tmp").val(search);
-            $.ajax({
-                url: '/syb/search',
-                type: 'get',
-                data: {
-                    "search": search
-                },
-                success: function (data) {
-                    // 存储数据
-                    $("#allData").val(JSON.stringify(data));
-                    initArticle(data);
-                }
-            });
-        }
-
-        // 初始tree
+        // 获取全部数据
         $.ajax({
-            url: '/syb/get/catalog',
+            url: '/blcj/getExamTopic',
             type: 'get',
+            async: false,
             success: function (data) {
-                layui.tree({
-                    elem: '#dict' //指定元素
-                    ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
-                    ,click: function(item) { //点击节点回调
-                        var allData = JSON.parse($("#allData").val());
-                        var dist = new Array();
-                        for (var i = 0; i < allData.length; i++) {
-                            if (allData[i].subject == item.name || allData[i].chapter == item.name || allData[i].unit == item.name) {
-                                dist.push(allData[i]);
-                            }
-                        }
-                        initArticle(dist);
-                    }
-                    ,nodes: JSON.parse(data)
-                });
-
+                if (data.length != 0) {
+                    flowLoad(data, 10);
+                } else {
+                    alert("服务器繁忙，请稍后重试。");
+                }
             }
         });
 
-        // 初始化文章
-        function initArticle(result) {
-            var lis = '';
-            for (var i = 0; i < result.length; i++) {
-                // 颜色
-                var color = '';
-                // 文字
-                var title = '';
-                switch (result[i].req) {
-                    case 0:
-                        color = 'layui-bg-green';
-                        title = '了解';
-                        break;
-                    case 1:
-                        color = 'layui-bg-orange';
-                        title = '掌握';
-                        break;
-                    case 2:
-                        color = '';
-                        title = '熟练';
-                        break;
+        // 流加载数据
+        function flowLoad(res, pageSize) {
+            // 清空当前已有题目
+            $("#content").html('');
+            var j = 0;
+            flow.load({
+                elem: '#content' //流加载容器
+                , scrollElem: '.layui-body' // 滚动条所属元素
+                , end: '这回真没有了。。。'
+                , done: function (page, next) { //执行下一页的回调
+                    var lis = [];
+                    var newDist = [];
+                    // 遍历pageSize个数据
+                    for (var i = pageSize * j; i < pageSize * (j + 1) && i < res.length; i++) {
+                        newDist.push(res[i]);
+                    }
+                    j++;
+                    layui.each(newDist, function (index, data) {
+                        var li = '<li id="' + data.id + '">\n' +
+                            '                                <!-- 题目内容 -->\n' +
+                            //                            '                                <input type="hidden" name="id" value="'+data[i].id+'">\n' +
+                            '                                <h2>\n' +
+                            '                                    <a name="title">' + (((i - pageSize) > 0 ? i - pageSize : 0) + index + 1) + handleTitle(data.name) + '</a>\n' +
+                            '                                    <a style="float: right; font-size: medium" class="fly-list-info">' + data.type + '</a>\n' +
+                            '                                </h2>\n' +
+                            '                                <hr class="layui-bg-green">\n' +
+                            '                                <!-- 选项 -->\n' +
+                            '                                <div class="layui-fluid">\n' +
+                            '                                    <div class="layui-row ">\n' +
+                            '                                        <div class="layui-col-md9" name="radio">\n' +
+                            '                                            <div class="radio">\n' +
+                            '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="A" name="' + data.id + '">' + data.radio.a + '</button><br>\n' +
+                            '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="B" name="' + data.id + '">' + data.radio.b + '</button><br>\n' +
+                            '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="C" name="' + data.id + '">' + data.radio.c + '</button><br>\n' +
+                            '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="D" name="' + data.id + '">' + data.radio.d + '</button><br>\n' +
+                            '                                                <button class="layui-btn layui-btn-radius layui-btn-primary" id="E" name="' + data.id + '">' + data.radio.e + '</button><br>\n' +
+                            '                                            </div>\n' +
+                            '                                        </div>\n' +
+                            '                                        <div class="layui-col-md3" >\n' +
+                            '                                            <span name="commons">' + data.commons + '</span>\n' +
+                            '                                        </div>\n' +
+                            '                                    </div>\n' +
+                            '                                </div>\n' +
+                            '                            </li>';
+                        lis.push(li);
+                    });
+
+                    //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                    //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                    next(lis.join(''), page < (res.length % pageSize > 0 ? (res.length / pageSize + 1) : (res.length / pageSize)));
+                    // 初始化共用备选答案
+                    var commons = $("[name='commons']");
+                    for (var i = 0; i < commons.length; i++) {
+                        if ($(commons[i]).text() == '') {
+                            // parent父级元素；prev上一个同级元素
+                            $(commons[i]).parent().prev().removeAttr('class', 'layui-col-md9');
+                            $(commons[i]).parent().prev().attr('class', 'layui-col-md12');
+                        }
+                    }
                 }
 
-                // 引用文字
-                var block = result[i].content;
-                block = block.substr(0, 50) + "......";
-                // 判断是否为中文
-                var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
-                if (!reg.test(block)) {
-                    block = "未获取到描述内容。";
-                }
-
-                // 处理content&name中的引号
-                var content = result[i].content, name = result[i].name;
-                name = name.replace(/"/g, '\\\"');
-                content = content.replace(/"/g, '\\\"');
-                result[i].name = name;
-                result[i].content = content;
-
-                lis += '                        <li>\n' +
-                    '                                <h2>\n' +
-                    '                                    <a class="layui-badge '+color+'">'+title+'</a>\n' +
-                    '                                    <a href="javascript:;" onclick="show(\''+JSON.stringify(result[i]).replace(/"/g, '&quot;') +'\')">'+result[i].name+'</a>\n' +
-                    '                                </h2>\n' +
-                    '                                <blockquote><span style="font-size: 30px; font-weight: bold">” </span>'+block+'</blockquote>\n' +
-                    '                                <div class="fly-list-info">\n' +
-                    '                                    <span><i class="layui-icon">&#xe612; </i>'+result[i].creator+'</span>\n' +
-                    '                                    <span><i class="layui-icon">&#xe60e; </i>'+timeStamp2String(result[i].creatdate)+'</span>\n' +
-                    '                                    <span class="fly-list-nums">\n' +
-                    '                                        <span class="layui-badge-dot '+color+'" title="'+title+'"></span>\n' +
-                    '                                    </span>\n' +
-                    '                                </div>\n' +
-                    '                            </li>';
-            }
-            $("#content").html(lis);
+            });
         }
 
-        // 展示内容
-        window.show = function(val) {
-            $("#json").val(val);
-            $("#form").submit();
+        // 去掉原题目名中的数字
+        function handleTitle(title) {
+            return title.substr(title.indexOf('.'));
+        }
+
+        // 选择答案处理(动态绑定事件处理使用on代理，'.radio .layui-btn'（动态添加的元素）必须包含在"#content"（已经有的元素）中)
+        $("#content").on('click', '.radio .layui-btn', function (e) {
+            var target = $(e.target);
+            var selectAns = e.target.getAttribute("id");
+            // 获取当前点击的题目id
+            var examId = e.target.getAttribute("name");
+            var anser = $("#" + examId + "").find("[name='anser']").text(), sign = 0;
+            // 禁用当前题目所有按钮
+            $(".radio .layui-btn[name='" + examId + "']").addClass('layui-btn-disabled').attr('disabled', 'disabled');
+            // 启用当前点击按钮
+            target.removeClass('layui-btn-disabled').removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            // 答案正确
+            if (selectAns == anser) {
+                sign = 1;
+            } else {
+                // 错误
+            }
+
+            // 提交答题记录
+            $.ajax({
+                url: '/ansr/add',
+                type: 'post',
+                data: {
+                    "examid": examId,
+                    "selectans": selectAns,
+                    "sign": sign,
+                    "ansid": $("#guid").val(),
+                    "remark": "",
+                    "flag": 1
+                },
+                async: false,
+                success: function (data) {
+                    // do something
+                }
+            });
+
+
+        });
+
+        // 倒计时
+        var timers;
+        var serverTime = new Date().getTime(), //当前时间
+            endTime = serverTime + 2*60*60*1000; //结束时间
+        util.countdown(endTime, serverTime, function(date, serverTime, timer){
+            var str = addZero(date[1]) + ':' +  addZero(date[2]) + ':' + addZero(date[3]);
+            $('#showTime').text(str);
+            timers = timer;
+            if (endTime == serverTime) {
+                // 倒计时结束，自动提交答题
+                stopAnswer();
+            }
+        });
+
+        // 停止答题
+        window.stopAnswer = function () {
+            clearInterval(timers);
+            window.location.href = "/ansReport/模拟考试/" + $("#showTime").text() + "/" + $("#guid").val();
         }
 
     });

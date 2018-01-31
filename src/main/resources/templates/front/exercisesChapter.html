@@ -134,10 +134,8 @@
             }
         });
 
-        // 获取文章
-        getArticle();
-
-        function getArticle() {
+        // 搜索
+        function search() {
             var search = $(".search").val();
             // 解决搜索框未改变会继续查询问题
             if ($("#tmp").val() == search) {
@@ -145,14 +143,15 @@
             }
             $("#tmp").val(search);
             $.ajax({
-                url: '/syb/search',
+                url: '/blcj/search',
                 type: 'get',
                 data: {
                     "search": search
                 },
                 success: function (data) {
                     // 存储数据
-                    $("#allData").val(JSON.stringify(data));
+                    allData = data;
+                    flowLoad(data, 10);
                 }
             });
         }
@@ -216,7 +215,7 @@
                             '                                <!-- 题目内容 -->\n' +
                             //                            '                                <input type="hidden" name="id" value="'+data[i].id+'">\n' +
                             '                                <h2>\n' +
-                            '                                    <a name="title">' + data.name + '</a>\n' +
+                            '                                    <a name="title">' + (((i - pageSize) > 0 ? i - pageSize : 0) + index + 1) + handleTitle(data.name) + '</a>\n' +
                             '                                    <a style="float: right; font-size: medium" class="fly-list-info">' + data.type + '</a>\n' +
                             '                                </h2>\n' +
                             '                                <hr class="layui-bg-green">\n' +
@@ -274,7 +273,7 @@
 
                     //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                     //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                    next(lis.join(''), page < (res.total % 5 > 0 ? (res.total / 5 + 1) : (res.total / 5)));
+                    next(lis.join(''), page < (res.total % pageSize > 0 ? (res.total / pageSize + 1) : (res.total / pageSize)));
                     // 初始化共用备选答案
                     var commons = $("[name='commons']");
                     for (var i = 0; i < commons.length; i++) {
@@ -287,6 +286,11 @@
                 }
 
             });
+        }
+
+        // 去掉原题目名中的数字
+        function handleTitle(title) {
+            return title.substr(title.indexOf('.'));
         }
 
         // 过滤数据
@@ -436,12 +440,12 @@
             if (e.keyCode == 13) {
                 // 失去焦点
                 $(".search").blur();
-                getArticle();
+                search();
             }
         });
         // 失去焦点搜索
         $(".search").blur(function () {
-            getArticle();
+            search();
         })
 
 

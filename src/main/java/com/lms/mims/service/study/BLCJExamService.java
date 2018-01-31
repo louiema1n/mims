@@ -50,4 +50,26 @@ public class BLCJExamService {
     public List<BLCJExam> getTopicByCatalog(String catalog) {
         return this.blcjExamMapper.selectByCatalog(catalog);
     }
+
+    /**
+     * @description 随机获取1个题目
+     * @author louiemain
+     * @date Created on 2018-01-31 9:36
+     * @param
+     * @return com.lms.mims.domain.study.syllabus.BLCJExam
+     */
+    public BLCJExam getRandOne() {
+        return this.blcjExamMapper.selectRandOne();
+    }
+
+    /**
+     * @description 根据search查询
+     * @author louiemain
+     * @date Created on 2018-01-31 16:21
+     * @param search
+     * @return java.util.List<com.lms.mims.domain.study.syllabus.BLCJExam>
+     */
+    public List<BLCJExam> getBySearch(String search) {
+        return this.blcjExamMapper.selectBySearch(search);
+    }
 }

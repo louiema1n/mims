@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -65,6 +67,39 @@ public class BLCJExamController {
         PageResult pageResult = new PageResult();
         Page<Object> page = PageHelper.startPage(pageNum, pageSize, true);
         pageResult.setRows(this.blcjExamService.getTopicByCatalog(catalog));
+        pageResult.setTotal(page.getTotal());
+        pageResult.setPages(page.getPages());
+        return pageResult;
+    }
+
+    /**
+     * @description 获取考试题目
+     * @author louiemain
+     * @date Created on 2018-01-31 9:42
+     * @param
+     * @return java.util.List<com.lms.mims.domain.study.syllabus.BLCJExam>
+     */
+    @RequestMapping(value = "/getExamTopic", method = RequestMethod.GET)
+    public List<BLCJExam> getExamTopic() {
+        List<BLCJExam> blcjExams = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            blcjExams.add(this.blcjExamService.getRandOne());
+        }
+        return blcjExams;
+    }
+
+    /**
+     * @description 根据search查询
+     * @author louiemain
+     * @date Created on 2018-01-31 16:22
+     * @param search
+     * @return java.util.List<com.lms.mims.domain.study.syllabus.BLCJExam>
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public PageResult getBySearch(String search) {
+        PageResult pageResult = new PageResult();
+        Page page = PageHelper.startPage(1, 0, true);
+        pageResult.setRows(this.blcjExamService.getBySearch(search));
         pageResult.setTotal(page.getTotal());
         pageResult.setPages(page.getPages());
         return pageResult;

@@ -56,13 +56,17 @@ public class AnsrecordController {
     public String getByExamidAndAnser(@PathVariable("examid") int examid, HttpServletRequest request) {
         String ipAddr = IpUtil.getIpAddr(request);
         int accuracy = 0;
+        String remark = "";
         List<Ansrecord> ansrecords = this.ansrecordService.getByExamidAndAnser(examid, ipAddr);
         for (Ansrecord ansrecord : ansrecords) {
             if (ansrecord.getSign() == 1) {
                 accuracy++;
             }
+            if (ansrecord.getRemark() != null) {
+                remark += " - " + ansrecord.getRemark();
+            }
         }
-        String result = "{\"accuracy\":\"" + accuracy + " / " + ansrecords.size() + "\"}";
+        String result = "{\"accuracy\":\"" + accuracy + " / " + ansrecords.size() + "\", \"remark\":\"" + remark + "\"}";
         return result;
     }
 
@@ -92,7 +96,12 @@ public class AnsrecordController {
     @RequestMapping(value = "/upd", method = RequestMethod.POST)
     public String upd(HttpServletRequest request, Ansrecord ansrecord) {
         String ipAddr = IpUtil.getIpAddr(request);
-        int i = this.ansrecordService.updRemark(ansrecord.getExamid(), ansrecord.getFlag(), ipAddr, ansrecord.getRemark());
+        int i;
+        if (ansrecord.getFlag() == 1) {
+            i = this.ansrecordService.updRemark(ansrecord.getExamid(), ansrecord.getFlag(), ipAddr, ansrecord.getRemark());
+        } else {
+            i = this.ansrecordService.updRemark(ansrecord.getExamid(), ansrecord.getFlag(), ipAddr, ansrecord.getAnsid(), ansrecord.getRemark());
+        }
         if (i > 0) {
             return "修改成功";
         }

@@ -65,7 +65,7 @@ public class AnsrecordService {
     }
 
     /**
-     * @description 更新评论
+     * @description 更新评论-章节
      * @author louiemain
      * @date Created on 2018-02-01 10:15
      * @param examid
@@ -76,5 +76,20 @@ public class AnsrecordService {
      */
     public Integer updRemark(int examid, int flag, String anser, String remark) {
         return this.ansrecodMapper.updByExamidAndFlagAndAnser(examid, flag, anser, remark);
+    }
+
+    /**
+     * @description 更新评论
+     * @author louiemain
+     * @date Created on 2018-02-01 11:16
+     * @param examid
+     * @param flag
+     * @param anser
+     * @param ansid
+     * @param remark
+     * @return java.lang.Integer
+     */
+    public Integer updRemark(int examid, int flag, String anser, String ansid, String remark) {
+        return this.ansrecodMapper.updByExamidAndFlagAndAnserAndAnsid(examid, flag, anser, ansid, remark);
     }
 }

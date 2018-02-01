@@ -254,7 +254,6 @@
                             '</div><div class="layui-input-inline">' +
                             '<button class="layui-btn" onclick="submit('+data.id+')">提交</button>' +
                             '</div>' +
-//                            '                                   <span name="remark"></span>' +
                             '                                </fieldset>' +
                             '                            </li>';
                         lis.push(li);
@@ -275,8 +274,7 @@
                                     // 显示答案
                                     $("#" + res.examid + "").find("[name='result']").css('display', 'block');
                                     $("#" + res.examid + "").find("[name='showAnser']").css('display', 'inline');
-                                    // 显示评论
-                                    $("#" + res.examid + "").find("[name='result']").append('<span name="remark">'+res.remark+'</span>');
+
                                     getAccuracy(res.examid);
                                 }
                             }
@@ -427,6 +425,8 @@
                         '                                <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">\n' +
                         '                                    <div class="layui-progress-bar layui-bg-green" lay-percent="' + (JSON.parse(data)).accuracy + '"></div>\n' +
                         '                                </div>';
+                    // 显示评论
+                    $("#" + examId + "").find("[name='result']").append('<span name="remark">'+(JSON.parse(data)).remark+'</span>');
                     // 初始化进度条
                     $("#" + examId + "").find("[name='result']").append(accu);
                     element.init('progress');

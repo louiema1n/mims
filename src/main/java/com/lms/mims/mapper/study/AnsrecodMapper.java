@@ -38,6 +38,13 @@ public interface AnsrecodMapper {
                                        @Param("anser") String anser,
                                        @Param("remark") String remark);
 
+    @Update("update ansrecord set remark = #{remark} where examid= #{examid} and flag = #{flag} and anser = #{anser} and ansid = #{ansid}")
+    Integer updByExamidAndFlagAndAnserAndAnsid(@Param("examid") int examid,
+                                       @Param("flag") int flag,
+                                       @Param("anser") String anser,
+                                       @Param("ansid") String ansid,
+                                       @Param("remark") String remark);
+
     class AnsrecordProviderDao {
 
         /**

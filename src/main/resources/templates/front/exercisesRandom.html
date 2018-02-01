@@ -148,10 +148,16 @@
                         '\n' +
                         '                                <!-- 答案及解析 -->\n' +
                         '                                <fieldset class="layui-elem-field layui-field-title" style="display: none" id="result">\n' +
-                        '                                    <legend style="text-align: center; color: #959595">答案及解析</legend>\n' +
+                        '                                    <legend style="text-align: center; color: #959595">答案、解析及评论</legend>\n' +
                         '                                    <h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green" id="anser">' + data.anser + '</span></h4>\n' +
                         '                                    <h4 style="font-weight: bold; line-height: 30px">解析</h4>\n' +
                         '                                    <blockquote >' + data.analysis + '</blockquote>\n' +
+                        '                                   <h4 style="font-weight: bold; line-height: 30px">评论</h4>' +
+                        '<div class="layui-input-inline" style="width: 90%">' +
+                        '<textarea name="desc" placeholder="请输入评论内容" class="layui-textarea" style="min-height: 38px; height: auto;line-height: 12px"></textarea>' +
+                        '</div><div class="layui-input-inline">' +
+                        '<button class="layui-btn" onclick="submit('+data.id+')">提交</button>' +
+                        '</div>' +
                         '                                </fieldset>\n' +
                         '                            </li>';
                     $("#content").html(li);
@@ -220,8 +226,7 @@
                 }
             });
 
-
-            // 获取本题准确率
+            // 获取本题准确率、评论
             $.ajax({
                 url: '/ansr/getAccuracy/' + $("#examid").val(),
                 type: 'get',
@@ -230,6 +235,8 @@
                     '                                <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">\n' +
                     '                                    <div class="layui-progress-bar layui-bg-green" lay-percent="'+(JSON.parse(data)).accuracy+'"></div>\n' +
                     '                                </div>';
+                    // 显示评论
+                    $("#result").append('<span name="remark">'+(data.remark == null ? '' : data.remark)+'</span>');
                     // 初始化进度条
                     $("#result").append(accu);
                     element.init('progress');
@@ -237,6 +244,29 @@
             });
 
         })
+
+        // 提交评论
+        window.submit = function (id) {
+            var remark = $("[name='desc']").val();
+            if (remark != '') {
+                $("[name='remark']").append(' - ' + remark);
+                $.ajax({
+                    url: '/ansr/upd',
+                    type: 'post',
+                    data: {
+                        "examid": id,
+                        "ansid": $("#guid").val(),
+                        "remark": $("[name='remark']").text(),
+                        "flag": 0
+                    },
+                    async: false,
+                    success: function (data) {
+                        // do something
+                        $("[name='desc']").val('')
+                    }
+                });
+            }
+        }
 
         // 初始化底部信息区域数据
         $.ajax({

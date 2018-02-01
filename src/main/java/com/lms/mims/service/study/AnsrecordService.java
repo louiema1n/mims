@@ -63,4 +63,18 @@ public class AnsrecordService {
     public Ansrecord getByExamidAndFlag(int examid, String anser, int flag) {
         return this.ansrecodMapper.selectByExamidAndFlag(examid, anser, flag);
     }
+
+    /**
+     * @description 更新评论
+     * @author louiemain
+     * @date Created on 2018-02-01 10:15
+     * @param examid
+     * @param flag
+     * @param anser
+     * @param remark
+     * @return java.lang.Integer
+     */
+    public Integer updRemark(int examid, int flag, String anser, String remark) {
+        return this.ansrecodMapper.updByExamidAndFlagAndAnser(examid, flag, anser, remark);
+    }
 }

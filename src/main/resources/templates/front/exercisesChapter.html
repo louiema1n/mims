@@ -242,13 +242,20 @@
                             '                                        <i class="layui-icon">&#xe625;</i>\n' +
                             '                                    </button>\n' +
                             '                                </div><br>\n' +
-                            '                                <!-- 答案及解析 -->\n' +
+                            '                                <!-- 答案、解析及评论 -->\n' +
                             '                                <fieldset class="layui-elem-field layui-field-title" style="display: none" name="result">\n' +
-                            '                                    <legend style="text-align: center; color: #959595">答案及解析</legend>\n' +
+                            '                                    <legend style="text-align: center; color: #959595">答案、解析及评论</legend>\n' +
                             '                                    <h4 style="font-weight: bold">答案 <span class="layui-badge layui-bg-green" name="anser" >' + data.anser + '</span></h4>\n' +
                             '                                    <h4 style="font-weight: bold; line-height: 30px">解析</h4>\n' +
                             '                                    <blockquote>' + data.analysis + '</blockquote>\n' +
-                            '                                </fieldset>\n' +
+                            '                                   <h4 style="font-weight: bold; line-height: 30px">评论</h4>' +
+                            '<div class="layui-input-inline" style="width: 92%">' +
+                            '<textarea name="desc" placeholder="请输入评论内容" class="layui-textarea" style="min-height: 38px; height: auto;line-height: 12px"></textarea>' +
+                            '</div><div class="layui-input-inline">' +
+                            '<button class="layui-btn" onclick="submit('+data.id+')">提交</button>' +
+                            '</div>' +
+//                            '                                   <span name="remark"></span>' +
+                            '                                </fieldset>' +
                             '                            </li>';
                         lis.push(li);
                         // 判断是否在章节顺序答题
@@ -256,17 +263,22 @@
                             url: '/ansr/get/' + data.id + '/' + 1,
                             type: 'get',
                             success: function (res) {
-                                // 禁用所有答案
-                                $(".radio .layui-btn[name='" + res.examid + "']").addClass('layui-btn-disabled').attr('disabled', 'disabled');
-                                // 选择的答案
-                                $(".radio .layui-btn[name='" + res.examid + "']#" + res.selectans + "").removeClass('layui-btn-disabled').removeClass('layui-btn-primary').addClass('layui-btn-danger');
-                                // 参考答案
-                                $(".radio .layui-btn[name='" + res.examid + "']#" + data.anser + "").removeClass('layui-btn-disabled').removeClass('layui-btn-danger').removeClass('layui-btn-primary');
-                                // title变灰
-                                $("#" + res.examid + " [name='title']").css('color', '#999');
-                                // 显示答案
-                                $("#" + res.examid + "").find("[name='result']").css('display', 'block');
-                                $("#" + res.examid + "").find("[name='showAnser']").css('display', 'inline');
+                                if (res.length != 0) {
+                                    // 禁用所有答案
+                                    $(".radio .layui-btn[name='" + res.examid + "']").addClass('layui-btn-disabled').attr('disabled', 'disabled');
+                                    // 选择的答案
+                                    $(".radio .layui-btn[name='" + res.examid + "']#" + res.selectans + "").removeClass('layui-btn-disabled').removeClass('layui-btn-primary').addClass('layui-btn-danger');
+                                    // 参考答案
+                                    $(".radio .layui-btn[name='" + res.examid + "']#" + data.anser + "").removeClass('layui-btn-disabled').removeClass('layui-btn-danger').removeClass('layui-btn-primary');
+                                    // title变灰
+                                    $("#" + res.examid + " [name='title']").css('color', '#999');
+                                    // 显示答案
+                                    $("#" + res.examid + "").find("[name='result']").css('display', 'block');
+                                    $("#" + res.examid + "").find("[name='showAnser']").css('display', 'inline');
+                                    // 显示评论
+                                    $("#" + res.examid + "").find("[name='result']").append('<span name="remark">'+res.remark+'</span>');
+                                    getAccuracy(res.examid);
+                                }
                             }
                         });
                     });
@@ -286,6 +298,28 @@
                 }
 
             });
+        }
+
+        // 提交评论
+        window.submit = function (id) {
+            var remark = $("#" + id + "").find("[name='desc']").val();
+            if (remark != '') {
+                $("#" + id + "").find("[name='remark']").append(' - ' + remark);
+                $.ajax({
+                    url: '/ansr/upd',
+                    type: 'post',
+                    data: {
+                        "examid": id,
+                        "remark": $("#" + id + "").find("[name='remark']").text(),
+                        "flag": 1
+                    },
+                    async: false,
+                    success: function (data) {
+                        // do something
+                        $("#" + id + "").find("[name='desc']").val('')
+                    }
+                });
+            }
         }
 
         // 去掉原题目名中的数字
@@ -379,8 +413,11 @@
                     // do something
                 }
             });
+            getAccuracy(examId);
+        });
 
-
+        // 显示本题准确率
+        function getAccuracy(examId) {
             // 获取本题准确率
             $.ajax({
                 url: '/ansr/getAccuracy/' + examId,
@@ -395,8 +432,7 @@
                     element.init('progress');
                 }
             });
-
-        });
+        }
 
         // 显示或隐藏答案
         window.showOrHidden = function (id) {

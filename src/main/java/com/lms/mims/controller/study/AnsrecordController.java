@@ -80,4 +80,22 @@ public class AnsrecordController {
         String ipAddr = IpUtil.getIpAddr(request);
         return this.ansrecordService.getByExamidAndFlag(examid, ipAddr, flag);
     }
+
+    /**
+     * @description 修改
+     * @author louiemain
+     * @date Created on 2018-02-01 10:04
+     * @param request
+     * @param ansrecord
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/upd", method = RequestMethod.POST)
+    public String upd(HttpServletRequest request, Ansrecord ansrecord) {
+        String ipAddr = IpUtil.getIpAddr(request);
+        int i = this.ansrecordService.updRemark(ansrecord.getExamid(), ansrecord.getFlag(), ipAddr, ansrecord.getRemark());
+        if (i > 0) {
+            return "修改成功";
+        }
+        return "修改失败";
+    }
 }

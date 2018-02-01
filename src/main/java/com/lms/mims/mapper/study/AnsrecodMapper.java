@@ -3,6 +3,7 @@ package com.lms.mims.mapper.study;
 import com.lms.mims.domain.study.syllabus.Ansrecord;
 import org.apache.ibatis.annotations.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -31,6 +32,12 @@ public interface AnsrecodMapper {
     @InsertProvider(type = AnsrecordProviderDao.class, method = "add")
     Integer add(Ansrecord ansrecord);
 
+    @Update("update ansrecord set remark = #{remark} where examid= #{examid} and flag = #{flag} and anser = #{anser}")
+    Integer updByExamidAndFlagAndAnser(@Param("examid") int examid,
+                                       @Param("flag") int flag,
+                                       @Param("anser") String anser,
+                                       @Param("remark") String remark);
+
     class AnsrecordProviderDao {
 
         /**
@@ -53,6 +60,43 @@ public interface AnsrecodMapper {
             return sql;
         }
 
+        /**
+         * @description 更新
+         * @author louiemain
+         * @date Created on 2018-02-01 10:10
+         * @param ansrecord
+         * @return java.lang.String
+         */
+        public String upd(Ansrecord ansrecord) {
+            String sql = "update ansrecord set ", str = "";
+            Timestamp ts = null;
+            sql += "examid = " + ansrecord.getExamid() + ", ";
+            str = ansrecord.getSelectans();
+            if (str != null) {
+                sql += "selectans = '" + str + "', ";
+            }
+            sql += "sign = " + ansrecord.getSign() + ", ";
+            ts = ansrecord.getAnstime();
+            if (str != null) {
+                sql += "anstime = '" + ts + "', ";
+            }
+            str = ansrecord.getAnser();
+            if (str != null) {
+                sql += "anser = '" + str + "', ";
+            }
+            str = ansrecord.getAnsid();
+            if (str != null) {
+                sql += "ansid = '" + ts + "', ";
+            }
+            str = ansrecord.getRemark();
+            if (str != null) {
+                sql += "remark = '" + str + "', ";
+            }
+            sql += "flag = " + ansrecord.getFlag() + ", ";
+            sql = sql.substring(0, sql.lastIndexOf(", "));
+            sql += " where id = " + ansrecord.getId();
+            return sql;
+        }
 
     }
 }

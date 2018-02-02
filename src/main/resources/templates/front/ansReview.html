@@ -137,7 +137,7 @@
             var btns = $(examids[i]).nextAll(".layui-fluid").find("button");
             for (var j = 0; j < btns.length; j++) {
                 // 选择的答案
-                if($(btns[j]).attr('id') == $(examids[i]).next("[name='selectans']").val()) {
+                if($(btns[j]).attr('id') == $(examids[i]).nextAll("[name='selectans']").val()) {
                     $(btns[j]).removeClass('layui-btn-disabled').removeClass('layui-btn-primary').addClass('layui-btn-danger');
                 }
                 // 参考答案

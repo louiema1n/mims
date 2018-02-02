@@ -34,6 +34,11 @@ public class indexController {
         return "back/main";
     }
 
+    @RequestMapping("/index")
+    public String index() {
+        return "back/index";
+    }
+
     @RequestMapping("/itemList")
     public String itemList() {
         return "back/work/item/itemList";

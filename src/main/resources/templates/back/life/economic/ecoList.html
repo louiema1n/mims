@@ -43,8 +43,8 @@
             ,{type:'numbers'}   // 序号
             ,{field: 'category', title: '类别', sort: true}
             ,{field: 'money', title: '金额', sort:true, align: 'left', templet: '#moneyTpl'}
-            ,{field: 'ecoTime', title: '时间', sort:true, align: 'center', templet: '#ecoTimeTpl'}
-            ,{field: 'ecoName', title: '往来人'}
+            ,{field: 'ecotime', title: '时间', sort:true, align: 'center', templet: '#ecoTimeTpl'}
+            ,{field: 'econame', title: '往来人'}
             ,{field: 'remark', title: '备注'}
             ,{field: 'state', title: '状态', sort: true, align: 'center', templet: '#stateTpl'}
             ,{fixed: 'right', title: '操作', align:'center', toolbar: '#toolbar'}
@@ -107,8 +107,8 @@
                     body.find("[name='ecoid']").val(data[0].ecoid);
                     body.find("#ctT").val(data[0].category);
                     body.find("[name='money']").val(data[0].money);
-                    body.find("[name='ecoTime']").val(data[0].ecoTime);
-                    body.find("#ecoNameT").val(data[0].ecoName);
+                    body.find("[name='ecotime']").val(data[0].ecoTime);
+                    body.find("#econameT").val(data[0].ecoName);
                     body.find("[name='remark']").val(data[0].remark);
                     body.find("#stateT").val(data[0].state);
                 }
@@ -164,7 +164,7 @@
     '<span class="layui-badge layui-bg-blue" style="border-radius: 15px">预支出</span>')}}
 </script>
 <script type="text/html" id="ecoTimeTpl">
-    {{# return timeStamp2String(d.ecoTime)}}
+    {{# return timeStamp2String(d.ecotime)}}
 </script>
 <script type="text/html" id="moneyTpl">
     {{ d.state == 0 ? '<span class="red">- '+d.money.toFixed(2)+'</span>' :

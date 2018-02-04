@@ -1,11 +1,13 @@
 package com.lms.mims.controller.work;
 
-import com.lms.mims.domain.DateResultSet;
-import com.lms.mims.domain.ResultSet;
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.work.Item;
 import com.lms.mims.service.work.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -24,8 +26,8 @@ public class ItemController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Item> getAll() {
-        ResultSet<Item> tmpResultSet = new ResultSet<>();
+    public LayuiResult<Item> getAll() {
+        LayuiResult<Item> tmpResultSet = new LayuiResult<>();
         tmpResultSet.setCode(0);
         tmpResultSet.setMsg("查询成功");
         tmpResultSet.setCount(this.itemService.queryAll().size());

@@ -1,6 +1,6 @@
 package com.lms.mims.controller.study;
 
-import com.lms.mims.domain.ResultSet;
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.study.syllabus.Syllabus;
 import com.lms.mims.service.study.SyllabusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ public class SyllabusController {
      * @return java.util.List<com.lms.mims.domain.study.syllabus.Syllabus>
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Syllabus> getAll() {
+    public LayuiResult<Syllabus> getAll() {
         List<Syllabus> syllabi = this.syllabusService.queryAll();
-        ResultSet<Syllabus> resultSet = new ResultSet<>();
+        LayuiResult<Syllabus> resultSet = new LayuiResult<>();
         resultSet.setCode(0);
         resultSet.setMsg("查询成功");
         resultSet.setCount(syllabi.size());

@@ -1,7 +1,7 @@
 package com.lms.mims.controller.work;
 
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.work.Project;
-import com.lms.mims.domain.ResultSet;
 import com.lms.mims.service.work.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +23,8 @@ public class ProjectController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Project> getAll() {
-        ResultSet<Project> projectResultSet = new ResultSet<>();
+    public LayuiResult<Project> getAll() {
+        LayuiResult<Project> projectResultSet = new LayuiResult<>();
         projectResultSet.setCode(0);
         projectResultSet.setMsg("查询成功");
         projectResultSet.setCount(this.projectService.queryAll().size());

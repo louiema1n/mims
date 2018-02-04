@@ -1,11 +1,11 @@
 package com.lms.mims;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@MapperScan("com.lms.mims.mapper")
+@MapperScan(basePackages = "com.lms.mims.mapper")
 public class MimsApplication {
 
 	public static void main(String[] args) {

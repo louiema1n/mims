@@ -5,8 +5,8 @@ package com.lms.mims.controller.utils;
  * @author&date Created by louiemain on 2017-12-27 10:17
  */
 
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.ResultMap;
-import com.lms.mims.domain.ResultSet;
 import com.lms.mims.service.utils.FileUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +37,8 @@ public class FileUtilController {
      * @return java.lang.String
      */
     @RequestMapping(value = "/upload/single", method = RequestMethod.POST)
-    public ResultSet<String> updSingleFile(@RequestParam("file") MultipartFile file) {
-        ResultSet<String> res = new ResultSet<>();
+    public LayuiResult<String> updSingleFile(@RequestParam("file") MultipartFile file) {
+        LayuiResult<String> res = new LayuiResult<>();
         List<String> data = new ArrayList<>();
         if (file.isEmpty()) {
             res.setCode(1);
@@ -64,9 +64,9 @@ public class FileUtilController {
      * @return com.lms.mims.domain.ResultSet<java.lang.String>
      */
     @RequestMapping(value = "/upload/batch", method = RequestMethod.POST)
-    public ResultSet<String> updBatchFile(HttpServletRequest request) {
+    public LayuiResult<String> updBatchFile(HttpServletRequest request) {
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        ResultSet<String> res = new ResultSet<>();
+        LayuiResult<String> res = new LayuiResult<>();
         List<String> data = new ArrayList<>();
         if (files.size() == 0) {
             res.setCode(1);

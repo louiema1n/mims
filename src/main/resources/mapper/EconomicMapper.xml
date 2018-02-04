@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lms.mims.mapper.life.EconomicMapper">
+  <resultMap id="BaseResultMap" type="com.lms.mims.domain.life.Economic">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ecoid" jdbcType="INTEGER" property="ecoid" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="ecoTime" jdbcType="DATE" property="ecotime" />
+    <result column="ecoName" jdbcType="VARCHAR" property="econame" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+  </resultMap>
+</mapper>

@@ -1,10 +1,8 @@
 package com.lms.mims.controller.work;
 
-import com.lms.mims.domain.ResultSet;
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.work.Exam;
-import com.lms.mims.domain.work.Selfexam;
 import com.lms.mims.service.work.ExamService;
-import com.lms.mims.service.work.SelfexamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +26,8 @@ public class ExamController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Exam> getAll() {
-        ResultSet<Exam> examResultSet = new ResultSet<>();
+    public LayuiResult<Exam> getAll() {
+        LayuiResult<Exam> examResultSet = new LayuiResult<>();
 
         List<Exam> exams = this.examService.queryAll();
 

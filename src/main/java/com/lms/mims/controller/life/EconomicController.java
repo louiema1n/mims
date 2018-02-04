@@ -1,16 +1,11 @@
 package com.lms.mims.controller.life;
 
-import com.lms.mims.domain.ResultSet;
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.life.Economic;
-import com.lms.mims.domain.work.Review;
 import com.lms.mims.service.life.EconomicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @description 经济管理
@@ -24,15 +19,16 @@ public class EconomicController {
     private EconomicService economicService;
 
     /**
-     * @description 查询所有
+     * @description 查询所有-分页查询
      * @author louiemain
      * @date Created on 2018-01-03 11:19
      * @param
      * @return com.lms.mims.domain.ResultSet<com.lms.mims.domain.life.Economic>
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Economic> getAll() {
-        return this.economicService.queryAll();
+    public LayuiResult<Economic> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                   @RequestParam(value = "limit", defaultValue = "0") int limit) {
+        return this.economicService.queryAll(page, limit);
     }
 
     /**
@@ -44,12 +40,7 @@ public class EconomicController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Economic economic) {
-        int i = this.economicService.add(economic);
-        if (i > 0) {
-            return "新增成功。";
-        } else {
-            return "新增失败。";
-        }
+        return economicService.add(economic);
     }
 
     /**
@@ -61,12 +52,7 @@ public class EconomicController {
      */
     @RequestMapping(value = "/upd", method = RequestMethod.POST)
     public String upd(Economic economic) {
-        int i = this.economicService.upd(economic);
-        if (i > 0) {
-            return "修改成功。";
-        } else {
-            return "修改失败。";
-        }
+        return this.economicService.updById(economic);
     }
 
     /**
@@ -78,11 +64,8 @@ public class EconomicController {
      */
     @RequestMapping(value = "/del/{ecoid}", method = RequestMethod.DELETE)
     public String del(@PathVariable("ecoid") int ecoid) {
-        int i = this.economicService.del(ecoid);
-        if (i > 0) {
-            return "删除成功。";
-        } else {
-            return "删除失败。";
-        }
+        Economic economic = new Economic();
+        economic.setEcoid(ecoid);
+        return this.economicService.delById(economic);
     }
 }

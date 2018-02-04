@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 结果集
  */
-public class ResultSet<T> {
+public class LayuiResult<T> {
 
     private int code;   // 状态码
     private String msg; // 响应信息

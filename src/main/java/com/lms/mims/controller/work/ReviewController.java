@@ -1,6 +1,6 @@
 package com.lms.mims.controller.work;
 
-import com.lms.mims.domain.ResultSet;
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.work.Review;
 import com.lms.mims.service.work.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ public class ReviewController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Review> getAll() {
-        ResultSet<Review> sarResultSet = new ResultSet<>();
+    public LayuiResult<Review> getAll() {
+        LayuiResult<Review> sarResultSet = new LayuiResult<>();
         sarResultSet.setCode(0);
         sarResultSet.setMsg("查询成功");
         sarResultSet.setCount(this.reviewService.queryAll().size());

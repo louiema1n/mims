@@ -1,6 +1,6 @@
 package com.lms.mims.controller.work;
 
-import com.lms.mims.domain.ResultSet;
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.work.Selfexam;
 import com.lms.mims.service.work.SelfexamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class SelfexamController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultSet<Selfexam> getAll() {
-        ResultSet<Selfexam> selfexamResultSet = new ResultSet<>();
+    public LayuiResult<Selfexam> getAll() {
+        LayuiResult<Selfexam> selfexamResultSet = new LayuiResult<>();
 
         List<Selfexam> selfexams = this.selfexamService.queryAll();
 

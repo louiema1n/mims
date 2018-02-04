@@ -17,8 +17,8 @@
 <form class="layui-form" lay-filter="addEco">
     <!-- 默认值为0 解决新增报错 -->
     <input type="hidden" name="ecoid" value="0">
-    <input type="hidden" name="ecoTime">
-    <input type="hidden" id="ecoNameT">
+    <input type="hidden" name="ecotime">
+    <input type="hidden" id="econameT">
     <input type="hidden" id="stateT">
     <input type="hidden" id="ctT">
 
@@ -47,7 +47,7 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label">经济涉及人</label>
-        <div class="layui-input-block" id="ecoName">
+        <div class="layui-input-block" id="econame">
 
         </div>
     </div>
@@ -76,7 +76,7 @@
             layer = layui.layer;
 
         // 初始化ecotime
-        $("[name='ecoTime']").val(timeStamp2String(Date.parse(new Date())) + " 00:00:00");
+        $("[name='ecotime']").val(timeStamp2String(Date.parse(new Date())) + " 00:00:00");
 
 
         // 从字典获取数据进行初始化
@@ -85,7 +85,7 @@
             type: 'get',
             async: false,
             success:function (data) {
-                var state = '', category = '', ecoName = '';
+                var state = '', category = '', econame = '';
                 for (var i = 0; i < data.length; i++) {
                     var str = data[i].content;
                     var result = JSON.parse(str);
@@ -102,9 +102,9 @@
                         }
                         if (data[i].name == '经济涉及人') {
                             if (j == 0) {
-                                ecoName += '<input type="radio" name="ecoName" value="'+result[j].value+'" title="'+result[j].value+'" checked>';
+                                econame += '<input type="radio" name="econame" value="'+result[j].value+'" title="'+result[j].value+'" checked>';
                             } else {
-                                ecoName += '<input type="radio" name="ecoName" value="'+result[j].value+'" title="'+result[j].value+'">';
+                                econame += '<input type="radio" name="econame" value="'+result[j].value+'" title="'+result[j].value+'">';
                             }
                         }
                     }
@@ -112,7 +112,7 @@
                 }
                 $("#state").html(state);
                 $("#category").html(category);
-                $("#ecoName").html(ecoName);
+                $("#econame").html(econame);
 
             }
         });
@@ -138,15 +138,15 @@
             }
         }
 
-        // ecoName
-        var ecoNames = $("[name='ecoName']");
-        for (var i = 0; i < ecoNames.length; i++) {
-            $(ecoNames[i]).removeAttr('checked');
-            if ($(ecoNames[i]).val() == $("#ecoNameT").val()) {
-                $(ecoNames[i]).prop('checked', true);
+        // econame
+        var econames = $("[name='econame']");
+        for (var i = 0; i < econames.length; i++) {
+            $(econames[i]).removeAttr('checked');
+            if ($(econames[i]).val() == $("#econameT").val()) {
+                $(econames[i]).prop('checked', true);
                 break;
             } else {
-                $(ecoNames[0]).prop('checked', true);
+                $(econames[0]).prop('checked', true);
             }
         }
         // 重新渲染

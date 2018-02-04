@@ -11,18 +11,37 @@ spring:
   profiles:
     active: dev
 
-  # pagehelper(https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md)
-  pagehelper:
-    offset-as-page-num: true
-    helper-dialect: mysql
-    row-bounds-with-count: true
-    reasonable: true
-#    如果pageSize=0，则查询出所有结果
-    pageSizeZero: true
-
 # 表示所有的访问都经过静态资源路径；
   mvc:
     static-path-pattern: /**
 # 加入所有静态资源路径（覆盖默认配置）
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/json/,classpath:/public/,file:${web.updPath},file:${web.dwdPath},file:${web.imgPath}
+
+#mybatis
+mybatis:
+  type-aliases-package: com.lms.mims.domain
+  mapper-locations: classpath:mapper/*.xml
+
+#mapper
+#mappers 多个接口时逗号隔开
+mapper:
+  mappers: tk.mybatis.mapper.common.Mapper
+#  mappers: com.lm.datainput.utils.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+# pagehelper(https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md)
+pagehelper:
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  helper-dialect: mysql
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  pageSizeZero: true
+
+  # 显示sql语句
+logging:
+  level:
+    com.lms.mims.mapper: debug

@@ -1,6 +1,6 @@
 package com.lms.mims.controller.sys;
 
-import com.lms.mims.domain.sys.Nav;
+import com.lms.mims.domain.sys.Sysnav;
 import com.lms.mims.service.sys.NavService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class NavController {
      * @return java.util.List<com.lms.mims.domain.sys.Nav>
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Nav> getAll() {
+    public List<Sysnav> getAll() {
         return this.navService.queryAll();
     }
 
@@ -40,7 +40,7 @@ public class NavController {
      * @return java.util.List<com.lms.mims.domain.sys.Nav>
      */
     @RequestMapping(value = "/2nav", method = RequestMethod.GET)
-    public List<Nav> get2Nav() {
+    public List<Sysnav> get2Nav() {
         return this.navService.query2Nav();
     }
 }

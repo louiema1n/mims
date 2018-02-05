@@ -46,6 +46,39 @@ public abstract class BaseService<T> {
     }
 
     /**
+     * @description 查询所有-不分页
+     * @author louiemain
+     * @date Created on 2018-02-05 14:54
+     * @param
+     * @return com.lms.mims.domain.LayuiResult<T>
+     */
+    public List<T> queryAll() {
+        return this.mapper.selectAll();
+    }
+
+    /**
+     * @description 根据id查询
+     * @author louiemain
+     * @date Created on 2018-02-05 14:31
+     * @param id
+     * @return T
+     */
+    public T queryById(int id) {
+        return this.mapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * @description 根据实体属性查询
+     * @author louiemain
+     * @date Created on 2018-02-05 14:36
+     * @param entity
+     * @return java.util.List<T>
+     */
+    public List<T> query(T entity) {
+        return this.mapper.select(entity);
+    }
+
+    /**
      * @description 新增-null字段不会保存，使用数据库默认值
      * @author louiemain
      * @date Created on 2018/2/4 14:17

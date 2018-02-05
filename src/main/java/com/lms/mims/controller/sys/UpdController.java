@@ -26,7 +26,7 @@ public class UpdController {
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<DateResultSet<Upd>> getAll() {
-        return this.updService.queryAll();
+        return this.updService.getAll();
     }
 
     /**
@@ -45,7 +45,6 @@ public class UpdController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Upd upd) {
-        this.updService.add(upd);
-        return "新增成功！";
+        return this.updService.add(upd);
     }
 }

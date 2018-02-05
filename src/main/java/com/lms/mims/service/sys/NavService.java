@@ -1,7 +1,8 @@
 package com.lms.mims.service.sys;
 
-import com.lms.mims.domain.sys.Nav;
-import com.lms.mims.mapper.sys.NavMapper;
+import com.lms.mims.domain.sys.Sysnav;
+import com.lms.mims.mapper.sys.SysnavMapper;
+import com.lms.mims.service.utils.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +13,10 @@ import java.util.List;
  * @author&date Created by louiemain on 2018-01-10 10:14
  */
 @Service
-public class NavService {
+public class NavService extends BaseService<Sysnav> {
 
     @Autowired
-    private NavMapper navMapper;
-
-    /**
-     * @description 查询所有
-     * @author louiemain
-     * @date Created on 2018-01-10 10:15
-     * @param
-     * @return java.util.List<com.lms.mims.domain.sys.Nav>
-     */
-    public List<Nav> queryAll() {
-        return this.navMapper.selectAll();
-    }
+    private SysnavMapper sysnavMapper;
 
     /**
      * @description 查询所有二级nav
@@ -35,7 +25,7 @@ public class NavService {
      * @param
      * @return java.util.List<com.lms.mims.domain.sys.Nav>
      */
-    public List<Nav> query2Nav() {
-        return this.navMapper.select2Nav();
+    public List<Sysnav> query2Nav() {
+        return this.sysnavMapper.select2Nav();
     }
 }

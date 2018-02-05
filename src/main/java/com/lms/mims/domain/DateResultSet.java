@@ -1,6 +1,7 @@
 package com.lms.mims.domain;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,14 +10,14 @@ import java.util.List;
  */
 public class DateResultSet<T> {
 
-    private Timestamp date;
+    private Date date;
     private List<T> results;
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

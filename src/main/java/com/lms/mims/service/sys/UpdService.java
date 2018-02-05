@@ -3,6 +3,7 @@ package com.lms.mims.service.sys;
 import com.lms.mims.domain.DateResultSet;
 import com.lms.mims.domain.sys.Upd;
 import com.lms.mims.mapper.sys.UpdMapper;
+import com.lms.mims.service.utils.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class UpdService {
+public class UpdService extends BaseService<Upd> {
 
     @Autowired
     private UpdMapper updMapper;
@@ -21,14 +22,14 @@ public class UpdService {
      * 查询所有
      * @return
      */
-    public List<DateResultSet<Upd>> queryAll() {
+    public List<DateResultSet<Upd>> getAll() {
         List<Upd> upds = this.updMapper.selectAll();
         // 对数据进行格式化
         DateResultSet<Upd> initUpd = new DateResultSet();
         List<DateResultSet<Upd>> initUpdList = new ArrayList<>();
         List<Upd> results = new ArrayList<>();
         // 初始化数据
-        Timestamp ts = upds.get(0).getUpddate();
+        Date ts = upds.get(0).getUpddate();
         initUpd.setDate(ts);
         results.add(upds.get(0));
         for (int i = 1; i < upds.size(); i++) {
@@ -58,14 +59,4 @@ public class UpdService {
         return this.updMapper.selectMaxId();
     }
 
-    /**
-     * 新增
-     * @param upd
-     * @return
-     */
-    public Integer add(Upd upd) {
-        // 赋值当前时间戳
-        upd.setUpddate(new Timestamp(new Date().getTime()));
-        return this.updMapper.add(upd);
-    }
 }

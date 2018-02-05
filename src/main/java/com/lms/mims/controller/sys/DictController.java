@@ -1,12 +1,10 @@
 package com.lms.mims.controller.sys;
 
+import com.lms.mims.domain.LayuiResult;
 import com.lms.mims.domain.sys.Dict;
 import com.lms.mims.service.sys.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,11 +40,7 @@ public class DictController {
      */
     @RequestMapping(value = "/upd", method = RequestMethod.POST)
     public String upd(Dict dict) {
-        Integer i = this.dictService.upd(dict);
-        if (i > 0) {
-            return "保存成功";
-        }
-        return "保存失败";
+        return this.dictService.updById(dict);
     }
 
     /**
@@ -58,11 +52,7 @@ public class DictController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Dict dict) {
-        Integer i = this.dictService.add(dict);
-        if (i > 0) {
-            return "保存成功";
-        }
-        return "保存失败";
+        return this.dictService.add(dict);
     }
 
     /**
@@ -86,6 +76,6 @@ public class DictController {
      */
     @RequestMapping(value = "/getNavid/{navid}", method = RequestMethod.GET)
     public List<Dict> getByNavid(@PathVariable("navid") int navid) {
-        return this.dictService.queryByNavid(navid);
+        return this.dictService.getByNavId(navid);
     }
 }

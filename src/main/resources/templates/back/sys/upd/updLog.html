@@ -41,14 +41,14 @@
             success: function (data) {
                 // 成功
                 var liBig = "";
-                for (var i = 0; i < data.length; i++) {
+                for (var i = data.length - 1; i >= 0; i--) {
                     liBig += '    <li class="layui-timeline-item">\n' +
-                        (i == 0 ? '<i class="layui-icon layui-timeline-axis"></i>' : '<i class="layui-icon layui-timeline-axis"></i>') +
+                        (i == data.length - 1 ? '<i class="layui-icon layui-timeline-axis"></i>' : '<i class="layui-icon layui-timeline-axis"></i>') +
                         '        <div class="layui-timeline-content layui-text">\n' +
-                        (i == 0 ? '<h2' : '<h3') + ' class="layui-timeline-title">\n' +
+                        (i == data.length - 1 ? '<h2' : '<h3') + ' class="layui-timeline-title">\n' +
                         '                '+timeStamp2String(data[i].date, 'cn')+'\n' +
 //                        '                <span class="layui-badge-rim">v '+data[i].ver+'</span>\n' +
-                        (i == 0 ? '</h2>' : '</h3>') +
+                        (i == data.length - 1 ? '</h2>' : '</h3>') +
                         '            <ul id="logs">\n' + logs(data[i].results) +
                         '            </ul>' +
                         '        </div>\n' +
@@ -81,13 +81,13 @@
          */
         function initType(type) {
             switch (type) {
-                case '0': return '<span class="layui-badge layui-bg-blue"> 修复';
+                case 0: return '<span class="layui-badge layui-bg-blue"> 修复';
                     break;
-                case '1': return '<span class="layui-badge layui-bg-green"> 新增';
+                case 1: return '<span class="layui-badge layui-bg-green"> 新增';
                     break;
-                case '2': return '<span class="layui-badge"> 删除';
+                case 2: return '<span class="layui-badge"> 删除';
                     break;
-                case '3': return '<span class="layui-badge layui-bg-orange"> 升级';
+                case 3: return '<span class="layui-badge layui-bg-orange"> 升级';
                     break;
             }
         }
